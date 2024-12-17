@@ -4,23 +4,22 @@ using System.Diagnostics;
 
 namespace OnlineShopWebApp.Controllers
 {
-    public class CalculatorController : Controller
-    {
-        public string Index(int a, int b, char c = '+')
-        {
-            if (c == '-') return $"{a} {c} {b} = {a-b}";
-            if (c == '*') return $"{a} {c} {b} = {a * b}";
-            if (c == '/') return $"{a} {c} {b} = {a / b}";
-            if (c == '+') return $"{a} {c} {b} = {a + b}";
-            return "Данная операция недоступна.\nСущетсвует возможность только ввода '+', '-' и '*', '/'";
-        }
-    }
-
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        List<Product> products = new List<Product>() { 
+            new Product("Coffe", 250, "Ice-Latte"),
+            new Product("Chocolate", 100, "Milka"),
+            new Product("Chocolate", 65, "Alpen")
+        };
+
+        public string Index()
         {
-            return View();
+            string result = "";
+            foreach (var product in products)
+            {
+                result += product + "\n\n";
+            }
+            return result;
         }
 
         public IActionResult Privacy()
