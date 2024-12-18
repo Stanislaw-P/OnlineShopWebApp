@@ -10,12 +10,13 @@ namespace OnlineShopWebApp.Controllers
         {
             productRepitory = new ProductRepitory();
         }
-
+        
         public string Index(int id)
         {
             var product = productRepitory.TryGetById(id);
-            string result = product?.ToString() ?? "Продукта с таким ID нет!";
-            return result;
+            if (product == null)
+                return "Продукта с таким ID нет!";
+            return $"{product}\n{product.Description}";
         }
     }
 }
