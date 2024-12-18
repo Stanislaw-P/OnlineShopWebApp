@@ -24,6 +24,8 @@ namespace OnlineShopWebApp.Controllers
             return result;
         }
 
+       
+
         public IActionResult Privacy()
         {
             return View();
