@@ -6,14 +6,16 @@ namespace OnlineShopWebApp.Controllers
 {
     public class HomeController : Controller
     {
-        List<Product> products = new List<Product>() { 
-            new Product("Coffe", 250, "Ice-Latte"),
-            new Product("Chocolate", 100, "Milka"),
-            new Product("Chocolate", 65, "Alpen")
-        };
+        readonly ProductRepitory productRepitory;
+
+        public HomeController()
+        {
+            productRepitory = new ProductRepitory();
+        }
 
         public string Index()
         {
+            var products = productRepitory.GetAll();
             string result = "";
             foreach (var product in products)
             {
