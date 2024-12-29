@@ -4,19 +4,19 @@ namespace OnlineShopWebApp.Controllers
 {
     public class ProductController : Controller
     {
-        ProductRepitory productRepitory;
+        static ProductsRepository productRepitory;
 
         public ProductController()
         {
-            productRepitory = new ProductRepitory();
+            productRepitory = new ProductsRepository();
         }
         
-        public string Index(int id)
+        public IActionResult Index(int id)
         {
             var product = productRepitory.TryGetById(id);
             if (product == null)
-                return "Продукта с таким ID нет!";
-            return $"{product}\n{product.Description}";
+                return NotFound();
+            return View(product);
         }
     }
 }

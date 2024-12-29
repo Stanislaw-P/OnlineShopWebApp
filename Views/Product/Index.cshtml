@@ -1,0 +1,21 @@
+﻿@model Product
+
+<div class="nav">
+	<a href="/home/index">На главную</a>
+</div>
+<div>
+	<div class="row">
+		<div class="col-3">
+			<img class="card-img" src="@Model.ImagePath">
+		</div>
+		<div class="col-6">
+			<h2>@Model.Name</h2>
+			<p class="small" style="color:gray">Id: @Model.Id</p>
+			<p><span style="color:gray">Цена:</span> @Model.Cost руб.</p>
+			<p><span style="color:gray">Описание:</span> @Model.Description</p>
+			<a class="btn btn-primary" href="/cart/add?productId=@Model.Id" role="button">В корзину</a>
+			<a class="btn btn-secondary" href="/home/index" role="button">Продолжить покупки</a>
+		</div>
+	</div>
+
+</div>

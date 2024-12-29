@@ -2,12 +2,13 @@
 {
     public class Product
     {
-        public Product(string name, decimal cost, string description)
+        public Product(string name, decimal cost, string description, string imagePath)
         {
             Name = name;
             Cost = cost;
             Description = description;
             Id = instanceCounter;
+            ImagePath = imagePath;
             instanceCounter++;
         }
 
@@ -16,6 +17,7 @@
         public decimal Cost { get; }
         public string Description { get; }
         static int instanceCounter = 0;
+        public string ImagePath { get; } 
 
         public override string ToString()
         {

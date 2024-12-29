@@ -6,25 +6,19 @@ namespace OnlineShopWebApp.Controllers
 {
     public class HomeController : Controller
     {
-        readonly ProductRepitory productRepitory;
+        readonly ProductsRepository productRepitory;
 
         public HomeController()
         {
-            productRepitory = new ProductRepitory();
+            productRepitory = new ProductsRepository();
         }
 
-        public string Index()
+        public IActionResult Index()
         {
             var products = productRepitory.GetAll();
-            string result = "";
-            foreach (var product in products)
-            {
-                result += product + "\n\n";
-            }
-            return result;
+            
+            return View(products);
         }
-
-       
 
         public IActionResult Privacy()
         {
