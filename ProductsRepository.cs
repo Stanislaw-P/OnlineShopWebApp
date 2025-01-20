@@ -3,8 +3,8 @@
 namespace OnlineShopWebApp
 {
     public class ProductsRepository
-    {
-        static List<Product> products = new List<Product>() {
+	{
+        List<Product> products = new List<Product>() {
             new Product("Ice-Latte", 250, "Coffe", "/images/armchair blue.jpg"),
             new Product("Milka", 100, "Chocolate", "/images/new year ball.jpeg"),
             new Product("Alpen gold", 65, "Chocolate", "/images/rabbit.jpg"),

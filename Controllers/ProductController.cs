@@ -4,16 +4,16 @@ namespace OnlineShopWebApp.Controllers
 {
     public class ProductController : Controller
     {
-        static ProductsRepository productRepitory;
+		ProductsRepository productsRepitory;
 
-        public ProductController()
+        public ProductController(ProductsRepository productsRepository)
         {
-            productRepitory = new ProductsRepository();
+            productsRepitory = productsRepository;
         }
         
         public IActionResult Index(int id)
         {
-            var product = productRepitory.TryGetById(id);
+            var product = productsRepitory.TryGetById(id);
             if (product == null)
                 return NotFound();
             return View(product);
