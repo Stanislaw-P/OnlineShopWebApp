@@ -9,7 +9,7 @@
         <p class="small" style="color:gray">Id: @Model.Id</p>
         <p><span style="color:gray">Цена:</span> @Model.Cost руб.</p>
         <p><span style="color:gray">Описание:</span> @Model.Description</p>
-        <a class="btn btn-primary" href="/cart/add/@Model.Id" role="button">В корзину</a>
+        <a class="btn btn-primary" href="/cart/add?productId=@Model.Id" role="button">В корзину</a>
         <a class="btn btn-secondary" href="/home/index" role="button">Продолжить покупки</a>
     </div>
 </div>
