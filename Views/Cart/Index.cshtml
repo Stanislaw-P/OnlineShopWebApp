@@ -4,7 +4,34 @@
 {
 	<h3>Корзина пуста</h3>
 }
-else{
-	<h3>Корзина НЕ пуста</h3>
-
+else
+{
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Название</th>
+				<th>Цена руб.</th>
+				<th>Количество</th>
+				<th>Стоимость руб.</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.Items)
+			{
+				<tr>
+					<td>@item.Product.Name</td>
+					<td>@item.Product.Cost</td>
+					<td>@item.Amount</td>
+					<td>@item.Cost</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	<div>
+		<h3>Итоговая сумма: @Model.Cost</h3>
+	</div>
+	<div>
+		<a href="#" class="btn btn-primary" role="button">Оформить заказ</a>
+		<a href="/home/index" class="btn btn-secondary" role="button">Продолжить покупки</a>
+	</div>
 }

@@ -16,7 +16,6 @@ namespace OnlineShopWebApp.Controllers
         public IActionResult Index()
         {
             var products = productRepitory.GetAll();
-            
             return View(products);
         }
 

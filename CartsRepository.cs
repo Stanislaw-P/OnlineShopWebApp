@@ -48,7 +48,6 @@ namespace OnlineShopWebApp
 						Amount = 1
 					};
 					existingCart.Items.Add(newCartItem);
-
 				}
 			}
 		}
