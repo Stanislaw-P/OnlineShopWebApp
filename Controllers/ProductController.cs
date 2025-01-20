@@ -4,9 +4,9 @@ namespace OnlineShopWebApp.Controllers
 {
     public class ProductController : Controller
     {
-		ProductsRepository productsRepitory;
+		IProductsRepository productsRepitory;
 
-        public ProductController(ProductsRepository productsRepository)
+        public ProductController(IProductsRepository productsRepository)
         {
             productsRepitory = productsRepository;
         }

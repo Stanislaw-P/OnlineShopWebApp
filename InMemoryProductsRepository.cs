@@ -2,7 +2,7 @@
 
 namespace OnlineShopWebApp
 {
-    public class ProductsRepository
+    public class InMemoryProductsRepository : IProductsRepository
 	{
         List<Product> products = new List<Product>() {
             new Product("Ice-Latte", 250, "Coffe", "/images/armchair blue.jpg"),

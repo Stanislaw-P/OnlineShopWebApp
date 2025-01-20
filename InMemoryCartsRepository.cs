@@ -2,7 +2,7 @@
 
 namespace OnlineShopWebApp
 {
-	public class CartsRepository
+	public class InMemoryCartsRepository : ICartsRepository
 	{
 		private List<Cart> carts = new List<Cart>();
 
@@ -11,7 +11,7 @@ namespace OnlineShopWebApp
 			return carts.FirstOrDefault(cart => cart.UserId == userId);
 		}
 
-		internal void Add(Product product, string UserId)
+		public void Add(Product product, string UserId)
 		{
 			Cart existingCart = TryGetByUserId(UserId);
 			if (existingCart == null)
