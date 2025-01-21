@@ -52,15 +52,23 @@ namespace OnlineShopWebApp
 			}
 		}
 
-		//public void Decrease(Product product, string userId)
-		//{
-		//	Cart existingCart = TryGetByUserId(userId);
-		//	existingCart.Decreace(product.Id);
+		public void DecreaseAmount(Product product, string userId)
+		{
+			Cart existingCart = TryGetByUserId(userId);
+			CartItem existingCartItem = existingCart?.Items?.FirstOrDefault(cartItem => cartItem.Product.Id == product.Id);
+			if (existingCartItem == null)
+			{
+				return;
+			}
+			existingCartItem.Amount--;
+			if (existingCartItem.Amount == 0)
+				existingCart.Items.Remove(existingCartItem);
+		}
 
-		//	CartItem existingCartItem = existingCart.Items.FirstOrDefault(cartItem => cartItem.Product.Id == product.Id);
-		//	existingCartItem.Amount--;
-		//	if (existingCartItem.Amount == 0)
-		//		existingCart.Items.Remove(existingCartItem);
-		//}
+		public void Clear(string userId)
+		{
+			Cart existingCart = TryGetByUserId(userId);
+			carts.Remove(existingCart);
+		}
 	}
 }

@@ -28,17 +28,16 @@ namespace OnlineShopWebApp.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Decrease(int productId)
+        public IActionResult DecreaseAmount(int productId)
         {
-            Cart currentCart = cartsRepository.TryGetByUserId(Constants.UserId);
-            currentCart.Decreace(productId);
+            Product product = productsRepository.TryGetById(productId);
+            cartsRepository.DecreaseAmount(product, Constants.UserId);
             return RedirectToAction("Index");
         }
 
         public IActionResult Clear()
         {
-            Cart currentCart = cartsRepository.TryGetByUserId(Constants.UserId);
-            currentCart.Clear();
+            cartsRepository.Clear(Constants.UserId);
             return RedirectToAction("Index");
 		}
 	}
