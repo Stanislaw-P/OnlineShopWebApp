@@ -23,6 +23,8 @@ else
 					<td>@item.Product.Cost</td>
 					<td>@item.Amount</td>
 					<td>@item.Cost</td>
+					<td><a href="/cart/decrease?productId=@item.Product.Id" class="btn" role="button" style="border: 1px solid #000">-</a></td>
+					<td><a href="/cart/add?productId=@item.Product.Id" class="btn" role="button" style="border: 1px solid #000">+</a></td>
 				</tr>
 			}
 		</tbody>
@@ -33,5 +35,6 @@ else
 	<div>
 		<a href="#" class="btn btn-primary" role="button">Оформить заказ</a>
 		<a href="/home/index" class="btn btn-secondary" role="button">Продолжить покупки</a>
+		<a href="/cart/clear" class="btn btn-danger" role="button">Очистить корзину</a>
 	</div>
 }
