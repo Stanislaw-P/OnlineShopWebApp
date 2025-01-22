@@ -1,0 +1,52 @@
+﻿@model Cart
+
+<div class="row text-center">
+	<div class="col">
+		<h3>Оформление заказа</h3>
+		<form>
+			<label>Ваше ФИО:</label>
+			<div>
+				<input type="text" />
+			</div>
+			<label>Адресс доставки:</label>
+			<div>
+				<input type="text" />
+			</div>
+			<label>Ваш телефон:</label>
+			<div>
+				<input type="text" />
+			</div>
+			<br />
+			<a href="/order/buy" class="btn btn-success" role="button">Оформить заказ</a>
+		</form>
+	</div>
+</div>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Название</th>
+			<th>Цена руб.</th>
+			<th>Количество</th>
+			<th>Стоимость руб.</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model.Items)
+		{
+			<tr>
+				<td>@item.Product.Name</td>
+				<td>@item.Product.Cost</td>
+				<td>@item.Amount</td>
+				<td>@item.Cost</td>
+				<td>
+					<a href="/cart/decreaseAmount?productId=@item.Product.Id" class="btn btn-outline-dark" role="button">-</a>
+					<a href="/cart/add?productId=@item.Product.Id" class="btn btn-outline-dark" role="button">+</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+<div>
+	<h3>Итоговая сумма: @Model.Cost</h3>
+</div>
