@@ -16,7 +16,7 @@ namespace OnlineShopWebApp.Controllers
 
 		public IActionResult Index()
 		{
-			Wishlist? wishlist = wishlistsRepository.TryGetByUserId(Constants.UserId);
+			Wishlist wishlist = wishlistsRepository.TryGetByUserId(Constants.UserId);
 			return View(wishlist);
 		}
 
@@ -27,7 +27,7 @@ namespace OnlineShopWebApp.Controllers
 			return RedirectToAction("Index");
 		}
 
-		public IActionResult RevomeProduct(int productId)
+		public IActionResult RemoveProduct(int productId)
 		{
 			Product product = productsRepository.TryGetById(productId);
 			wishlistsRepository.RemoveProductByUserId(product, Constants.UserId);

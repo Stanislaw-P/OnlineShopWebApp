@@ -9,15 +9,17 @@
 	@foreach (var product in Model)
 	{
 		<div class="col-3 card shadow">
-			<img class="card-img-top" src="@product.ImagePath">
+			<a href="/product/index/@product.Id">
+				<img class="card-img-top" src="@product.ImagePath">
+			</a>
 			<div class="card-body">
 				<a style="color:black" href="/product/index/@product.Id">
 					<h5>@product.Name</h5>
 				</a>
-				<h5>@product.Cost</h5>
+				<h5>@product.Cost руб.</h5>
 				<div class="row">
 					<a class="btn btn-dark col-10" href="/cart/add?productId=@product.Id">Добавить в корзину</a>
-					<a class="btn col-2" role="button" href="/wishlist/add?productId=@product.Id"><img src="~/images/favorite-white.png" /></a>
+					<a class="btn col-2" role="button" href="/wishlist/add?productId=@product.Id"><img src="/images/favorite-white.png" /></a>
 				</div>
 			</div>
 		</div>
