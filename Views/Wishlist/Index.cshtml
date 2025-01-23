@@ -1,0 +1,32 @@
+﻿@model Wishlist
+
+@if (Model == null)
+{
+	<h3>Вы пока не добавляли товары в избранное</h3>
+}
+else
+{
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Название</th>
+				<th>Цена руб.</th>
+				<th>Стоимость руб.</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var product in Model.Items)
+			{
+				<tr>
+					<td>@product.Name</td>
+					<td>@product.Cost</td>
+					<td>@product.Cost</td>
+					<td>
+						<a href="/wishlist/removeProduct?productId=@product.Id" class="btn btn-outline-dark" role="button">-</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}

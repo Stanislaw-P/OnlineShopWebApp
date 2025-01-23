@@ -37,7 +37,7 @@ namespace OnlineShopWebApp.Controllers
 
         public IActionResult Clear()
         {
-            cartsRepository.Clear(Constants.UserId);
+            cartsRepository.ClearCartByUserId(Constants.UserId);
             return RedirectToAction("Index");
 		}
 	}
