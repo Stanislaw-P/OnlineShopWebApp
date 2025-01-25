@@ -24,7 +24,8 @@ namespace OnlineShopWebApp.Controllers
 		public IActionResult Buy(Order order)
 		{
 			Cart existingCart = cartsRepository.TryGetByUserId(Constants.UserId);
-			ordersRepository.Add(existingCart);
+			order.Cart = existingCart;
+			ordersRepository.Add(order);
 			cartsRepository.ClearCartByUserId(Constants.UserId);
 			return View();
 		}
