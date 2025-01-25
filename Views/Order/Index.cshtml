@@ -3,21 +3,21 @@
 <div class="row text-center">
 	<div class="col">
 		<h3>Оформление заказа</h3>
-		<form>
+		<form method="post">
 			<label>Ваше ФИО:</label>
 			<div>
-				<input type="text" />
+				<input type="text" name="name" />
 			</div>
 			<label>Адресс доставки:</label>
 			<div>
-				<input type="text" />
+				<input type="text" name="address" />
 			</div>
 			<label>Ваш телефон:</label>
 			<div>
-				<input type="text" />
+				<input type="text" name="phone" />
 			</div>
 			<br />
-			<a href="/order/buy" class="btn btn-success" role="button">Оформить заказ</a>
+			<button type="submit" class="btn btn-success" asp-controller="Order" asp-action="Buy">Оформить заказ</button>
 		</form>
 	</div>
 </div>
