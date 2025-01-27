@@ -1,0 +1,14 @@
+﻿<div class="row">
+	<div class="col-md-5 mx-auto">
+		<div class="card text-center">
+			<h3>Регистрация</h3>
+			<form method="post" class="card-body d-flex flex-column align-items-center">
+				<input type="text" name="username" placeholder="Логин" class="mb-2 w-100 form-control" />
+				<input type="password" name="password" placeholder="Пароль" class="mb-2 w-100 form-control" />
+				<input type="password" name="confirmPassword" placeholder="Подтвердите пароль" class="mb-2 w-100 form-control" />
+				<button type="submit" class="w-75" asp-controller="account" asp-action="register">Зарегестрироваться</button>
+				<a href="/account/login" class="text-secondary">Аккаунт уже есть</a>
+			</form>
+		</div>
+	</div>
+</div>
