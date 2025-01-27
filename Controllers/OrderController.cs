@@ -21,11 +21,16 @@ namespace OnlineShopWebApp.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Buy(Order order)
+		public IActionResult Buy(UserDeliveryInfo user)
 		{
 			Cart existingCart = cartsRepository.TryGetByUserId(Constants.UserId);
-			order.Cart = existingCart;
+			Order order = new Order
+			{
+				User = user,
+				Items = existingCart.Items
+			};
 			ordersRepository.Add(order);
+
 			cartsRepository.ClearCartByUserId(Constants.UserId);
 			return View();
 		}
