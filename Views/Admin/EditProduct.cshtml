@@ -18,8 +18,8 @@
 				<input type="text" name="cost" value="@Model.Cost" class="mb-2 w-100 form-control" />
 				<input type="hidden" asp-for="Id" />
 				<input type="hidden" asp-for="ImagePath" />
-				<div class="w-75 align-items-center">
-					<button type="submit" class="w-75 d-block" asp-controller="admin" asp-action="editProduct">Принять изменения</button>
+				<div class="d-flex flex-column justify-content-center align-items-center">
+					<button type="submit" class="w-50" asp-controller="admin" asp-action="editProduct">Принять изменения</button>
 					<a href="/admin/products" class="text-secondary">Отменить изменения</a>
 				</div>
 			</form>

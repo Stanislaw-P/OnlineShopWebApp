@@ -35,5 +35,10 @@ namespace OnlineShopWebApp
                 }
             }
         }
+
+        public void Add(Product product)
+        {
+            products.Add(product);
+        }
     }
 }

@@ -56,5 +56,18 @@ namespace OnlineShopWebApp.Controllers
 			}
 			return NotFound();
 		}
+
+		public IActionResult AddProduct()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		public IActionResult AddProduct(EditProduct newProduct)
+		{
+			Product product = new Product(newProduct.Name, newProduct.Cost, newProduct.Description, "/images/image-null.png");
+			productsRepository.Add(product);
+			return RedirectToAction("Products");
+		}
 	}
 }
