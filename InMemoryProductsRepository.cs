@@ -17,9 +17,23 @@ namespace OnlineShopWebApp
             return products;
         }
 
-        public Product TryGetById(int id)
+		public Product? TryGetById(int id)
         {
             return products.FirstOrDefault(product => product.Id == id);
+        }
+
+        public void EditById(EditProduct editProduct)
+        {
+			for (int i = 0; i < products.Count; i++)
+            {
+                if (products[i].Id == editProduct.Id)
+                {
+                    products[i].Name = editProduct.Name;
+                    products[i].Cost = editProduct.Cost;
+                    products[i].Description = editProduct.Description;
+                    products[i].ImagePath = editProduct.ImagePath;
+                }
+            }
         }
     }
 }

@@ -1,0 +1,28 @@
+﻿@model Product
+
+
+<div class="row">
+	<div class="col-3">
+		@await Html.PartialAsync("AdminNav")
+	</div>
+	<div class="col-9">
+		<div class="card">
+			<h3 class="text-center">Изменение продукта</h3>
+			<form method="post" class="card-body d-flex flex-column">
+				<h4>Id продукта: @Model.Id</h4>
+				<label>Название:</label>
+				<input type="text" name="name" value="@Model.Name" class="mb-2 w-100 form-control" />
+				<label>Описание:</label>
+				<input type="text" name="description" value="@Model.Description" class="mb-2 w-100 form-control" />
+				<label>Цена:</label>
+				<input type="text" name="cost" value="@Model.Cost" class="mb-2 w-100 form-control" />
+				<input type="hidden" asp-for="Id" />
+				<input type="hidden" asp-for="ImagePath" />
+				<div class="w-75 align-items-center">
+					<button type="submit" class="w-75 d-block" asp-controller="admin" asp-action="editProduct">Принять изменения</button>
+					<a href="/admin/products" class="text-secondary">Отменить изменения</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

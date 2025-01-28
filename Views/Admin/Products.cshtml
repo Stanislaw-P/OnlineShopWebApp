@@ -1,8 +1,35 @@
-﻿<div class="row">
+﻿@model List<Product>
+
+<div class="row">
 	<div class="col-3">
 		@await Html.PartialAsync("AdminNav")
 	</div>
 	<div class="col-9">
 		<h3>Список продуктов</h3>
+		<a href="#" class="text-decoration-none">Добавить новый продукт</a>
+
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>№</th>
+					<th>Название</th>
+					<th>Цена руб.</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model)
+				{
+					<tr>
+						<td>@(Model.IndexOf(item) + 1)</td>
+						<td><a href="/product/index" class="text-decoration-none text-black">@item.Name</a></td>
+						<td>@item.Cost</td>
+						<td><a href="/admin/editProduct?productId=@item.Id" class="text-decoration-none">Редактировать</a></td>
+						<td><a href="/admin/deleteProduct?productId=@item.Id" class="text-decoration-none">Удалить</a></td>
+					</tr>
+				}
+			</tbody>
+		</table>
 	</div>
 </div>
