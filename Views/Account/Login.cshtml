@@ -1,14 +1,27 @@
-﻿<div class="row ">
+﻿@model Login
+
+<div class="row ">
 	<div class="col-md-5 mx-auto">
-		<div class="card text-center">
-			<h3>Вход</h3>
+		<div class="card">
+			<h3 class="text-center">Вход</h3>
 			<form method="post" class="card-body d-flex flex-column align-items-center">
-				<input type="text" name="username" placeholder="Логин" class="mb-2 w-100 form-control" />
-				<input type="password" name="password" placeholder="Пароль" class="mb-2 w-100 form-control" />
+				<div class="mb-3 col-md-9">
+					<label asp-for="UserName">Имя:</label>
+					<input class="form-control" asp-for="UserName" />
+					<span asp-validation-for="UserName" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3 col-md-9">
+					<label asp-for="Password">Пароль:</label>
+					<input type="password" class="form-control" asp-for="Password" />
+					<span asp-validation-for="Password" class="text-danger"></span>
+				</div>
+
 				<div class="flex-row mb-3">
 					<input type="checkbox" name="rememberme" class="form-check-input" value="true">
 					<label>Запомнить меня</label>
 				</div>
+
 				<button type="submit" class="w-75" asp-controller="account" asp-action="login">Войти</button>
 				<a href="/account/register" class="text-secondary">Регистрация нового пользователя</a>
 			</form>
