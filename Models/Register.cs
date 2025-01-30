@@ -6,6 +6,7 @@ namespace OnlineShopWebApp.Models
 	{
 		[Required(ErrorMessage = "Обязательное поле!")]
 		[StringLength(25, MinimumLength = 3, ErrorMessage = "Имя должно содержать от 3 до 25 символов!")]
+		[EmailAddress]
 		public string UserName { get; set; }
 
 		[Required(ErrorMessage = "Обязательное поле!")]

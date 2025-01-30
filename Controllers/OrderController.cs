@@ -16,13 +16,15 @@ namespace OnlineShopWebApp.Controllers
 
 		public IActionResult Index()
 		{
-			Cart cart = cartsRepository.TryGetByUserId(Constants.UserId);
-			return View(cart);
+			return View();
 		}
 
 		[HttpPost]
 		public IActionResult Buy(UserDeliveryInfo user)
 		{
+			if (!ModelState.IsValid)
+				return View("Index", user);
+
 			Cart existingCart = cartsRepository.TryGetByUserId(Constants.UserId);
 			Order order = new Order
 			{

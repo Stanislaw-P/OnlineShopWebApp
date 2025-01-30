@@ -1,52 +1,27 @@
-﻿@model Cart
+﻿@model UserDeliveryInfo
 
 <div class="row text-center">
 	<div class="col">
 		<h3>Оформление заказа</h3>
 		<form method="post">
-			<label>Ваше ФИО:</label>
-			<div>
-				<input type="text" name="name" />
+			<div class="mb-3 col-md-9">
+				<label asp-for="Name">Ваше ФИО:</label>
+				<input class="form-control" asp-for="Name" />
+				<span asp-validation-for="Name" class="text-danger"></span>
 			</div>
-			<label>Адресс доставки:</label>
-			<div>
-				<input type="text" name="address" />
+
+			<div class="mb-3 col-md-9">
+				<label asp-for="Address">Адрес доставки:</label>
+				<input class="form-control" asp-for="Address" />
+				<span asp-validation-for="Address" class="text-danger"></span>
 			</div>
-			<label>Ваш телефон:</label>
-			<div>
-				<input type="text" name="phone" />
+
+			<div class="mb-3 col-md-9">
+				<label asp-for="Phone">Телефон:</label>
+				<input class="form-control" asp-for="Phone" />
+				<span asp-validation-for="Phone" class="text-danger"></span>
 			</div>
-			<br />
 			<button type="submit" class="btn btn-success" asp-controller="order" asp-action="buy">Оформить заказ</button>
 		</form>
 	</div>
-</div>
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th>Название</th>
-			<th>Цена руб.</th>
-			<th>Количество</th>
-			<th>Стоимость руб.</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var item in Model.Items)
-		{
-			<tr>
-				<td>@item.Product.Name</td>
-				<td>@item.Product.Cost</td>
-				<td>@item.Amount</td>
-				<td>@item.Cost</td>
-				<td>
-					<a href="/cart/decreaseAmount?productId=@item.Product.Id" class="btn btn-outline-dark" role="button">-</a>
-					<a href="/cart/add?productId=@item.Product.Id" class="btn btn-outline-dark" role="button">+</a>
-				</td>
-			</tr>
-		}
-	</tbody>
-</table>
-<div>
-	<h3>Итоговая сумма: @Model.Cost</h3>
 </div>
