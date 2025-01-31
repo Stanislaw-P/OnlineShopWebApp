@@ -38,7 +38,6 @@ namespace OnlineShopWebApp
 
         public void Add(Product product)
         {
-            product.ImagePath = "/images/image-null.png";
 			products.Add(product);
         }
     }

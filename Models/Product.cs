@@ -32,7 +32,7 @@ namespace OnlineShopWebApp.Models
         [StringLength(200, MinimumLength = 4, ErrorMessage = "Описание должно содержать от 4 до 200 символов!")]
         public string Description { get; set; }
 
-        public string ImagePath { get; set; } = "none"; // Нужно, чтобы работала валидация без ошибок
+        public string ImagePath { get; set; } = "/images/image-null.png"; // Нужно, чтобы работала валидация без ошибок
 
         static int instanceCounter = 0;
 

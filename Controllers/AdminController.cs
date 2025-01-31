@@ -49,6 +49,9 @@ namespace OnlineShopWebApp.Controllers
 		[HttpPost]
 		public IActionResult EditProduct(Product editProduct)
 		{
+			if (!ModelState.IsValid)
+				return View(editProduct);
+
 			if(productsRepository.TryGetById(editProduct.Id) != null)
 			{
 				productsRepository.EditById(editProduct);
