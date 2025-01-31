@@ -22,7 +22,7 @@ namespace OnlineShopWebApp
             return products.FirstOrDefault(product => product.Id == id);
         }
 
-        public void EditById(EditProduct editProduct)
+        public void EditById(Product editProduct)
         {
 			for (int i = 0; i < products.Count; i++)
             {
@@ -38,7 +38,8 @@ namespace OnlineShopWebApp
 
         public void Add(Product product)
         {
-            products.Add(product);
+            product.ImagePath = "/images/image-null.png";
+			products.Add(product);
         }
     }
 }

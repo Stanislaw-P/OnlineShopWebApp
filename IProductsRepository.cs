@@ -6,7 +6,7 @@ namespace OnlineShopWebApp
 	{
 		List<Product> GetAll();
 		Product TryGetById(int id);
-		void EditById(EditProduct product);
+		void EditById(Product product);
 		void Add(Product product);
 	}
 }

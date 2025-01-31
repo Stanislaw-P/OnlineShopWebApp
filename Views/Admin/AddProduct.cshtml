@@ -1,20 +1,35 @@
-﻿<div class="row">
+﻿@model Product
+
+
+<div class="row">
 	<div class="col-3">
 		@await Html.PartialAsync("AdminNav")
 	</div>
 	<div class="col-9">
 		<div class="card">
 			<h3 class="text-center">Добавление нового продукта</h3>
-			<form method="post" class="card-body d-flex flex-column">
-				<label>Название:</label>
-				<input type="text" name="name" class="mb-2 w-100 form-control" />
-				<label>Описание:</label>
-				<input type="text" name="description" class="mb-2 w-100 form-control" />
-				<label>Цена:</label>
-				<input type="text" name="cost" class="mb-2 w-100 form-control" />
+			<form method="post" class="card-body">
+				<div asp-validation-summary="All" class="text-danger"></div>
+				<div class="mb-3">
+					<label asp-for="Name">Название:</label>
+					<input type="text" class="form-control" asp-for="Name"/>
+					<span asp-validation-for="Name" class="text-danger"></span>
+				</div>
 
-				<div class="justify-content-center align-items-center">
-					<button type="submit" class="w-75 d-block" asp-controller="admin" asp-action="addProduct">Добавить продукт</button>
+				<div class="mb-3">
+					<label asp-for="Description">Описание:</label>
+					<input type="text" class="form-control" asp-for="Description" />
+					<span asp-validation-for="Description" class="text-danger"></span>
+				</div>
+				
+				<div class="mb-3">
+					<label asp-for="Cost">Цена:</label>
+					<input type="number" class="form-control" asp-for="Cost" />
+					<span asp-validation-for="Cost" class="text-danger"></span>
+				</div>
+				
+				<div class="mx-auto">
+					<button type="submit" class="w-75 btn btn-secondary d-block" asp-controller="admin" asp-action="addProduct">Добавить продукт</button>
 					<a href="/admin/products" class="text-secondary">Отменить изменения</a>
 				</div>
 			</form>

@@ -47,7 +47,7 @@ namespace OnlineShopWebApp.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult EditProduct(EditProduct editProduct)
+		public IActionResult EditProduct(Product editProduct)
 		{
 			if(productsRepository.TryGetById(editProduct.Id) != null)
 			{
@@ -63,10 +63,12 @@ namespace OnlineShopWebApp.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult AddProduct(EditProduct newProduct)
+		public IActionResult AddProduct(Product newProduct)
 		{
-			Product product = new Product(newProduct.Name, newProduct.Cost, newProduct.Description, "/images/image-null.png");
-			productsRepository.Add(product);
+			if (!ModelState.IsValid)
+				return View(newProduct);
+
+			productsRepository.Add(newProduct);
 			return RedirectToAction("Products");
 		}
 	}
