@@ -27,10 +27,10 @@ namespace OnlineShopWebApp
             Product existingProduct = products.FirstOrDefault(product => product.Id == editProduct.Id);
             if (existingProduct == null)
                 return;
-			products[i].Name = editProduct.Name;
-			products[i].Cost = editProduct.Cost;
-			products[i].Description = editProduct.Description;
-			products[i].ImagePath = editProduct.ImagePath;
+			existingProduct.Name = editProduct.Name;
+			existingProduct.Cost = editProduct.Cost;
+			existingProduct.Description = editProduct.Description;
+			existingProduct.ImagePath = editProduct.ImagePath;
         }
 
         public void Add(Product product)
