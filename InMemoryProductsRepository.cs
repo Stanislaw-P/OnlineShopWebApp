@@ -24,16 +24,13 @@ namespace OnlineShopWebApp
 
         public void EditById(Product editProduct)
         {
-			for (int i = 0; i < products.Count; i++)
-            {
-                if (products[i].Id == editProduct.Id)
-                {
-                    products[i].Name = editProduct.Name;
-                    products[i].Cost = editProduct.Cost;
-                    products[i].Description = editProduct.Description;
-                    products[i].ImagePath = editProduct.ImagePath;
-                }
-            }
+            Product existingProduct = products.FirstOrDefault(product => product.Id == editProduct.Id);
+            if (existingProduct == null)
+                return;
+			products[i].Name = editProduct.Name;
+			products[i].Cost = editProduct.Cost;
+			products[i].Description = editProduct.Description;
+			products[i].ImagePath = editProduct.ImagePath;
         }
 
         public void Add(Product product)
