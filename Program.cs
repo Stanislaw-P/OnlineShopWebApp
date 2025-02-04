@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Localization;
 using OnlineShopWebApp;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,17 @@ builder.Services.AddSingleton<IProductsRepository, InMemoryProductsRepository>()
 builder.Services.AddSingleton<ICartsRepository, InMemoryCartsRepository>(); // 2
 builder.Services.AddSingleton<IOrdersRepository, InMemoryOrdersRepository>(); // 3
 builder.Services.AddSingleton<IWishlistsRepository, InMemoryWishlistsRepository>(); // 4
+builder.Services.AddSingleton<IRolesRepository, InMemoryRolesRepository>(); // 5
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+	var supportedCultures = new[]
+	{
+		new CultureInfo("en-US")
+	};
+	options.DefaultRequestCulture = new RequestCulture("en-US");
+	options.SupportedCultures = supportedCultures;
+	options.SupportedUICultures = supportedCultures;
+});
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -24,6 +37,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseRequestLocalization();
 
 app.MapControllerRoute(
 	name: "default",

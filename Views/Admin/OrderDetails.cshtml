@@ -1,0 +1,40 @@
+﻿@model Order
+
+<div class="row">
+	<div class="col-3">
+		@await Html.PartialAsync("AdminNav")
+	</div>
+	<div class="col-9">
+		<form method="post">
+			<table class="table">
+				<tr>
+					<td class="text-secondary">Дата и время оформления:</td>
+					<td>@Model.Time.ToShortDateString() в @Model.Time.ToShortTimeString()</td>
+				</tr>
+				<tr>
+					<td class="text-secondary">Адрес доставки:</td>
+					<td>@Model.User.Address</td>
+				</tr>
+				<tr>
+					<td class="text-secondary">Получатель:</td>
+					<td>@Model.User.Name</td>
+				</tr>
+				<tr>
+					<td class="text-secondary">Телефон:</td>
+					<td>@Model.User.Phone</td>
+				</tr>
+				<tr>
+					<td class="text-secondary">Сумма заказа:</td>
+					<td>@Model.Cost ₽</td>
+				</tr>
+				<tr>
+					<td class="text-secondary">Статус заказа:</td>
+					<td>
+						<select name="newStatus" asp-for="@Model.CurrentStatus" asp-items="@Html.GetEnumSelectList<OrderStatus>()" class="form-control"></select>
+					</td>
+				</tr>
+			</table>
+			<button asp-controller="Admin" asp-action="UpdateOrderStatus" asp-route-orderId="@Model.Id" class="btn btn-success">Сохранить изменения</button>
+		</form>
+	</div>
+</div>

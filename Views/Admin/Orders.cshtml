@@ -1,8 +1,37 @@
-﻿<div class="row">
+﻿@model List<Order>
+
+<div class="row">
 	<div class="col-3">
 		@await Html.PartialAsync("AdminNav")
 	</div>
 	<div class="col-9">
 		<h3>Список заказов</h3>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>№</th>
+					<th>Сумма</th>
+					<th>Статус</th>
+					<th>Пользователь (логин)</th>
+					<th>Дата</th>
+					<th>Время</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var order in Model)
+				{
+					<tr>
+						<td>@(Model.IndexOf(order) + 1)</td>
+						<td>@order.Cost</td>
+						<td>@EnumHelper.GetDisplayName(order.CurrentStatus)</td>
+						<td>@order.User.Name</td>
+						<td>@order.Time.ToShortDateString()</td>
+						<td>@order.Time.ToShortTimeString()</td>
+						<td><a href="/admin/orderDetails?orderId=@order.Id">Подробнее</a></td>
+					</tr>
+				}
+			</tbody>
+		</table>
 	</div>
 </div>

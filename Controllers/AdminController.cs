@@ -6,15 +6,35 @@ namespace OnlineShopWebApp.Controllers
 	public class AdminController : Controller
 	{
 		readonly IProductsRepository productsRepository;
+		readonly IOrdersRepository ordersRepository;
+		readonly IRolesRepository rolesRepository;
 
-		public AdminController(IProductsRepository productsRepository)
+		public AdminController(IProductsRepository productsRepository, IOrdersRepository ordersRepository, IRolesRepository rolesRepository)
 		{
 			this.productsRepository = productsRepository;
+			this.ordersRepository = ordersRepository;
+			this.rolesRepository = rolesRepository;
 		}
 
 		public IActionResult Orders()
 		{
-			return View();
+			List<Order> orders = ordersRepository.GetAll();
+			return View(orders);
+		}
+
+		public IActionResult OrderDetails(Guid orderId)
+		{
+			Order? existingOrder = ordersRepository.TryGetById(orderId);
+			if (existingOrder == null)
+				return NotFound();
+			ViewBag.OrderNumber = ordersRepository.GetAll().IndexOf(existingOrder) + 1;
+			return View(existingOrder);
+		}
+
+		public IActionResult UpdateOrderStatus(Guid orderId, OrderStatus newStatus)
+		{
+			ordersRepository.UpdateStatus(orderId, newStatus);
+			return RedirectToAction("Orders");
 		}
 
 		public IActionResult Users()
@@ -24,7 +44,31 @@ namespace OnlineShopWebApp.Controllers
 
 		public IActionResult Roles()
 		{
+			List<Role> roles = rolesRepository.GetAll();
+			return View(roles);
+		}
+
+		public IActionResult RemoveRole(string roleName)
+		{
+			rolesRepository.Remove(roleName);
+			return RedirectToAction("Roles");
+		}
+
+		public IActionResult AddRole()
+		{
 			return View();
+		}
+
+		[HttpPost]
+		public IActionResult AddRole(Role role)
+		{
+			if (rolesRepository.TryGetByName(role.Name) != null)
+				ModelState.AddModelError("", "Такая роль уже существует!");
+			if (!ModelState.IsValid)
+				return View(role);
+			Role newRole = new Role { Name = role.Name };
+			rolesRepository.Add(newRole);
+			return RedirectToAction("Roles");
 		}
 
 		public IActionResult Products()
@@ -52,7 +96,7 @@ namespace OnlineShopWebApp.Controllers
 			if (!ModelState.IsValid)
 				return View(editProduct);
 
-			if(productsRepository.TryGetById(editProduct.Id) != null)
+			if (productsRepository.TryGetById(editProduct.Id) != null)
 			{
 				productsRepository.EditById(editProduct);
 				return RedirectToAction("Products");

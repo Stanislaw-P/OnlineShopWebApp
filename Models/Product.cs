@@ -26,7 +26,7 @@ namespace OnlineShopWebApp.Models
 
         [Required(ErrorMessage = "Обязательное поле!")]
         [Range(0, 10000000, ErrorMessage = "Минимальная стоимость 0 руб.")]
-		public int Cost { get; set; }
+		public decimal Cost { get; set; }
 
         [Required(ErrorMessage = "Обязательное поле!")]
         [StringLength(200, MinimumLength = 4, ErrorMessage = "Описание должно содержать от 4 до 200 символов!")]
