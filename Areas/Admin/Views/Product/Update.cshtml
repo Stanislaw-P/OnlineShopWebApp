@@ -32,8 +32,8 @@
 				<input type="hidden" asp-for="Id" />
 				<input type="hidden" asp-for="ImagePath" />
 				<div class="d-flex flex-column justify-content-center align-items-center">
-					<button type="submit" class="w-50" asp-controller="admin" asp-action="editProduct">Принять изменения</button>
-					<a href="/admin/products" class="text-secondary">Отменить изменения</a>
+					<button type="submit" class="w-50" asp-area="Admin" asp-controller="Product" asp-action="Update">Принять изменения</button>
+					<a asp-area="Admin" asp-controller="Product" asp-action="Index" class="text-secondary">Отменить изменения</a>
 				</div>
 			</form>
 		</div>

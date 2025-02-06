@@ -20,11 +20,11 @@
 					<tr>
 						<td>@(i+1)</td>
 						<td>@Model[i].Name</td>
-						<td><a href="/admin/removeRole?roleName=@Model[i].Name">Удалить</a></td>
+						<td><a asp-area="Admin" asp-controller="Role" asp-action="Remove" asp-route-roleName="@Model[i].Name">Удалить</a></td>
 					</tr>
 				}
 			</tbody>
 		</table>
-		<a href="/admin/addRole" class="btn btn-success" role="button">Добавить роль</a>
+		<a asp-area="Admin" asp-controller="Role" asp-action="Add" class="btn btn-success" role="button">Добавить роль</a>
 	</div>
 </div>

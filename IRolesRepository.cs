@@ -1,8 +1,8 @@
-﻿using OnlineShopWebApp.Models;
+﻿using OnlineShopWebApp.Areas.Admin.Models;
 
 namespace OnlineShopWebApp
 {
-	public interface IRolesRepository
+    public interface IRolesRepository
 	{
 		List<Role> GetAll();
 		Role TryGetByName(string name);

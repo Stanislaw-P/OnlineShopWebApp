@@ -29,8 +29,8 @@
 				</div>
 				
 				<div class="mx-auto">
-					<button type="submit" class="w-75 btn btn-secondary d-block" asp-controller="admin" asp-action="addProduct">Добавить продукт</button>
-					<a href="/admin/products" class="text-secondary">Отменить изменения</a>
+					<button type="submit" class="w-75 btn btn-secondary d-block" asp-area="Admin" asp-controller="Product" asp-action="Add">Добавить продукт</button>
+					<a asp-area="Admin" asp-controller="Product" asp-action="Index" class="text-secondary">Отменить изменения</a>
 				</div>
 			</form>
 		</div>

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Localization;
 using OnlineShopWebApp;
 using System.Globalization;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,9 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 	options.SupportedCultures = supportedCultures;
 	options.SupportedUICultures = supportedCultures;
 });
+builder.Host.UseSerilog((context, configuration) => configuration
+.ReadFrom.Configuration(context.Configuration)
+.Enrich.WithProperty("ApplicationName", "Online Shop"));
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -38,7 +42,13 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseSerilogRequestLogging();
+
 app.UseRequestLocalization();
+
+app.MapControllerRoute(
+	name: "MyArea",
+	pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
 	name: "default",

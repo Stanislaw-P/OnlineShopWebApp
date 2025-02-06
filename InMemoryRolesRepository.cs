@@ -1,8 +1,8 @@
-﻿using OnlineShopWebApp.Models;
+﻿using OnlineShopWebApp.Areas.Admin.Models;
 
 namespace OnlineShopWebApp
 {
-	public class InMemoryRolesRepository : IRolesRepository
+    public class InMemoryRolesRepository : IRolesRepository
 	{
 		private List<Role> roles = new List<Role>();
 

@@ -34,7 +34,7 @@
 					</td>
 				</tr>
 			</table>
-			<button asp-controller="Admin" asp-action="UpdateOrderStatus" asp-route-orderId="@Model.Id" class="btn btn-success">Сохранить изменения</button>
+			<button asp-area="Admin" asp-controller="Order" asp-action="UpdateOrderStatus" asp-route-orderId="@Model.Id" class="btn btn-success">Сохранить изменения</button>
 		</form>
 	</div>
 </div>
