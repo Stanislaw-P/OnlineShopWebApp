@@ -3,11 +3,11 @@ using OnlineShopWebApp.Models;
 
 namespace OnlineShopWebApp.Controllers
 {
-    public class AccountController : Controller
+	public class AccountController : Controller
 	{
-		readonly IUsersRepository usersRepository;
+		readonly IUsersManager usersRepository;
 
-		public AccountController(IUsersRepository usersRepository)
+		public AccountController(IUsersManager usersRepository)
 		{
 			this.usersRepository = usersRepository;
 		}
@@ -20,17 +20,17 @@ namespace OnlineShopWebApp.Controllers
 		[HttpPost]
 		public IActionResult Login(Login login)
 		{
-			User? existingUser = usersRepository.TryGetByEmail(login.UserName);
-			if (existingUser == null)
+			UserAccount? userAccount = usersRepository.TryGetByEmail(login.UserName);
+			if (userAccount == null)
 				ModelState.AddModelError("", "Пользователя с такой почтой не существует!");
-			if (!usersRepository.PasswordIsCorrect(existingUser, login.Password))
+			if (userAccount != null && userAccount.Password != login.Password)
 				ModelState.AddModelError("", "Неправильный пароль!");
-			if (ModelState.IsValid)
+			if (!ModelState.IsValid)
 			{
-				// TODO: Тут нужно будет передавть текущего пользователя.
-				return RedirectToAction("Index", "Home");
+				return View(login);
 			}
-			return View(login);
+			// TODO: Тут нужно будет передавть текущего пользователя.
+			return RedirectToAction(nameof(HomeController.Index), "Home");
 		}
 
 		public IActionResult Register()
@@ -47,9 +47,9 @@ namespace OnlineShopWebApp.Controllers
 				ModelState.AddModelError("", "Пользователь с такой почтой уже сущестует!");
 			if (ModelState.IsValid)
 			{
-				User newUser = new User(register.UserName, register.Password);
+				UserAccount newUser = new UserAccount(register.UserName, register.Password);
 				usersRepository.Add(newUser);
-				return RedirectToAction("Login");
+				return RedirectToAction(nameof(Login));
 			}
 			return View(register);
 		}

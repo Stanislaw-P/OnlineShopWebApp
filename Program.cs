@@ -11,7 +11,7 @@ builder.Services.AddSingleton<ICartsRepository, InMemoryCartsRepository>(); // 2
 builder.Services.AddSingleton<IOrdersRepository, InMemoryOrdersRepository>(); // 3
 builder.Services.AddSingleton<IWishlistsRepository, InMemoryWishlistsRepository>(); // 4
 builder.Services.AddSingleton<IRolesRepository, InMemoryRolesRepository>(); // 5
-builder.Services.AddSingleton<IUsersRepository, InMemoryUsersRepository>(); // 6
+builder.Services.AddSingleton<IUsersManager, UsersManager>(); // 6
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
 	var supportedCultures = new[]
