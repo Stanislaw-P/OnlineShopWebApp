@@ -4,7 +4,10 @@ namespace OnlineShopWebApp
 {
 	public class UsersManager : IUsersManager
 	{
-		readonly List<UserAccount> users = new List<UserAccount>();
+		readonly List<UserAccount> users = new List<UserAccount>()
+		{
+			new UserAccount("test@mail.ru", "123123", "Admin", "Persaev", "+77777777777")
+		};
 
 		public List<UserAccount> GetAll()
 		{
