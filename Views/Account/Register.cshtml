@@ -5,7 +5,7 @@
 		<div class="card">
 			<h3 class="text-center">Регистрация</h3>
 			<form method="post" class="card-body d-flex flex-column align-items-center">
-				<div class="validation" asp-validation-summary="ModelOnly"></div>
+				<div class="text-danger" asp-validation-summary="ModelOnly"></div>
 				<div class="mb-3 col-md-9">
 					<label asp-for="UserName">Имя:</label>
 					<input class="form-control" asp-for="UserName" />
