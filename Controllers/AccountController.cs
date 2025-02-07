@@ -5,11 +5,11 @@ namespace OnlineShopWebApp.Controllers
 {
 	public class AccountController : Controller
 	{
-		readonly IUsersManager usersRepository;
+		readonly IUsersManager usersManager;
 
 		public AccountController(IUsersManager usersRepository)
 		{
-			this.usersRepository = usersRepository;
+			this.usersManager = usersRepository;
 		}
 
 		public IActionResult Login()
@@ -20,7 +20,7 @@ namespace OnlineShopWebApp.Controllers
 		[HttpPost]
 		public IActionResult Login(Login login)
 		{
-			UserAccount? userAccount = usersRepository.TryGetByEmail(login.UserName);
+			UserAccount? userAccount = usersManager.TryGetByEmail(login.Email);
 			if (userAccount == null)
 				ModelState.AddModelError("", "Пользователя с такой почтой не существует!");
 			if (userAccount != null && userAccount.Password != login.Password)
@@ -41,14 +41,14 @@ namespace OnlineShopWebApp.Controllers
 		[HttpPost]
 		public IActionResult Register(Register register)
 		{
-			if (register.UserName == register.Password)
-				ModelState.AddModelError("", "Имя и пароль не должны совпадать!");
-			if (usersRepository.TryGetByEmail(register.UserName) != null)
+			if (register.Email == register.Password)
+				ModelState.AddModelError("", "Почта и пароль не должны совпадать!");
+			if (usersManager.TryGetByEmail(register.Email) != null)
 				ModelState.AddModelError("", "Пользователь с такой почтой уже сущестует!");
 			if (ModelState.IsValid)
 			{
-				UserAccount newUser = new UserAccount(register.UserName, register.Password);
-				usersRepository.Add(newUser);
+				UserAccount newUser = new UserAccount(register.Email, register.Password, register.Name, register.Surname, register.Phone);
+				usersManager.Add(newUser);
 				return RedirectToAction(nameof(Login));
 			}
 			return View(register);
