@@ -40,5 +40,13 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 			}
 			return View(register);
 		}
+
+		public IActionResult Details(string email)
+		{
+			UserAccount? existingUser = usersManager.TryGetByEmail(email);
+			if (existingUser == null)
+				return NotFound();
+			return View(existingUser);
+		}
 	}
 }

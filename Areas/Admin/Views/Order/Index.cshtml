@@ -28,7 +28,7 @@
 						<td>@order.User.Name</td>
 						<td>@order.Time.ToShortDateString()</td>
 						<td>@order.Time.ToShortTimeString()</td>
-						<td><a asp-area="Admin" asp-controller="Order" asp-action="Detail" asp-route-orderId="@order.Id">Подробнее</a></td>
+						<td><a asp-area="Admin" asp-controller="Order" asp-action="Details" asp-route-orderId="@order.Id">Подробнее</a></td>
 					</tr>
 				}
 			</tbody>
