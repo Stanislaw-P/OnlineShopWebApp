@@ -30,7 +30,7 @@
 				<tr>
 					<td class="text-secondary">Статус заказа:</td>
 					<td>
-						<select name="newStatus" asp-for="@Model.CurrentStatus" asp-items="@Html.GetEnumSelectList<OrderStatus>()" class="form-control"></select>
+						<select name="newStatus" asp-for="@Model.CurrentStatus" asp-items="@Html.GetEnumSelectList<OrderStatus>()" class="dropdown-toggle border-primary"></select>
 					</td>
 				</tr>
 			</table>
