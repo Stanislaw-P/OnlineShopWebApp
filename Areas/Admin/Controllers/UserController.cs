@@ -48,5 +48,23 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 				return NotFound();
 			return View(existingUser);
 		}
+
+		public IActionResult ChangePassword(string email)
+		{
+			NewUserPassword newUserPassword = new NewUserPassword() { Email = email };
+			return View(newUserPassword);
+		}
+
+		[HttpPost]
+		public IActionResult ChangePassword(NewUserPassword newUserPassword)
+		{
+			if (!ModelState.IsValid)
+				return View(newUserPassword);
+			UserAccount? existingUser = usersManager.TryGetByEmail(newUserPassword.Email);
+			if (existingUser == null)
+				return NotFound();
+			existingUser.Password = newUserPassword.Password;
+			return RedirectToAction(nameof(Index));
+		}
 	}
 }
