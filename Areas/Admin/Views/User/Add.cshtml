@@ -5,49 +5,45 @@
 		@await Html.PartialAsync("AdminNav")
 	</div>
 	<div class="col-9 card">
-		<div class="card-header">
-			<h3>Добавление нового пользователя</h3>
-		</div>
-		<div class="card-body">
-			<form method="post">
-				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-				<div class="mb-3 col-md-9">
-					<label asp-for="Name">Имя:</label>
-					<input class="form-control" asp-for="Name" />
-					<span asp-validation-for="Name" class="text-danger"></span>
-				</div>
+		<h3>Добавление нового пользователя</h3>
+		<form method="post">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="mb-3 col-md-9">
+				<label asp-for="Name">Имя:</label>
+				<input class="form-control" asp-for="Name" />
+				<span asp-validation-for="Name" class="text-danger"></span>
+			</div>
 
-				<div class="mb-3 col-md-9">
-					<label asp-for="Surname">Фамилия:</label>
-					<input class="form-control" asp-for="Surname" />
-					<span asp-validation-for="Surname" class="text-danger"></span>
-				</div>
+			<div class="mb-3 col-md-9">
+				<label asp-for="Surname">Фамилия:</label>
+				<input class="form-control" asp-for="Surname" />
+				<span asp-validation-for="Surname" class="text-danger"></span>
+			</div>
 
-				<div class="mb-3 col-md-9">
-					<label asp-for="Phone">Телефон:</label>
-					<input class="form-control" placeholder="+7" asp-for="Phone" />
-					<span asp-validation-for="Phone" class="text-danger"></span>
-				</div>
+			<div class="mb-3 col-md-9">
+				<label asp-for="Phone">Телефон:</label>
+				<input class="form-control" placeholder="+7" asp-for="Phone" />
+				<span asp-validation-for="Phone" class="text-danger"></span>
+			</div>
 
-				<div class="mb-3 col-md-9">
-					<label asp-for="Email">Почта:</label>
-					<input class="form-control" asp-for="Email" />
-					<span asp-validation-for="Email" class="text-danger"></span>
-				</div>
+			<div class="mb-3 col-md-9">
+				<label asp-for="Email">Почта:</label>
+				<input class="form-control" asp-for="Email" />
+				<span asp-validation-for="Email" class="text-danger"></span>
+			</div>
 
-				<div class="mb-3 col-md-9">
-					<label asp-for="Password">Пароль:</label>
-					<input type="password" class="form-control" asp-for="Password" />
-					<span asp-validation-for="Password" class="text-danger"></span>
-				</div>
+			<div class="mb-3 col-md-9">
+				<label asp-for="Password">Пароль:</label>
+				<input type="password" class="form-control" asp-for="Password" />
+				<span asp-validation-for="Password" class="text-danger"></span>
+			</div>
 
-				<div class="mb-3 col-md-9">
-					<label asp-for="ConfirmPassword">Подтвердите пароль:</label>
-					<input type="password" class="form-control" asp-for="ConfirmPassword" />
-					<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-				</div>
-				<button type="submit" asp-area="Admin" asp-controller="User" asp-action="Add">Добавить пользователя</button>
-			</form>
-		</div>
+			<div class="mb-3 col-md-9">
+				<label asp-for="ConfirmPassword">Подтвердите пароль:</label>
+				<input type="password" class="form-control" asp-for="ConfirmPassword" />
+				<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+			</div>
+			<button type="submit" asp-area="Admin" asp-controller="User" asp-action="Add" class="btn btn-success">Добавить пользователя</button>
+		</form>
 	</div>
 </div>
