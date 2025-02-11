@@ -20,10 +20,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
             return View(products);
         }
 
-        public IActionResult Delete(int productId)
+        public IActionResult Remove(int productId)
         {
-            List<Product> products = productsRepository.GetAll();
-            products.RemoveAll(product => product.Id == productId);
+            productsRepository.RemoveById(productId);
             return RedirectToAction(nameof(Index));
         }
 
@@ -41,7 +40,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 
             if (productsRepository.TryGetById(editProduct.Id) != null)
             {
-                productsRepository.EditById(editProduct);
+                productsRepository.Update(editProduct);
                 return RedirectToAction(nameof(Index));
             }
             return NotFound();

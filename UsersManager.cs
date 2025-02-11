@@ -1,4 +1,5 @@
-﻿using OnlineShopWebApp.Models;
+﻿using OnlineShopWebApp.Areas.Admin.Models;
+using OnlineShopWebApp.Models;
 
 namespace OnlineShopWebApp
 {
@@ -22,6 +23,35 @@ namespace OnlineShopWebApp
 		public UserAccount? TryGetByEmail(string email)
 		{
 			return users.FirstOrDefault(user => user.Email == email);
+		}
+
+		public UserAccount? TryGetById(Guid id)
+		{
+			return users.FirstOrDefault(user => user.Id == id);
+		}
+
+		public void ChangePassword(NewUserPassword newUserPassword)
+		{
+			UserAccount? existingUser = TryGetByEmail(newUserPassword.Email);
+			if (existingUser == null)
+				return;
+			existingUser.Password = newUserPassword.Password;
+		}
+
+		public void EditUser(UserAccount editUser)
+		{
+			UserAccount? existingUser = TryGetById(editUser.Id);
+			if (existingUser == null)
+				return;
+			existingUser.Name = editUser.Name;
+			existingUser.Surname = editUser.Surname;
+			existingUser.Email = editUser.Email;
+			existingUser.Phone = editUser.Phone;
+		}
+
+		public void RemoveByEmail(string email)
+		{
+			users.RemoveAll(user => user.Email == email);
 		}
 	}
 }

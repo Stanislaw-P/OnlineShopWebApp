@@ -22,9 +22,9 @@ namespace OnlineShopWebApp
             return products.FirstOrDefault(product => product.Id == id);
         }
 
-        public void EditById(Product editProduct)
+        public void Update(Product editProduct)
         {
-            Product existingProduct = products.FirstOrDefault(product => product.Id == editProduct.Id);
+            Product? existingProduct = products.FirstOrDefault(product => product.Id == editProduct.Id);
             if (existingProduct == null)
                 return;
 			existingProduct.Name = editProduct.Name;
@@ -36,6 +36,11 @@ namespace OnlineShopWebApp
         public void Add(Product product)
         {
 			products.Add(product);
+        }
+
+        public void RemoveById(int id)
+        {
+            products.RemoveAll(product => product.Id == id);
         }
     }
 }

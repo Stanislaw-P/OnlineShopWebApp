@@ -41,9 +41,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 			return View(register);
 		}
 
-		public IActionResult Details(string email)
+		public IActionResult Details(Guid id)
 		{
-			UserAccount? existingUser = usersManager.TryGetByEmail(email);
+			UserAccount? existingUser = usersManager.TryGetById(id);
 			if (existingUser == null)
 				return NotFound();
 			return View(existingUser);
@@ -58,12 +58,32 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 		[HttpPost]
 		public IActionResult ChangePassword(NewUserPassword newUserPassword)
 		{
+			if (newUserPassword.Email == newUserPassword.Password)
+				ModelState.AddModelError("", "Почта (логин) и пароль не должны совпадать!");
 			if (!ModelState.IsValid)
 				return View(newUserPassword);
-			UserAccount? existingUser = usersManager.TryGetByEmail(newUserPassword.Email);
-			if (existingUser == null)
-				return NotFound();
-			existingUser.Password = newUserPassword.Password;
+			usersManager.ChangePassword(newUserPassword);
+			return RedirectToAction(nameof(Index));
+		}
+
+		public IActionResult Edit(Guid id)
+		{
+			UserAccount? userAccount = usersManager?.TryGetById(id);
+			return View(userAccount);
+		}
+
+		[HttpPost]
+		public IActionResult Edit(UserAccount editUser)
+		{
+			if (!ModelState.IsValid)
+				return View(editUser);
+			usersManager.EditUser(editUser);
+			return RedirectToAction(nameof(Details));
+		}
+
+		public IActionResult Remove(string email)
+		{
+			usersManager.RemoveByEmail(email);
 			return RedirectToAction(nameof(Index));
 		}
 	}
