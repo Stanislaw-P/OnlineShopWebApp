@@ -26,10 +26,33 @@
 						<td><a href="/product/index" class="text-decoration-none text-black">@item.Name</a></td>
 						<td>@item.Cost</td>
 						<td><a asp-area="Admin" asp-controller="Product" asp-action="Update" asp-route-productId="@item.Id" class="text-decoration-none">Редактировать</a></td>
-						<td><a asp-area="Admin" asp-controller="Product" asp-action="Remove" asp-route-productId="@item.Id" class="text-decoration-none">Удалить</a></td>
+						<td><a asp-area="Admin" asp-controller="Product" asp-action="Remove" asp-route-productId="@item.Id" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#exampleModal">Удалить</a></td>
 					</tr>
+					<!-- Модальное окно -->
+					<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5" id="exampleModalLabel">Подтверждение удаления</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+								</div>
+								<div class="modal-body">
+									<p>
+										Вы уверены что хотите удалить продукт @item.Name?<br>
+										После удаления восстановление будет невозможно! <br>
+										Продолжить?
+									</p>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+									<a role="button" class="btn btn-primary" asp-area="Admin" asp-controller="Product" asp-action="Remove" asp-route-productId="@item.Id">Удалить</a>
+								</div>
+							</div>
+						</div>
+					</div>
 				}
 			</tbody>
 		</table>
 	</div>
 </div>
+
