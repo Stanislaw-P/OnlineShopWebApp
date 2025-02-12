@@ -30,7 +30,9 @@
 				<span asp-validation-for="Phone" class="text-danger"></span>
 			</div>
 			<input type="hidden" asp-for="Id" />
-			<button type="submit" asp-area="Admin" asp-controller="User" asp-action="Edit" class="btn btn-success">Сменить данные</button>
+			<div class="bm-2">
+				<button type="submit" class="btn btn-success" asp-area="Admin" asp-controller="User" asp-action="Edit">Принять изменения</button>
+			</div>
 			<a asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-id="@Model.Id" class="text-secondary">Отмениить изменения</a>
 		</form>
 	</div>

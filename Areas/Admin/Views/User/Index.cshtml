@@ -14,6 +14,7 @@
 					<th>Фамилия</th>
 					<th>Телефон</th>
 					<th></th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -25,6 +26,7 @@
 						<td>@user.Surname</td>
 						<td>@user.Phone</td>
 						<td><a asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-id="@user.Id" class="text-dark">Подробнее</a></td>
+						<td><a asp-area="Admin" asp-controller="User" asp-action="Remove" asp-route-id="@user.Id" class="text-dark">Удалить</a></td>
 					</tr>
 				}
 			</tbody>

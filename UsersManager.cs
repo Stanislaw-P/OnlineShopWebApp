@@ -49,9 +49,9 @@ namespace OnlineShopWebApp
 			existingUser.Phone = editUser.Phone;
 		}
 
-		public void RemoveByEmail(string email)
+		public void RemoveById(Guid id)
 		{
-			users.RemoveAll(user => user.Email == email);
+			users.RemoveAll(user => user.Id == id);
 		}
 	}
 }

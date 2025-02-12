@@ -24,13 +24,16 @@
 					<td>@Model.Phone</td>
 				</tr>
 			</table>
-			<button type="submit" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-outline-primary dropdown-toggle">Действия</button>
-			<ul class="dropdown-menu">
-				<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="ChangePassword" asp-route-email="@Model.Email">Смена пароля</a></li>
-				<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Edit" asp-route-id="@Model.Id">Редактирование данных</a></li>
-				<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="#" asp-route-email="@Model.Email">Права доступа</a></li>
-				<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Remove" asp-route-email="@Model.Email">Удаление пользователя</a></li>
-			</ul>
+			<div class="mb-2">
+				<button type="submit" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-outline-primary dropdown-toggle">Действия</button>
+				<ul class="dropdown-menu">
+					<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="ChangePassword" asp-route-email="@Model.Email">Смена пароля</a></li>
+					<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Edit" asp-route-id="@Model.Id">Редактирование данных</a></li>
+					<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="#" asp-route-email="@Model.Email">Права доступа</a></li>
+					<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Remove" asp-route-email="@Model.Email">Удаление пользователя</a></li>
+				</ul>
+			</div>
+			<a asp-area="Admin" asp-controller="User" asp-action="Index" class="text-secondary">Назад</a>
 		</form>
 	</div>
 </div>

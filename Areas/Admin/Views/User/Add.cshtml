@@ -43,7 +43,10 @@
 				<input type="password" class="form-control" asp-for="ConfirmPassword" />
 				<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
 			</div>
-			<button type="submit" asp-area="Admin" asp-controller="User" asp-action="Add" class="btn btn-success">Добавить пользователя</button>
+			<div class="mb-2">
+				<button type="submit" asp-area="Admin" asp-controller="User" asp-action="Add" class="btn btn-success">Добавить пользователя</button>
+			</div>
+			<a asp-area="Admin" asp-controller="User" asp-action="Index" class="text-secondary">Отмениить изменения</a>
 		</form>
 	</div>
 </div>

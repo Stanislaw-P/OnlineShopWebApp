@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Win32;
 using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Models;
 
@@ -68,22 +69,25 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 
 		public IActionResult Edit(Guid id)
 		{
-			UserAccount? userAccount = usersManager?.TryGetById(id);
+			UserAccount userAccount = usersManager?.TryGetById(id);
 			return View(userAccount);
 		}
 
 		[HttpPost]
 		public IActionResult Edit(UserAccount editUser)
 		{
+			var existingUser = usersManager.TryGetByEmail(editUser.Email);
+			if (existingUser != null && existingUser.Id != editUser.Id)
+				ModelState.AddModelError("", "Пользователь с такой почтой уже сущестует!");
 			if (!ModelState.IsValid)
 				return View(editUser);
 			usersManager.EditUser(editUser);
-			return RedirectToAction(nameof(Details));
+			return RedirectToAction(nameof(Index));
 		}
 
-		public IActionResult Remove(string email)
+		public IActionResult Remove(Guid id)
 		{
-			usersManager.RemoveByEmail(email);
+			usersManager.RemoveById(id);
 			return RedirectToAction(nameof(Index));
 		}
 	}
