@@ -28,17 +28,24 @@ namespace OnlineShopWebApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult IncreaseAmount(int productId)
+        {
+            Product product = productsRepository.TryGetById(productId);
+            cartsRepository.IcreaseAmount(product, Constants.UserId);
+            return RedirectToAction(nameof(Index));
+        }
+
         public IActionResult DecreaseAmount(int productId)
         {
             Product product = productsRepository.TryGetById(productId);
             cartsRepository.DecreaseAmount(product, Constants.UserId);
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Clear()
         {
             cartsRepository.ClearCartByUserId(Constants.UserId);
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
 		}
 	}
 }
