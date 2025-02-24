@@ -25,7 +25,7 @@ namespace OnlineShopWebApp.Controllers
         {
             Product product = productsRepository.TryGetById(productId);
 			cartsRepository.Add(product, Constants.UserId);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult DecreaseAmount(int productId)

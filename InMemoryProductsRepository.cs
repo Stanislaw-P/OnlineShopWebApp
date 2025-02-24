@@ -5,7 +5,7 @@ namespace OnlineShopWebApp
     public class InMemoryProductsRepository : IProductsRepository
 	{
         List<Product> products = new List<Product>() {
-            new Product("Ice-Latte", 250, "Coffe", "/images/armchair blue.jpg"),
+            new Product("Ice-Latte", 250, "Coffe", "/images/flower.jpg"),
             new Product("Milka", 100, "Chocolate", "/images/new year ball.jpeg"),
             new Product("Alpen gold", 65, "Chocolate", "/images/rabbit.jpg"),
             new Product("Milk", 70, "Osetia", "/images/milk.png"),

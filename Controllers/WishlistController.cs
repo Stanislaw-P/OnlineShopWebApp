@@ -24,7 +24,7 @@ namespace OnlineShopWebApp.Controllers
 		{
 			Product product = productsRepository.TryGetById(productId);
 			wishlistsRepository.Add(product, Constants.UserId);
-			return RedirectToAction("Index");
+			return RedirectToAction("Index", "Home");
 		}
 
 		public IActionResult RemoveProduct(int productId)
