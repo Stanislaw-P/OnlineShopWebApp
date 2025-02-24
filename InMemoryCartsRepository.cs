@@ -11,7 +11,7 @@ namespace OnlineShopWebApp
             return carts.FirstOrDefault(cart => cart.UserId == userId);
         }
 
-        public void Add(Product product, string userId)
+        public void Add(ProductViewModel product, string userId)
         {
             Cart existingCart = TryGetByUserId(userId);
             if (existingCart == null)
@@ -52,7 +52,7 @@ namespace OnlineShopWebApp
             }
         }
 
-        public void DecreaseAmount(Product product, string userId)
+        public void DecreaseAmount(ProductViewModel product, string userId)
         {
             Cart existingCart = TryGetByUserId(userId);
             CartItem? existingCartItem = existingCart?.Items?.FirstOrDefault(cartItem => cartItem.Product.Id == product.Id);
@@ -65,7 +65,7 @@ namespace OnlineShopWebApp
                 existingCart?.Items.Remove(existingCartItem);
         }
 
-        public void IcreaseAmount(Product product, string userId)
+        public void IcreaseAmount(ProductViewModel product, string userId)
         {
             Cart existingCart = TryGetByUserId(userId);
             CartItem? existingCartItem = existingCart?.Items?.FirstOrDefault(cartItem => cartItem.Product.Id == product.Id);

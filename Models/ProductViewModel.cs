@@ -2,23 +2,9 @@
 
 namespace OnlineShopWebApp.Models
 {
-    public class Product
+    public class ProductViewModel
     {
-        public Product()
-        {
-            Id = instanceCounter;
-            instanceCounter++;
-        }
-
-        public Product(string name, int cost, string description, string imagePath) : this()
-        {
-            Name = name;
-            Cost = cost;
-            Description = description;
-            ImagePath = imagePath;
-        }
-
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Обязательное поле!")]
         [StringLength(30, MinimumLength = 4, ErrorMessage = "Название должно содержать от 4 до 30 символов!")]
@@ -33,12 +19,5 @@ namespace OnlineShopWebApp.Models
         public string Description { get; set; }
 
         public string ImagePath { get; set; } = "/images/image-null.png"; // Нужно, чтобы работала валидация без ошибок
-
-        static int instanceCounter = 0;
-
-        public override string ToString()
-        {
-            return $"{Id}\n{Name}\n{Cost}";
-        }
     }
 }

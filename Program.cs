@@ -2,11 +2,15 @@ using Microsoft.AspNetCore.Localization;
 using OnlineShopWebApp;
 using System.Globalization;
 using Serilog;
+using OnlineShop.Db;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddSingleton<IProductsRepository, InMemoryProductsRepository>(); // 1
+string connection = builder.Configuration.GetConnectionString("online_shop");
+builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connection));
+builder.Services.AddTransient<IProductsRepository, ProductsDbRepository>(); // 1
 builder.Services.AddSingleton<ICartsRepository, InMemoryCartsRepository>(); // 2
 builder.Services.AddSingleton<IOrdersRepository, InMemoryOrdersRepository>(); // 3
 builder.Services.AddSingleton<IWishlistsRepository, InMemoryWishlistsRepository>(); // 4

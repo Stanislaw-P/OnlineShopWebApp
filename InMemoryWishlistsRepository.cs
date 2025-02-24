@@ -11,7 +11,7 @@ namespace OnlineShopWebApp
 			return wishlists.FirstOrDefault(wishlist => wishlist.UserId == userId);
 		}
 
-		public void Add(Product product, string userId)
+		public void Add(ProductViewModel product, string userId)
 		{
 			Wishlist? existingWishlist = TryGetByUserId(userId);
 			if (existingWishlist == null)
@@ -20,7 +20,7 @@ namespace OnlineShopWebApp
 				{
 					ID = Guid.NewGuid(),
 					UserId = userId,
-					Items = new List<Product>
+					Items = new List<ProductViewModel>
 					{
 						product
 					}
@@ -29,13 +29,13 @@ namespace OnlineShopWebApp
 			}
 			else
 			{
-				Product? existingProduct = existingWishlist.Items.FirstOrDefault(pr => pr.Id == product.Id);
+				ProductViewModel? existingProduct = existingWishlist.Items.FirstOrDefault(pr => pr.Id == product.Id);
 				if (existingProduct == null)
 					existingWishlist.Items.Add(product);
 			}
 		}
 
-		public void RemoveProductByUserId(Product product, string userId)
+		public void RemoveProductByUserId(ProductViewModel product, string userId)
 		{
 			Wishlist? existingWishlist = TryGetByUserId(userId);
 			if (existingWishlist == null)

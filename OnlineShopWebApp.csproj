@@ -15,4 +15,8 @@
     <PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Onlineshop.Db\OnlineShop.Db.csproj" />
+  </ItemGroup>
+
 </Project>

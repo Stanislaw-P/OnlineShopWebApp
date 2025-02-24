@@ -5,9 +5,9 @@ namespace OnlineShopWebApp
 	public interface ICartsRepository
 	{
 		Cart TryGetByUserId(string userId);
-		void Add(Product product, string UserId);
-		void DecreaseAmount(Product product, string userId);
-        void IcreaseAmount(Product product, string userId);
+		void Add(ProductViewModel product, string UserId);
+		void DecreaseAmount(ProductViewModel product, string userId);
+        void IcreaseAmount(ProductViewModel product, string userId);
         void ClearCartByUserId(string userId);
 	}
 }
