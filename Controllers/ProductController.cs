@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Db;
+using OnlineShopWebApp.Helpers;
 
 namespace OnlineShopWebApp.Controllers
 {
@@ -12,12 +13,12 @@ namespace OnlineShopWebApp.Controllers
             productsRepitory = productsRepository;
         }
         
-        public IActionResult Index(Guid id)
+        public IActionResult Index(Guid productId)
         {
-            var product = productsRepitory.TryGetById(id);
+            var product = productsRepitory.TryGetById(productId);
             if (product == null)
                 return NotFound();
-            return View(product);
+            return View(MappingHelper.ToProductViewModel(product));
         }
     }
 }

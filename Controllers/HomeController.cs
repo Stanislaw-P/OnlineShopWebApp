@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Db;
+using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Models;
 using System.Diagnostics;
 
@@ -16,19 +17,7 @@ namespace OnlineShopWebApp.Controllers
 		public IActionResult Index()
         {
             var productsDb = productsRepository.GetAll();
-			List<ProductViewModel> productViewModels = new List<ProductViewModel>();
-			foreach (var product in productsDb)
-			{
-				ProductViewModel productViewModel = new ProductViewModel
-				{
-					Name = product.Name,
-					Cost = product.Cost,
-					Description = product.Description,
-					ImagePath = product.ImagePath
-				};
-				productViewModels.Add(productViewModel);
-			}
-			return View(productViewModels);
+			return View(MappingHelper.ToProductViewModels(productsDb));
         }
     }
 }

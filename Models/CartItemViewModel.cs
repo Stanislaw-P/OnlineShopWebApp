@@ -1,6 +1,6 @@
 ﻿namespace OnlineShopWebApp.Models
 {
-	public class CartItem
+	public class CartItemViewModel
 	{
         public Guid Id { get; set; }
         public ProductViewModel Product { get; set; }

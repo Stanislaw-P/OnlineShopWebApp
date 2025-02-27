@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 string connection = builder.Configuration.GetConnectionString("online_shop");
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connection));
 builder.Services.AddTransient<IProductsRepository, ProductsDbRepository>(); // 1
-builder.Services.AddSingleton<ICartsRepository, InMemoryCartsRepository>(); // 2
+builder.Services.AddTransient<ICartsRepository, CartsDbRepository>(); // 2
 builder.Services.AddSingleton<IOrdersRepository, InMemoryOrdersRepository>(); // 3
 builder.Services.AddSingleton<IWishlistsRepository, InMemoryWishlistsRepository>(); // 4
 builder.Services.AddSingleton<IRolesRepository, InMemoryRolesRepository>(); // 5

@@ -2,6 +2,7 @@
 using Onlineshop.Db.Models;
 using OnlineShop.Db;
 using OnlineShopWebApp.Areas.Admin.Models;
+using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Models;
 
 namespace OnlineShopWebApp.Areas.Admin.Controllers
@@ -19,19 +20,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 		public IActionResult Index()
 		{
 			var productsDb = productsRepository.GetAll();
-			List<ProductViewModel> productViewModels = new List<ProductViewModel>();
-			foreach (var product in productsDb)
-			{
-				ProductViewModel productViewModel = new ProductViewModel
-				{
-					Name = product.Name,
-					Cost = product.Cost,
-					Description = product.Description,
-					ImagePath = product.ImagePath
-				};
-				productViewModels.Add(productViewModel);
-			}
-			return View(productViewModels);
+			return View(MappingHelper.ToProductViewModels(productsDb));
 		}
 
 		public IActionResult Remove(Guid productId)
@@ -45,6 +34,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 			var productDb = productsRepository.TryGetById(productId);
 			ProductViewModel productViewModel = new ProductViewModel
 			{
+				Id = productDb.Id,
 				Name = productDb.Name,
 				Description = productDb.Description,
 				Cost = productDb.Cost,
@@ -63,6 +53,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 			{
 				var productDb = new Product
 				{
+					Id = editProduct.Id,
 					Name = editProduct.Name,
 					Cost = editProduct.Cost,
 					Description = editProduct.Description
@@ -86,6 +77,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 
 			var productDb = new Product
 			{
+				Id = newProduct.Id,
 				Name = newProduct.Name,
 				Cost = newProduct.Cost,
 				Description = newProduct.Description

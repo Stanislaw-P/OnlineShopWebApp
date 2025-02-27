@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Db;
+using OnlineShop.Db.Models;
+using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Models;
 
 namespace OnlineShopWebApp.Controllers
@@ -25,11 +28,12 @@ namespace OnlineShopWebApp.Controllers
 			if (!ModelState.IsValid)
 				return View("Index", user);
 
-			Cart existingCart = cartsRepository.TryGetByUserId(Constants.UserId);
+			Cart existingCartDb = cartsRepository.TryGetByUserId(Constants.UserId);
+			CartViewModel existingCartViewModel = MappingHelper.ToCartViewModel(existingCartDb);
 			Order order = new Order
 			{
 				User = user,
-				Items = existingCart.Items
+				Items = existingCartViewModel.Items
 			};
 			ordersRepository.Add(order);
 
