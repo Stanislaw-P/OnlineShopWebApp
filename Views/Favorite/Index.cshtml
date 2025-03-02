@@ -1,4 +1,4 @@
-﻿@model Wishlist
+﻿@model List<ProductViewModel>
 
 @if (Model == null)
 {
@@ -17,14 +17,14 @@ else
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var product in Model.Items)
+			@foreach (var product in Model)
 			{
 				<tr>
 					<td>@product.Name</td>
 					<td>@product.Cost</td>
 					<td>@product.Cost</td>
 					<td>
-						<a href="/wishlist/removeProduct?productId=@product.Id" class="btn btn-outline-dark" role="button">-</a>
+						<a asp-area="" asp-controller="Favorite" asp-action="removeProduct" asp-route-productId="@product.Id" class="btn btn-outline-dark" role="button">-</a>
 					</td>
 				</tr>
 			}
