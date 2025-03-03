@@ -1,4 +1,4 @@
-﻿@model Order
+﻿@model OrderViewModel
 
 <div class="row">
 	<div class="col-3">
@@ -30,7 +30,7 @@
 				<tr>
 					<td class="text-secondary">Статус заказа:</td>
 					<td>
-						<select name="newStatus" asp-for="@Model.CurrentStatus" asp-items="@Html.GetEnumSelectList<OrderStatus>()" class="dropdown-toggle border-primary"></select>
+						<select name="newStatus" asp-for="@Model.CurrentStatus" asp-items="@Html.GetEnumSelectList<OrderStatusViewModel>()" class="dropdown-toggle border-primary"></select>
 					</td>
 				</tr>
 			</table>
