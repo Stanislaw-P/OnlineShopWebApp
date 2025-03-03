@@ -18,7 +18,7 @@ namespace OnlineShopWebApp.Controllers
             var product = productsRepitory.TryGetById(productId);
             if (product == null)
                 return NotFound();
-            return View(MappingHelper.ToProductViewModel(product));
+            return View(product.ToProductViewModel());
         }
     }
 }

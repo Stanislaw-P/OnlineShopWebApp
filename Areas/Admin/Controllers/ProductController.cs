@@ -20,7 +20,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 		public IActionResult Index()
 		{
 			var productsDb = productsRepository.GetAll();
-			return View(MappingHelper.ToProductViewModels(productsDb));
+			return View(productsDb.ToProductViewModels());
 		}
 
 		public IActionResult Remove(Guid productId)

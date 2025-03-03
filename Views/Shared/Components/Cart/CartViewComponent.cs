@@ -19,7 +19,7 @@ namespace OnlineShopWebApp.Views.Shared.ViewComponents.CartViewComponents
 		{
 			Cart cart = cartsRepository.TryGetByUserId(Constants.UserId);
 
-			CartViewModel cartViewComponent = MappingHelper.ToCartViewModel(cart);
+			CartViewModel cartViewComponent = cart.ToCartViewModel();
 		
 
 			var productCounts = cartViewComponent?.Amount ?? 0;
