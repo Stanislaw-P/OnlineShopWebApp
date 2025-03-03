@@ -20,7 +20,7 @@ namespace OnlineShopWebApp.Controllers
 		public IActionResult Index()
         {
             Cart cartDb = cartsRepository.TryGetByUserId(Constants.UserId);
-            CartViewModel cartViewModel = MappingHelper.ToCartViewModel(cartDb);
+            CartViewModel cartViewModel = cartDb.ToCartViewModel();
             return View(cartViewModel);
         }
         

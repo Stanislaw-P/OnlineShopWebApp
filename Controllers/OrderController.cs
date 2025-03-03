@@ -23,16 +23,16 @@ namespace OnlineShopWebApp.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Buy(UserDeliveryInfoViewModel user)
+		public IActionResult Buy(UserDeliveryInfoViewModel userViewModel)
 		{
 			if (!ModelState.IsValid)
-				return View("Index", user);
+				return View("Index", userViewModel);
 
 			Cart existingCartDb = cartsRepository.TryGetByUserId(Constants.UserId);
 			Order order = new Order
 			{
 				// Тут наверно не хватает других свойств
-				User = MappingHelper.ToUser(user),
+				User = userViewModel.ToUser(),
 				Items = existingCartDb.Items
 			};
 

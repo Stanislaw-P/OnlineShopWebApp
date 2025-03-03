@@ -18,7 +18,7 @@ namespace OnlineShopWebApp.Controllers
 		public IActionResult Index()
 		{
 			var products = favoritesRepository.GetAll(Constants.UserId);
-			return View(MappingHelper.ToProductViewModels(products));
+			return View(products.ToProductViewModels());
 		}
 
 		public IActionResult Add(Guid productId)

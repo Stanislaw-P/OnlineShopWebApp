@@ -6,7 +6,7 @@ namespace OnlineShopWebApp.Helpers
 {
 	public static class MappingHelper
 	{
-		public static List<ProductViewModel> ToProductViewModels(List<Product> productsDb)
+		public static List<ProductViewModel> ToProductViewModels(this List<Product> productsDb)
 		{
 			List<ProductViewModel> productsViewModels = new List<ProductViewModel>();
 			foreach (var productDb in productsDb)
@@ -18,7 +18,7 @@ namespace OnlineShopWebApp.Helpers
 			return productsViewModels;
 		}
 
-		public static ProductViewModel ToProductViewModel(Product productDb)
+		public static ProductViewModel ToProductViewModel(this Product productDb)
 		{
 			return new ProductViewModel
 			{
@@ -30,7 +30,7 @@ namespace OnlineShopWebApp.Helpers
 			};
 		}
 
-		public static CartViewModel ToCartViewModel(Cart cartDb)
+		public static CartViewModel ToCartViewModel(this Cart cartDb)
 		{
 			if (cartDb == null)
 				return null;
@@ -42,7 +42,7 @@ namespace OnlineShopWebApp.Helpers
 			};
 		}
 
-		public static List<CartItemViewModel> ToCartItemViewModels(List<CartItem> cartDtItems)
+		public static List<CartItemViewModel> ToCartItemViewModels(this List<CartItem> cartDtItems)
 		{
 			var cartItems = new List<CartItemViewModel>();
 			foreach (var cartDbItem in cartDtItems)
@@ -58,19 +58,19 @@ namespace OnlineShopWebApp.Helpers
 			return cartItems;
 		}
 
-		public static OrderViewModel ToOrderViewModel(Order orderDb)
+		public static OrderViewModel ToOrderViewModel(this Order orderDb)
 		{
 			return new OrderViewModel
 			{
 				Id = orderDb.Id,
-				User = ToUserDeliveryInfoViewMode(orderDb.User),
+				User = orderDb.User.ToUserDeliveryInfoViewMode(),
 				Items = ToCartItemViewModels(orderDb.Items),
 				CurrentStatus = (OrderStatusViewModel)(int)orderDb.CurrentStatus,
 				Time = orderDb.CreateTime
 			};
 		}
 
-		public static UserDeliveryInfoViewModel ToUserDeliveryInfoViewMode(UserDeliveryInfo userDeliveryInfoDb)
+		public static UserDeliveryInfoViewModel ToUserDeliveryInfoViewMode(this UserDeliveryInfo userDeliveryInfoDb)
 		{
 			return new UserDeliveryInfoViewModel
 			{
@@ -80,7 +80,7 @@ namespace OnlineShopWebApp.Helpers
 			};
 		}
 
-		public static UserDeliveryInfo ToUser(UserDeliveryInfoViewModel user)
+		public static UserDeliveryInfo ToUser(this UserDeliveryInfoViewModel user)
 		{
 			return new UserDeliveryInfo
 			{
