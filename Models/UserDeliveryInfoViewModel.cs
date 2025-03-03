@@ -2,7 +2,7 @@
 
 namespace OnlineShopWebApp.Models
 {
-	public class UserDeliveryInfo
+	public class UserDeliveryInfoViewModel
 	{
 		[Required(ErrorMessage ="Обязательное поле!")]
 		[StringLength(55, MinimumLength =5, ErrorMessage ="ФИО должно содержать минимум 5 символов!")]

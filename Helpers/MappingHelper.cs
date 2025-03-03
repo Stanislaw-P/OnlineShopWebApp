@@ -57,5 +57,37 @@ namespace OnlineShopWebApp.Helpers
 			}
 			return cartItems;
 		}
+
+		public static OrderViewModel ToOrderViewModel(Order orderDb)
+		{
+			return new OrderViewModel
+			{
+				Id = orderDb.Id,
+				User = ToUserDeliveryInfoViewMode(orderDb.User),
+				Items = ToCartItemViewModels(orderDb.Items),
+				CurrentStatus = (OrderStatusViewModel)(int)orderDb.CurrentStatus,
+				Time = orderDb.CreateTime
+			};
+		}
+
+		public static UserDeliveryInfoViewModel ToUserDeliveryInfoViewMode(UserDeliveryInfo userDeliveryInfoDb)
+		{
+			return new UserDeliveryInfoViewModel
+			{
+				Name = userDeliveryInfoDb.Name,
+				Address = userDeliveryInfoDb.Address,
+				Phone = userDeliveryInfoDb.Phone
+			};
+		}
+
+		public static UserDeliveryInfo ToUser(UserDeliveryInfoViewModel user)
+		{
+			return new UserDeliveryInfo
+			{
+				Name = user.Name,
+				Address = user.Address,
+				Phone = user.Phone
+			};
+		}
 	}
 }
