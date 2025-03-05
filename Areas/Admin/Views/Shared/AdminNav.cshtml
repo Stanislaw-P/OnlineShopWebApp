@@ -1,6 +1,23 @@
-﻿<div class="d-flex flex-column">
-	<a asp-area="Admin" asp-controller="Order" asp-action="Index">Заказы</a>
-	<a asp-area="Admin" asp-controller="User" asp-action="Index">Пользователи</a>
-	<a asp-area="Admin" asp-controller="Role" asp-action="Index">Роли</a>
-	<a asp-area="Admin" asp-controller="Product" asp-action="Index">Продукты</a>
+﻿
+<div class="list-group my-4">
+	<a asp-area="Admin" asp-controller="Order" asp-action="Index" class="list-group-item list-group-item-action active list-group-item-danger" aria-current="true">
+		Заказы
+	</a>
+	<a asp-area="Admin" asp-controller="User" asp-action="Index" class="list-group-item list-group-item-action">Пользователи</a>
+	<a asp-area="Admin" asp-controller="Role" asp-action="Index" class="list-group-item list-group-item-action">Роли</a>
+	<a asp-area="Admin" asp-controller="Product" asp-action="Index" class="list-group-item list-group-item-action">Продукты</a>
 </div>
+
+
+<script>
+	// Скрипт не работает!
+	const listItems = document.querySelectorAll('.list-group-item');
+	listItems.forEach(item => {
+		item.addEventListener('click', function (event) {
+			listItems.forEach(link => {
+				link.classList.remove('active', 'list-group-item-danger');
+			});
+			item.classList.add('active', 'list-group-item-danger');
+		});
+	});
+</script>
