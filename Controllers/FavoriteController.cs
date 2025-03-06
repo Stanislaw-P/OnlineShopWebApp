@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Db;
 using OnlineShopWebApp.Helpers;
 
 namespace OnlineShopWebApp.Controllers
 {
+	[Authorize]
     public class FavoriteController : Controller
 	{
 		readonly IFavoriteRepository favoritesRepository;

@@ -13,5 +13,6 @@ namespace OnlineShopWebApp.Models
         [StringLength(100, MinimumLength = 6, ErrorMessage = "Пароль должен содержать минимум 6 символов!")]
         public string Password { get; set; }
         public bool RememberMe { get; set; }
+        public string ReturnUrl { get; set; }
     }
 }

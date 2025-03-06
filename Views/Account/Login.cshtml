@@ -6,6 +6,8 @@
 			<h3 class="text-center">Вход</h3>
 			<form method="post" class="card-body d-flex flex-column align-items-center">
 				<div asp-validation-summary="All" class="text-danger"></div>
+				<input type="hidden" name="returnUrl" value="@Model.ReturnUrl"/>
+
 				<div class="mb-3 col-md-9">
 					<label asp-for="Email">Почта:</label>
 					<input class="form-control" asp-for="Email" />
