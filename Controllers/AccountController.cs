@@ -20,7 +20,7 @@ namespace OnlineShopWebApp.Controllers
 
 		public IActionResult Login(string returnUrl)
 		{
-			return View(new Login { ReturnUrl = returnUrl});
+			return View(new Login { ReturnUrl = returnUrl });
 		}
 
 		[HttpPost]
@@ -30,16 +30,16 @@ namespace OnlineShopWebApp.Controllers
 			{
 				var result = _signInManager.PasswordSignInAsync(login.Email, login.Password, login.RememberMe, false).Result;
 				if (result.Succeeded)
-					return Redirect(login.ReturnUrl);
+					return Redirect(login.ReturnUrl ?? "/Home");
 				else
 					ModelState.AddModelError("", "Неверный логин или пароль!");
 			}
 			return View(login);
 		}
 
-		public IActionResult Register()
+		public IActionResult Register(string returnUrl)
 		{
-			return View();
+			return View(new Register { ReturnUrl = returnUrl });
 		}
 
 		[HttpPost]
@@ -47,18 +47,18 @@ namespace OnlineShopWebApp.Controllers
 		{
 			if (register.Email == register.Password)
 				ModelState.AddModelError("", "Почта и пароль не должны совпадать!");
-			//if (usersManager.TryGetByEmail(register.Email) != null)
-			//	ModelState.AddModelError("", "Пользователь с такой почтой уже сущестует!");
+			if (_usersManager.FindByEmailAsync(register.Email).Result != null)
+				ModelState.AddModelError("", "Пользователь с такой почтой уже сущестует!");
 			if (ModelState.IsValid)
 			{
-				User user = new User { Email = register.Email, PasswordHash = register.Password, UserName = register.Name };
+				User user = new User { Email = register.Email, UserName = register.Name };
 				// Добавляем пользователя
-				var result = _usersManager.CreateAsync(user).Result;
+				var result = _usersManager.CreateAsync(user, register.Password).Result;
 				if (result.Succeeded)
 				{
 					// Установка куки
-					_signInManager.SignInAsync(user, true);
-					return RedirectToAction(nameof(Login));
+					_signInManager.SignInAsync(user, false);
+					return Redirect(register.ReturnUrl ?? "/Home");
 				}
 				else
 				{

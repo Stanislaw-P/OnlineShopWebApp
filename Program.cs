@@ -48,6 +48,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 	options.SupportedCultures = supportedCultures;
 	options.SupportedUICultures = supportedCultures;
 });
+
 builder.Host.UseSerilog((context, configuration) => configuration
 .ReadFrom.Configuration(context.Configuration)
 .Enrich.WithProperty("ApplicationName", "Online Shop"));
