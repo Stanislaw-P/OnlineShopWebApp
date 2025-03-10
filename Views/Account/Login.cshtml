@@ -6,7 +6,7 @@
 			<h3 class="text-center">Вход</h3>
 			<form method="post" class="card-body d-flex flex-column align-items-center">
 				<div asp-validation-summary="All" class="text-danger"></div>
-				<input type="hidden" name="returnUrl" value="@Model.ReturnUrl"/>
+				@* <input type="hidden" name="returnUrl" value="@Model.ReturnUrl"/> *@
 				@* @Html.HiddenFor(log => log.ReturnUrl) *@
 				<div class="mb-3 col-md-9">
 					<label asp-for="Email">Почта:</label>
@@ -26,7 +26,7 @@
 				</div>
 
 				<button type="submit" class="w-75" asp-controller="account" asp-action="login">Войти</button>
-				<a asp-controller="Account" asp-action="Register" asp-route-returnUrl="@Model.ReturnUrl" class="text-secondary">Регистрация нового пользователя</a>
+				<a asp-controller="Account" asp-action="Register"  class="text-secondary">Регистрация нового пользователя</a>
 			</form>
 		</div>
 	</div>

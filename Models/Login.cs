@@ -4,7 +4,7 @@ namespace OnlineShopWebApp.Models
 {
     public class Login
     {
-		public string ReturnUrl { get; set; }
+		//public string ReturnUrl { get; set; }
 
 		[Required(ErrorMessage = "Обязательное поле!")]
         [StringLength(30, MinimumLength = 3, ErrorMessage = "Почта должна содержать от 3 до 30 символов!")]

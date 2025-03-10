@@ -1,4 +1,4 @@
-﻿@model List<UserAccount>
+﻿@model List<UserViewModel>
 
 <div class="row">
 	<div class="col-3">
@@ -23,10 +23,9 @@
 					<tr>
 						<td>@user.Email</td>
 						<td>@user.Name</td>
-						<td>@user.Surname</td>
 						<td>@user.Phone</td>
-						<td><a asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-id="@user.Id" class="text-dark">Подробнее</a></td>
-						<td><a asp-area="Admin" asp-controller="User" asp-action="Remove" asp-route-id="@user.Id" class="text-dark">Удалить</a></td>
+						<td><a asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-email="@user.Email" class="text-dark">Подробнее</a></td>
+						<td><a asp-area="Admin" asp-controller="User" asp-action="Remove" asp-route-email="@user.Email" class="text-dark">Удалить</a></td>
 					</tr>
 				}
 			</tbody>

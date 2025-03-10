@@ -4,19 +4,19 @@ namespace OnlineShopWebApp
 {
     public class InMemoryRolesRepository : IRolesRepository
 	{
-		private List<Role> roles = new List<Role>();
+		private List<RoleViewModel> roles = new List<RoleViewModel>();
 
-		public void Add(Role role)
+		public void Add(RoleViewModel role)
 		{
 			roles.Add(role);
 		}
 
-		public List<Role> GetAll()
+		public List<RoleViewModel> GetAll()
 		{
 			return roles;
 		}
 
-		public Role? TryGetByName(string name)
+		public RoleViewModel? TryGetByName(string name)
 		{
 			return roles.FirstOrDefault(role => role.Name == name);
 		}

@@ -2,7 +2,7 @@
 
 namespace OnlineShopWebApp.Areas.Admin.Models
 {
-    public class Role
+    public class RoleViewModel
     {
         [Required(ErrorMessage = "Обязательное поле!")]
         public string Name { get; set; }

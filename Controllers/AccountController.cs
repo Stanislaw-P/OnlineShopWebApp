@@ -7,20 +7,19 @@ namespace OnlineShopWebApp.Controllers
 {
 	public class AccountController : Controller
 	{
-		readonly IUsersManager usersManager;
 		readonly UserManager<User> _usersManager;
 		readonly SignInManager<User> _signInManager;
 
-		public AccountController(IUsersManager usersRepository, UserManager<User> usersManager, SignInManager<User> signInManager)
+		public AccountController(UserManager<User> usersManager, SignInManager<User> signInManager)
 		{
-			this.usersManager = usersRepository;
 			_usersManager = usersManager;
 			_signInManager = signInManager;
 		}
 
 		public IActionResult Login(string returnUrl)
 		{
-			return View(new Login { ReturnUrl = returnUrl });
+			return View();
+			//return View(new Login { ReturnUrl = returnUrl });
 		}
 
 		[HttpPost]
@@ -30,7 +29,8 @@ namespace OnlineShopWebApp.Controllers
 			{
 				var result = _signInManager.PasswordSignInAsync(login.Email, login.Password, login.RememberMe, false).Result;
 				if (result.Succeeded)
-					return Redirect(login.ReturnUrl ?? "/Home");
+					return Redirect("/Home");
+				//return Redirect(login.ReturnUrl ?? "/Home");
 				else
 					ModelState.AddModelError("", "Неверный логин или пароль!");
 			}
@@ -39,7 +39,8 @@ namespace OnlineShopWebApp.Controllers
 
 		public IActionResult Register(string returnUrl)
 		{
-			return View(new Register { ReturnUrl = returnUrl });
+			return View();
+			//return View(new Register { ReturnUrl = returnUrl });
 		}
 
 		[HttpPost]
@@ -51,14 +52,15 @@ namespace OnlineShopWebApp.Controllers
 				ModelState.AddModelError("", "Пользователь с такой почтой уже сущестует!");
 			if (ModelState.IsValid)
 			{
-				User user = new User { Email = register.Email, UserName = register.Name };
+				User user = new User { Email = register.Email, UserName = register.Email, PhoneNumber = register.Phone };
 				// Добавляем пользователя
 				var result = _usersManager.CreateAsync(user, register.Password).Result;
 				if (result.Succeeded)
 				{
 					// Установка куки
 					_signInManager.SignInAsync(user, false);
-					return Redirect(register.ReturnUrl ?? "/Home");
+					return Redirect("/Home");
+					//return Redirect(register.ReturnUrl ?? "/Home");
 				}
 				else
 				{

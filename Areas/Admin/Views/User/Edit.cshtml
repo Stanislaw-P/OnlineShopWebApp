@@ -1,4 +1,4 @@
-﻿@model UserAccount
+﻿@model UserViewModel
 
 <div class="row">
 	<div class="col-3">
@@ -14,26 +14,15 @@
 				<span asp-validation-for="Name" class="text-danger"></span>
 			</div>
 			<div class="mb-3 col-md-9">
-				<label asp-for="Surname">Фамилия:</label>
-				<input asp-for="Surname" type="text" class="form-control" value="@Model.Surname" />
-				<span asp-validation-for="Surname" class="text-danger"></span>
-			</div>
-			<div class="mb-3 col-md-9">
-				<label asp-for="Email">Почта:</label>
-				<input asp-for="Email" type="text" class="form-control" value="@Model.Email" />
-				<span asp-validation-for="Email" class="text-danger"></span>
-			</div>
-
-			<div class="mb-3 col-md-9">
 				<label asp-for="Phone">Телефон:</label>
 				<input asp-for="Phone" type="text" class="form-control" value="@Model.Phone" />
 				<span asp-validation-for="Phone" class="text-danger"></span>
 			</div>
-			<input type="hidden" asp-for="Id" />
+			<input type="hidden" asp-for="Email" />
 			<div class="bm-2">
 				<button type="submit" class="btn btn-success" asp-area="Admin" asp-controller="User" asp-action="Edit">Принять изменения</button>
 			</div>
-			<a asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-id="@Model.Id" class="text-secondary">Отмениить изменения</a>
+			<a asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-email="@Model.Email" class="text-secondary">Отмениить изменения</a>
 		</form>
 	</div>
 </div>

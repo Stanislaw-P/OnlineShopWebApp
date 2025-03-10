@@ -1,5 +1,8 @@
-﻿using Onlineshop.Db.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using Onlineshop.Db.Models;
+using OnlineShop.Db.Migrations.Identity;
 using OnlineShop.Db.Models;
+using OnlineShopWebApp.Areas.Admin.Models;
 using OnlineShopWebApp.Models;
 
 namespace OnlineShopWebApp.Helpers
@@ -88,6 +91,21 @@ namespace OnlineShopWebApp.Helpers
 				Address = user.Address,
 				Phone = user.Phone
 			};
+		}
+
+		public static UserViewModel ToUserViewModel(this User user)
+		{
+			return new UserViewModel
+			{
+				Email = user.Email,
+				Name = user.UserName,
+				Phone = user.PhoneNumber
+			};
+		}
+
+		public static RoleViewModel ToRoleViewModel(this IdentityRole identityRole)
+		{
+			return new RoleViewModel { Name = identityRole.Name };
 		}
 	}
 }
