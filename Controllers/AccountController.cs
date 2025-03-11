@@ -18,8 +18,7 @@ namespace OnlineShopWebApp.Controllers
 
 		public IActionResult Login(string returnUrl)
 		{
-			return View();
-			//return View(new Login { ReturnUrl = returnUrl });
+			return View(new Login { ReturnUrl = returnUrl });
 		}
 
 		[HttpPost]
@@ -29,8 +28,7 @@ namespace OnlineShopWebApp.Controllers
 			{
 				var result = _signInManager.PasswordSignInAsync(login.Email, login.Password, login.RememberMe, false).Result;
 				if (result.Succeeded)
-					return Redirect("/Home");
-				//return Redirect(login.ReturnUrl ?? "/Home");
+					return Redirect(login.ReturnUrl ?? "/Home");
 				else
 					ModelState.AddModelError("", "Неверный логин или пароль!");
 			}
@@ -39,8 +37,7 @@ namespace OnlineShopWebApp.Controllers
 
 		public IActionResult Register(string returnUrl)
 		{
-			return View();
-			//return View(new Register { ReturnUrl = returnUrl });
+			return View(new Register { ReturnUrl = returnUrl });
 		}
 
 		[HttpPost]
@@ -59,8 +56,7 @@ namespace OnlineShopWebApp.Controllers
 				{
 					// Установка куки
 					_signInManager.SignInAsync(user, false);
-					return Redirect("/Home");
-					//return Redirect(register.ReturnUrl ?? "/Home");
+					return Redirect(register.ReturnUrl ?? "/Home");
 				}
 				else
 				{
