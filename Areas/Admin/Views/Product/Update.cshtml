@@ -8,7 +8,7 @@
 	<div class="col-9">
 		<div class="card">
 			<h3 class="text-center">Изменение продукта</h3>
-			<form method="post" class="card-body d-flex flex-column">
+			<form method="post" enctype="multipart/form-data" class="card-body d-flex flex-column">
 				<h4>Id продукта: @Model.Id</h4>
 				<div asp-validation-summary="All" class="text-danger"></div>
 				<div class="mb-3 w-50">
@@ -18,19 +18,28 @@
 				</div>
 
 				<div class="mb-3 w-50">
+					<label>Изображение:</label>
+					<img src="@Model.ImagePath" class="w-100"/>
+				</div>
+
+				<div class="mb-3 w-50">
+					<input type="file" asp-for="UploadedFile" class="form-control" />
+					<span asp-validation-for="UploadedFile"></span>
+				</div>
+
+				<div class="mb-3 w-50">
 					<label asp-for="Description">Описание:</label>
 					<input type="text" asp-for="Description" class="form-control" />
 					<span asp-validation-for="Description"></span>
 				</div>
 
 				<div class="mb-3 w-50">
-					<label asp-for="Cost">Название:</label>
+					<label asp-for="Cost">Цена:</label>
 					<input type="number" asp-for="Cost" class="form-control" />
 					<span asp-validation-for="Cost"></span>
 				</div>
 
 				<input type="hidden" asp-for="Id" />
-				<input type="hidden" asp-for="ImagePath" />
 				<div class="d-flex flex-column justify-content-center align-items-center">
 					<button type="submit" class="w-50" asp-area="Admin" asp-controller="Product" asp-action="Update">Принять изменения</button>
 					<a asp-area="Admin" asp-controller="Product" asp-action="Index" class="text-secondary">Отменить изменения</a>

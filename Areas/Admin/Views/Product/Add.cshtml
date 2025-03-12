@@ -8,11 +8,11 @@
 	<div class="col-9">
 		<div class="card">
 			<h3 class="text-center">Добавление нового продукта</h3>
-			<form method="post" class="card-body">
+			<form method="post" enctype="multipart/form-data" class="card-body">
 				<div asp-validation-summary="All" class="text-danger"></div>
 				<div class="mb-3">
 					<label asp-for="Name">Название:</label>
-					<input type="text" class="form-control" asp-for="Name"/>
+					<input type="text" class="form-control" asp-for="Name" />
 					<span asp-validation-for="Name" class="text-danger"></span>
 				</div>
 
@@ -21,13 +21,19 @@
 					<input type="text" class="form-control" asp-for="Description" />
 					<span asp-validation-for="Description" class="text-danger"></span>
 				</div>
-				
+
+				<div class="mb-3">
+					<label asp-for="UploadedFile">Изображение:</label>
+					<input type="file" class="form-control" name="UploadedFile" />
+					<span asp-validation-for="UploadedFile" oncancel="text-danger"></span>
+				</div>
+
 				<div class="mb-3">
 					<label asp-for="Cost">Цена:</label>
 					<input type="number" class="form-control" asp-for="Cost" />
 					<span asp-validation-for="Cost" class="text-danger"></span>
 				</div>
-				
+
 				<div class="mx-auto">
 					<button type="submit" class="w-75 btn btn-secondary d-block" asp-area="Admin" asp-controller="Product" asp-action="Add">Добавить продукт</button>
 					<a asp-area="Admin" asp-controller="Product" asp-action="Index" class="text-secondary">Отменить изменения</a>

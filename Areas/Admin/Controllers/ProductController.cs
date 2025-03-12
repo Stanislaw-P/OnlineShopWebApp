@@ -13,10 +13,12 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 	public class ProductController : Controller
 	{
 		readonly IProductsRepository productsRepository;
+		readonly IWebHostEnvironment webAppEnvironment;
 
-		public ProductController(IProductsRepository productsRepository)
+		public ProductController(IProductsRepository productsRepository, IWebHostEnvironment webAppEnvironment)
 		{
 			this.productsRepository = productsRepository;
+			this.webAppEnvironment = webAppEnvironment;
 		}
 
 		public IActionResult Index()
@@ -51,19 +53,33 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 			if (!ModelState.IsValid)
 				return View(editProduct);
 
-			if (productsRepository.TryGetById(editProduct.Id) != null)
+			if (productsRepository.TryGetById(editProduct.Id) == null)
 			{
-				var productDb = new Product
-				{
-					Id = editProduct.Id,
-					Name = editProduct.Name,
-					Cost = editProduct.Cost,
-					Description = editProduct.Description
-				};
-				productsRepository.Update(productDb);
-				return RedirectToAction(nameof(Index));
+				return NotFound();
+
+
 			}
-			return NotFound();
+			var productDb = new Product
+			{
+				Id = editProduct.Id,
+				Name = editProduct.Name,
+				Cost = editProduct.Cost,
+				Description = editProduct.Description
+			};
+
+			if (editProduct.UploadedFile != null)
+			{
+				string productImagePath = Path.Combine(webAppEnvironment.WebRootPath + "/images/products/");
+				var fileName = Guid.NewGuid() + "." + editProduct.UploadedFile.FileName.Split('.').Last();
+
+				using(FileStream fileStream = new FileStream(productImagePath + fileName, FileMode.Create))
+				{
+					editProduct.UploadedFile.CopyTo(fileStream);
+				}
+				productDb.ImagePath = "/images/products/" + fileName;
+			}
+			productsRepository.Update(productDb);
+			return RedirectToAction(nameof(Index));
 		}
 
 		public IActionResult Add()
@@ -76,14 +92,27 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 		{
 			if (!ModelState.IsValid)
 				return View(newProduct);
-
 			var productDb = new Product
 			{
-				Id = newProduct.Id,
 				Name = newProduct.Name,
 				Cost = newProduct.Cost,
 				Description = newProduct.Description
 			};
+
+			if (newProduct.UploadedFile != null)
+			{
+				string productImagePath = Path.Combine(webAppEnvironment.WebRootPath + "/images/products/");
+				if (!Directory.Exists(productImagePath))
+					Directory.CreateDirectory(productImagePath);
+
+				var fileName = Guid.NewGuid() + "." + newProduct.UploadedFile.FileName.Split('.').Last();
+
+				using (FileStream fileStream = new FileStream(productImagePath + fileName, FileMode.Create))
+				{
+					newProduct.UploadedFile.CopyTo(fileStream);
+				}
+				productDb.ImagePath = "/images/products/" + fileName;
+			}
 			productsRepository.Add(productDb);
 			return RedirectToAction(nameof(Index));
 		}
