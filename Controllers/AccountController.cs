@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Db;
 using OnlineShop.Db.Models;
 using OnlineShopWebApp.Models;
 
@@ -16,7 +17,7 @@ namespace OnlineShopWebApp.Controllers
 			_signInManager = signInManager;
 		}
 
-		public IActionResult Login(string returnUrl)
+		public IActionResult Login(string? returnUrl)
 		{
 			return View(new Login { ReturnUrl = returnUrl });
 		}
@@ -35,7 +36,7 @@ namespace OnlineShopWebApp.Controllers
 			return View(login);
 		}
 
-		public IActionResult Register(string returnUrl)
+		public IActionResult Register(string? returnUrl)
 		{
 			return View(new Register { ReturnUrl = returnUrl });
 		}
@@ -56,6 +57,9 @@ namespace OnlineShopWebApp.Controllers
 				{
 					// Установка куки
 					_signInManager.SignInAsync(user, false);
+
+					tryAssignUserRole(user);
+
 					return Redirect(register.ReturnUrl ?? "/Home");
 				}
 				else
@@ -67,6 +71,19 @@ namespace OnlineShopWebApp.Controllers
 				}
 			}
 			return View(register);
+		}
+
+		private void tryAssignUserRole(User user)
+		{
+			try
+			{
+				_usersManager.AddToRoleAsync(user, Constants.UserRoleName).Wait();
+			}
+			catch
+			{
+				// TODO: Тут должно быть логирование исключения
+			}
+
 		}
 
 		public IActionResult Logout()

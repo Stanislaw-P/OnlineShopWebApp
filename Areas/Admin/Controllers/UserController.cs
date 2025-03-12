@@ -15,10 +15,12 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 	public class UserController : Controller
 	{
 		readonly UserManager<User> usersManager;
+		readonly RoleManager<IdentityRole> rolesManager;
 
-		public UserController(UserManager<User> usersManager)
+		public UserController(UserManager<User> usersManager, RoleManager<IdentityRole> rolesManager)
 		{
 			this.usersManager = usersManager;
+			this.rolesManager = rolesManager;
 		}
 
 		public IActionResult Index()
@@ -101,6 +103,37 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 				return View(editUser);
 			usersManager.UpdateAsync(existingUser).Wait();
 			return RedirectToAction(nameof(Index));
+		}
+
+		public IActionResult EditRights(string email)
+		{
+			var user = usersManager.FindByEmailAsync(email).Result;
+			var userRoles = usersManager.GetRolesAsync(user).Result;
+			var roles = rolesManager.Roles.ToList();
+
+			EditRightsViewModel editRightsViewModel = new EditRightsViewModel
+			{
+				UserName = user.UserName,
+				Email = user.Email,
+				UserRoles = userRoles.Select(role => new RoleViewModel { Name = role }).ToList(),
+				AllRoles = roles.Select(role => new RoleViewModel { Name = role.Name }).ToList()
+			};
+			return View(editRightsViewModel);
+		}
+
+		[HttpPost]
+		public IActionResult EditRights(string email, Dictionary<string, bool> userRolesViewModel)
+		{
+			// TODO:	
+			var selectedRoles = userRolesViewModel.Select(x => x.Key);
+			var user = usersManager.FindByEmailAsync(email).Result;
+			var userRoles = usersManager.GetRolesAsync(user).Result;
+			// Удаляем все роли и пользователя
+			usersManager.RemoveFromRolesAsync(user, userRoles).Wait();
+			// Добавляем выбранные роли
+			usersManager.AddToRolesAsync(user, selectedRoles).Wait();
+
+			return Redirect($"/Admin/User/Details?email={email}"); // Ужасный костыль!
 		}
 
 		public IActionResult Remove(string email)
