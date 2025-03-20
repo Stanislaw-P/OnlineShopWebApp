@@ -29,8 +29,53 @@ namespace OnlineShopWebApp.Helpers
 				Name = productDb.Name,
 				Cost = productDb.Cost,
 				Description = productDb.Description,
-				ImagePath = productDb.ImagePath
+				ImagePaths = productDb.Images?.Select(image => image.URL)?.ToArray()
 			};
+		}
+
+		public static EditProductViewModel ToEditProductViewModel(this Product productDb)
+		{
+			return new EditProductViewModel
+			{
+				Id = productDb.Id,
+				Name = productDb.Name,
+				Cost = productDb.Cost,
+				Description = productDb.Description,
+				ImagesPaths = productDb.Images.ToPaths()
+			};
+		}
+
+		public static Product ToProduct(this AddProductViewModel addProductViewModel, List<string> imagesPaths)
+		{
+			return new Product
+			{
+				Name = addProductViewModel.Name,
+				Description = addProductViewModel.Description,
+				Cost = addProductViewModel.Cost,
+				Images = imagesPaths.ToImages()
+			};
+		}
+
+		public static Product ToProduct(this EditProductViewModel editProductViewModel)
+		{
+			return new Product
+			{
+				Id = editProductViewModel.Id,
+				Name = editProductViewModel.Name,
+				Description = editProductViewModel.Description,
+				Cost = editProductViewModel.Cost,
+				Images = editProductViewModel.ImagesPaths.ToImages()
+			};
+		}
+
+		private static List<Image> ToImages(this List<string> imagesPaths)
+		{
+			return imagesPaths.Select(x => new Image { URL = x }).ToList();
+		}
+
+		private static List<string> ToPaths(this List<Image> images)
+		{
+			return images.Select(x => x.URL).ToList();
 		}
 
 		public static CartViewModel ToCartViewModel(this Cart cartDb)

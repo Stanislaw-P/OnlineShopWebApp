@@ -1,4 +1,4 @@
-﻿@model ProductViewModel
+﻿@model EditProductViewModel
 
 
 <div class="row">
@@ -18,13 +18,20 @@
 				</div>
 
 				<div class="mb-3 w-50">
-					<label>Изображение:</label>
-					<img src="@Model.ImagePath" class="w-100"/>
+					<input type="hidden" asp-for="ImagesPaths" value="@Model.ImagesPaths" />
+					<label>Изображения:</label>
+					@foreach (var imamePath in Model.ImagesPaths)
+					{
+						<div>
+							<img src="@imamePath" height="150" alt="Картинка товара" />
+						</div>
+					}
 				</div>
 
 				<div class="mb-3 w-50">
-					<input type="file" asp-for="UploadedFile" class="form-control" />
-					<span asp-validation-for="UploadedFile"></span>
+					<label asp-for="UploadedFiles">Загрузить новые изображения:</label>
+					<input type="file" asp-for="UploadedFiles" class="form-control" accept="image/*" multiple />
+					<span asp-validation-for="UploadedFiles"></span>
 				</div>
 
 				<div class="mb-3 w-50">
@@ -39,7 +46,7 @@
 					<span asp-validation-for="Cost"></span>
 				</div>
 
-				<input type="hidden" asp-for="Id" />
+				<input type="hidden" asp-for="Id" value="@Model.Id" />
 				<div class="d-flex flex-column justify-content-center align-items-center">
 					<button type="submit" class="w-50" asp-area="Admin" asp-controller="Product" asp-action="Update">Принять изменения</button>
 					<a asp-area="Admin" asp-controller="Product" asp-action="Index" class="text-secondary">Отменить изменения</a>

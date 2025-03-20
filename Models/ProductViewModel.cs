@@ -19,7 +19,8 @@ namespace OnlineShopWebApp.Models
         public string Description { get; set; }
 
         [Required(ErrorMessage ="Изображение обязательно!")]
-        public IFormFile UploadedFile { get; set; }
-        public string ImagePath { get; set; } = "/images/image-null.png"; // Нужно, чтобы работала валидация без ошибок
-    }
+        //public IFormFile UploadedFile { get; set; } // TODO: мб нужно удалить
+		public string[]? ImagePaths { get; set; }
+        public string? ImagePath => ImagePaths?.Length == 0 ? "/images/image-null.png" : ImagePaths[0];
+	}
 }

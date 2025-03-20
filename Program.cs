@@ -36,7 +36,6 @@ builder.Services.AddTransient<IProductsRepository, ProductsDbRepository>(); // 1
 builder.Services.AddTransient<ICartsRepository, CartsDbRepository>(); // 2
 builder.Services.AddTransient<IOrdersRepository, OrdersDbRepository>(); // 3
 builder.Services.AddTransient<IFavoriteRepository, FavoriteDbRepository>(); // 4
-builder.Services.AddSingleton<IRolesRepository, InMemoryRolesRepository>(); // 5
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
 	var supportedCultures = new[]

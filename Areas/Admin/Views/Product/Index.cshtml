@@ -23,7 +23,7 @@
 				{
 					<tr>
 						<td>@(Model.IndexOf(item) + 1)</td>
-						<td><a href="/product/index" class="text-decoration-none text-black">@item.Name</a></td>
+						<td><a asp-area="" asp-controller="Product" asp-action="Index" asp-route-productId="@item.Id" class="text-decoration-none text-black">@item.Name</a></td>
 						<td>@item.Cost</td>
 						<td><a asp-area="Admin" asp-controller="Product" asp-action="Update" asp-route-productId="@item.Id" class="text-decoration-none">Редактировать</a></td>
 						<td><a asp-area="Admin" asp-controller="Product" asp-action="Remove" asp-route-productId="@item.Id" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#exampleModal">Удалить</a></td>

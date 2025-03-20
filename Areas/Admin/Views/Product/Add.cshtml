@@ -1,4 +1,4 @@
-﻿@model ProductViewModel
+﻿@model AddProductViewModel
 
 
 <div class="row">
@@ -23,9 +23,8 @@
 				</div>
 
 				<div class="mb-3">
-					<label asp-for="UploadedFile">Изображение:</label>
-					<input type="file" class="form-control" name="UploadedFile" />
-					<span asp-validation-for="UploadedFile" oncancel="text-danger"></span>
+					<label asp-for="UploadedFiles">Изображение:</label>
+					<input type="file" class="form-control" name="UploadedFiles" accept="image/*" multiple/>
 				</div>
 
 				<div class="mb-3">
