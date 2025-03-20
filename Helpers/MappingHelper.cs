@@ -111,14 +111,25 @@ namespace OnlineShopWebApp.Helpers
 			return new OrderViewModel
 			{
 				Id = orderDb.Id,
-				User = orderDb.User.ToUserDeliveryInfoViewMode(),
+				User = orderDb.User.ToUserDeliveryInfoViewModel(),
 				Items = ToCartItemViewModels(orderDb.Items),
 				CurrentStatus = (OrderStatusViewModel)(int)orderDb.CurrentStatus,
 				Time = orderDb.CreateTime
 			};
 		}
 
-		public static UserDeliveryInfoViewModel ToUserDeliveryInfoViewMode(this UserDeliveryInfo userDeliveryInfoDb)
+		public static List<OrderViewModel> ToOrdersViewModel(this List<Order> ordersDb)
+		{
+			List<OrderViewModel> ordersViewModels = new List<OrderViewModel>();
+			foreach (var order in ordersDb)
+			{
+				OrderViewModel orderViewModel = order.ToOrderViewModel();
+				ordersViewModels.Add(orderViewModel);
+			}
+			return ordersViewModels;
+		}
+
+		public static UserDeliveryInfoViewModel ToUserDeliveryInfoViewModel(this UserDeliveryInfo userDeliveryInfoDb)
 		{
 			return new UserDeliveryInfoViewModel
 			{
@@ -128,7 +139,7 @@ namespace OnlineShopWebApp.Helpers
 			};
 		}
 
-		public static UserDeliveryInfo ToUser(this UserDeliveryInfoViewModel user)
+		public static UserDeliveryInfo ToUserDeliveryInfo(this UserDeliveryInfoViewModel user)
 		{
 			return new UserDeliveryInfo
 			{

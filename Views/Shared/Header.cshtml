@@ -20,12 +20,15 @@
 					<li class="nav-item">
 						@if (User.Identity.IsAuthenticated)
 						{
-						<li class="nav-item text-dark">
+						<li class="nav-item dropdown">
+							<a href="#" class="dropdown-toggle text-dark nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 								@User.Identity.Name
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Выход</a>
-						</li>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" asp-area="" asp-controller="UserProfile" asp-action="Index">Профиль</a></li>
+								<li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Выход</a></li>
+							</ul>
+						</li>	
 						}
 						else
 						{

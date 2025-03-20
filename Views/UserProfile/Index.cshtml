@@ -1,0 +1,19 @@
+﻿@model UserViewModel
+
+<div class="row">
+	<div class="col-3">
+		@await Html.PartialAsync("UserProfileNav")
+	</div>
+	<div class="col-9">
+		<div class="card">
+			<div class="card-title">
+				<h3>Профиль пользователя</h3>
+			</div>
+			<div class="card-body">
+				<p><span class="text-secondary">Имя: </span>@Model.Name</p>
+				<p><span class="text-secondary">Почта: </span>@Model.Email</p>
+				<p><span class="text-secondary">Телефон: </span>@Model.Phone</p>
+			</div>
+		</div>
+	</div>
+</div>

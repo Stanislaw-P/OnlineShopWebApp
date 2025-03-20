@@ -1,0 +1,43 @@
+﻿@model List<OrderViewModel>
+
+<div class="row">
+	<div class="col-3">
+		@await Html.PartialAsync("UserProfileNav")
+	</div>
+	<div class="col-9">
+		<div class="card">
+			<div class="card-title">
+				<h3>Список заказов</h3>
+			</div>
+			<div class="card-body">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>№</th>
+							<th>Сумма</th>
+							<th>Статус</th>
+							<th>Пользователь (логин)</th>
+							<th>Дата</th>
+							<th>Время</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var order in Model)
+						{
+							<tr>
+								<td>@(Model.IndexOf(order) + 1)</td>
+								<td>@order.Cost</td>
+								<td>@EnumHelper.GetDisplayName(order.CurrentStatus)</td>
+								<td>@order.User.Name</td>
+								<td>@order.Time.ToShortDateString()</td>
+								<td>@order.Time.ToShortTimeString()</td>
+								<td><a asp-area="" asp-controller="UserProfile" asp-action="OrderDetails" asp-route-orderId="@order.Id">Подробнее</a></td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

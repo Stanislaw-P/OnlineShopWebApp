@@ -34,7 +34,7 @@ namespace OnlineShopWebApp.Controllers
 			Order order = new Order
 			{
 				// Тут наверно не хватает других свойств
-				User = userViewModel.ToUser(),
+				User = userViewModel.ToUserDeliveryInfo(),
 				Items = existingCartDb.Items
 			};
 

@@ -1,0 +1,40 @@
+﻿@model OrderViewModel
+
+<div class="row">
+	<div class="col-3">
+		@await Html.PartialAsync("UserProfileNav")
+	</div>
+	<div class="col-9">
+		<div class="card">
+			<h3>Ваши заказы</h3>
+			<table class="table">
+				<tr>
+					<td class="text-secondary">Дата и время оформления:</td>
+					<td>@Model.Time.ToShortDateString() в @Model.Time.ToShortTimeString()</td>
+				</tr>
+				<tr>
+					<td class="text-secondary">Адрес доставки:</td>
+					<td>@Model.User.Address</td>
+				</tr>
+				<tr>
+					<td class="text-secondary">Получатель:</td>
+					<td>@Model.User.Name</td>
+				</tr>
+				<tr>
+					<td class="text-secondary">Телефон:</td>
+					<td>@Model.User.Phone</td>
+				</tr>
+				<tr>
+					<td class="text-secondary">Сумма заказа:</td>
+					<td>@Model.Cost ₽</td>
+				</tr>
+				<tr>
+					<td class="text-secondary">Статус заказа:</td>
+					<td>
+						<select name="newStatus" asp-for="@Model.CurrentStatus" asp-items="@Html.GetEnumSelectList<OrderStatusViewModel>()" class="dropdown-toggle border-primary"></select>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>

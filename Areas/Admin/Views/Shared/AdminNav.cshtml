@@ -1,5 +1,4 @@
-﻿
-<div class="list-group my-4">
+﻿<div class="list-group my-4">
 	<a asp-area="Admin" asp-controller="Order" asp-action="Index" class="list-group-item list-group-item-action active list-group-item-danger" aria-current="true">
 		Заказы
 	</a>
@@ -13,7 +12,7 @@
 	// Скрипт не работает!
 	const listItems = document.querySelectorAll('.list-group-item');
 	listItems.forEach(item => {
-		item.addEventListener('click', function (event) {
+		item.addEventListener('click', function () {
 			listItems.forEach(link => {
 				link.classList.remove('active', 'list-group-item-danger');
 			});
