@@ -29,7 +29,7 @@ namespace OnlineShopWebApp.Helpers
 				Name = productDb.Name,
 				Cost = productDb.Cost,
 				Description = productDb.Description,
-				ImagePaths = productDb.Images?.Select(image => image.URL)?.ToArray()
+				ImagePaths = productDb.Image?.Select(image => image.URL)?.ToArray()
 			};
 		}
 
@@ -41,7 +41,7 @@ namespace OnlineShopWebApp.Helpers
 				Name = productDb.Name,
 				Cost = productDb.Cost,
 				Description = productDb.Description,
-				ImagesPaths = productDb.Images.ToPaths()
+				ImagesPaths = productDb.Image.ToPaths()
 			};
 		}
 
@@ -52,7 +52,7 @@ namespace OnlineShopWebApp.Helpers
 				Name = addProductViewModel.Name,
 				Description = addProductViewModel.Description,
 				Cost = addProductViewModel.Cost,
-				Images = imagesPaths.ToImages()
+				Image = imagesPaths.ToImages()
 			};
 		}
 
@@ -64,7 +64,7 @@ namespace OnlineShopWebApp.Helpers
 				Name = editProductViewModel.Name,
 				Description = editProductViewModel.Description,
 				Cost = editProductViewModel.Cost,
-				Images = editProductViewModel.ImagesPaths.ToImages()
+				Image = editProductViewModel.ImagesPaths.ToImages()
 			};
 		}
 
@@ -139,13 +139,14 @@ namespace OnlineShopWebApp.Helpers
 			};
 		}
 
-		public static UserDeliveryInfo ToUserDeliveryInfo(this UserDeliveryInfoViewModel user)
+		public static UserDeliveryInfo ToUserDeliveryInfo(this UserDeliveryInfoViewModel user, Guid userAccountId)
 		{
 			return new UserDeliveryInfo
 			{
 				Name = user.Name,
 				Address = user.Address,
-				Phone = user.Phone
+				Phone = user.Phone,
+				UserAccountId = userAccountId
 			};
 		}
 

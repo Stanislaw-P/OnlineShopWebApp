@@ -25,7 +25,8 @@ namespace OnlineShopWebApp.Controllers
         public IActionResult Order()
         {
 			var currentUser = usersManager.GetUserAsync(HttpContext.User).Result;
-            var ordersCurrentUser = ordersRepository.TryGetUserOrders(currentUser.PhoneNumber);
+            var currentUserId = Guid.Parse(currentUser.Id);
+            var ordersCurrentUser = ordersRepository.TryGetUserOrders(currentUserId);
             if (ordersCurrentUser == null)
                 return NotFound();
             return View(ordersCurrentUser.ToOrdersViewModel());
