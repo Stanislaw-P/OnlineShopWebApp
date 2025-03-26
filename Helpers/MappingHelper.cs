@@ -29,7 +29,7 @@ namespace OnlineShopWebApp.Helpers
 				Name = productDb.Name,
 				Cost = productDb.Cost,
 				Description = productDb.Description,
-				ImagePaths = productDb.Image?.Select(image => image.URL)?.ToArray()
+				ImagePaths = productDb.Images?.Select(image => image.URL)?.ToArray()
 			};
 		}
 
@@ -41,7 +41,7 @@ namespace OnlineShopWebApp.Helpers
 				Name = productDb.Name,
 				Cost = productDb.Cost,
 				Description = productDb.Description,
-				ImagesPaths = productDb.Image.ToPaths()
+				ImagesPaths = productDb.Images.ToPaths()
 			};
 		}
 
@@ -52,7 +52,7 @@ namespace OnlineShopWebApp.Helpers
 				Name = addProductViewModel.Name,
 				Description = addProductViewModel.Description,
 				Cost = addProductViewModel.Cost,
-				Image = imagesPaths.ToImages()
+				Images = imagesPaths.ToImages()
 			};
 		}
 
@@ -64,7 +64,7 @@ namespace OnlineShopWebApp.Helpers
 				Name = editProductViewModel.Name,
 				Description = editProductViewModel.Description,
 				Cost = editProductViewModel.Cost,
-				Image = editProductViewModel.ImagesPaths.ToImages()
+				Images = editProductViewModel.ImagesPaths.ToImages()
 			};
 		}
 

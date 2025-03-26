@@ -30,7 +30,7 @@
 				</tr>
 				<tr>
 					<td class="text-secondary">Статус заказа:</td>
-					<td>@Model.CurrentStatus</td>
+					<td>@EnumHelper.GetDisplayName(Model.CurrentStatus)</td>
 				</tr>
 			</table>
 		</div>
