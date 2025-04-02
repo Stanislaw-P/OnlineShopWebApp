@@ -27,11 +27,19 @@ namespace OnlineShopWebApp.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var result = _signInManager.PasswordSignInAsync(login.Email, login.Password, login.RememberMe, false).Result;
-				if (result.Succeeded)
-					return Redirect(login.ReturnUrl ?? "/Home");
+				var user = _usersManager.FindByEmailAsync(login.Email).Result;
+				if (user != null)
+				{
+					var result = _signInManager.PasswordSignInAsync(user, login.Password, login.RememberMe, false).Result;
+					if (result.Succeeded)
+						return Redirect(login.ReturnUrl ?? "/Home");
+					else
+						ModelState.AddModelError("", "Неверный логин или пароль!");
+				}
 				else
+				{
 					ModelState.AddModelError("", "Неверный логин или пароль!");
+				}
 			}
 			return View(login);
 		}
@@ -50,7 +58,7 @@ namespace OnlineShopWebApp.Controllers
 				ModelState.AddModelError("", "Пользователь с такой почтой уже сущестует!");
 			if (ModelState.IsValid)
 			{
-				User user = new User { Email = register.Email, UserName = register.Email, PhoneNumber = register.Phone };
+				User user = new User { Email = register.Email, UserName = register.Name, UserSurname = register.Surname, PhoneNumber = register.Phone };
 				// Добавляем пользователя
 				var result = _usersManager.CreateAsync(user, register.Password).Result;
 				if (result.Succeeded)

@@ -6,6 +6,7 @@ using OnlineShop.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using OnlineShop.Db.Models;
+using OnlineShopWebApp.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +52,9 @@ builder.Host.UseSerilog((context, configuration) => configuration
 .ReadFrom.Configuration(context.Configuration)
 .Enrich.WithProperty("ApplicationName", "Online Shop"));
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
 
 var app = builder.Build();
 

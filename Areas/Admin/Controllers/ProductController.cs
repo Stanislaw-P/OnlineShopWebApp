@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Onlineshop.Db.Models;
 using OnlineShop.Db;
@@ -14,19 +15,21 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 	{
 		readonly IProductsRepository productsRepository;
 		readonly IWebHostEnvironment webAppEnvironment;
-		readonly ImagesProvider imagesProvider;
+		readonly ImagesProvider _imagesProvider;
+		readonly IMapper _mapper;
 
-		public ProductController(IProductsRepository productsRepository, IWebHostEnvironment webAppEnvironment)
+		public ProductController(IProductsRepository productsRepository, IWebHostEnvironment webAppEnvironment, IMapper mapper)
 		{
 			this.productsRepository = productsRepository;
 			this.webAppEnvironment = webAppEnvironment;
-			imagesProvider = new ImagesProvider(this.webAppEnvironment);
+			_imagesProvider = new ImagesProvider(this.webAppEnvironment);
+			_mapper = mapper;
 		}
 
 		public IActionResult Index()
 		{
 			var productsDb = productsRepository.GetAll();
-			return View(productsDb.ToProductViewModels());
+			return View(_mapper.Map<List<ProductViewModel>>(productsDb));
 		}
 
 		public IActionResult Remove(Guid productId)
@@ -38,7 +41,8 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 		public IActionResult Update(Guid productId)
 		{
 			var productDb = productsRepository.TryGetById(productId);
-			return View(productDb.ToEditProductViewModel());
+			return View(_mapper.Map<EditProductViewModel>(productDb));
+			//return View(productDb.ToEditProductViewModel());
 		}
 
 		[HttpPost]
@@ -50,10 +54,10 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 			if (productsRepository.TryGetById(editProduct.Id) == null)
 				return NotFound();
 
-			var addedimagePaths = imagesProvider.SafeFiles(editProduct.UploadedFiles, ImageFolders.Products);
+			var addedimagePaths = _imagesProvider.SafeFiles(editProduct.UploadedFiles, ImageFolders.Products);
 			editProduct.ImagesPaths = addedimagePaths;
 
-			var productDb = editProduct.ToProduct();
+			var productDb = _mapper.Map<Product>(editProduct);
 			productsRepository.Update(productDb);
 			return RedirectToAction(nameof(Index));
 		}
@@ -69,8 +73,12 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 			if (!ModelState.IsValid)
 				return View(newProduct);
 
-			var imagesPaths = imagesProvider.SafeFiles(newProduct.UploadedFiles, ImageFolders.Products);
-			productsRepository.Add(newProduct.ToProduct(imagesPaths));
+			var imagesPaths = _imagesProvider.SafeFiles(newProduct.UploadedFiles, ImageFolders.Products);
+			var productDb = _mapper.Map<Product>(newProduct, opts =>
+			{
+				opts.Items["ImagesPaths"] = imagesPaths;
+			});
+			productsRepository.Add(productDb);
 			return RedirectToAction(nameof(Index));
 		}
 	}

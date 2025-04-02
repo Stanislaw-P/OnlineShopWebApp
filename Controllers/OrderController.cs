@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Db;
@@ -14,12 +15,14 @@ namespace OnlineShopWebApp.Controllers
 		readonly ICartsRepository cartsRepository;
 		readonly IOrdersRepository ordersRepository;
 		readonly UserManager<User> userManager;
+		readonly IMapper _mapper;
 
-		public OrderController(ICartsRepository cartsRepository, IOrdersRepository ordersRepository, UserManager<User> userManager)
+		public OrderController(ICartsRepository cartsRepository, IOrdersRepository ordersRepository, UserManager<User> userManager, IMapper mapper)
 		{
 			this.cartsRepository = cartsRepository;
 			this.ordersRepository = ordersRepository;
 			this.userManager = userManager;
+			_mapper = mapper;
 		}
 
 		public IActionResult Index()
@@ -40,8 +43,8 @@ namespace OnlineShopWebApp.Controllers
 			Order order = new Order
 			{
 				// Тут наверно не хватает других свойств. Не знаю под чем я этот бред писал...
-				User = userViewModel.ToUserDeliveryInfo(idCurrentUser),
-				Items = existingCartDb.Items
+				User = _mapper.Map<UserDeliveryInfo>(userViewModel, opt => opt.Items["UserAccountId"] = idCurrentUser),				
+				Items = existingCartDb.Items,
 			};
 
 			ordersRepository.Add(order);

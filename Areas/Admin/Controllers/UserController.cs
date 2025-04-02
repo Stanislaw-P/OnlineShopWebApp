@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Win32;
@@ -16,17 +17,19 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 	{
 		readonly UserManager<User> usersManager;
 		readonly RoleManager<IdentityRole> rolesManager;
+		readonly IMapper _mapper;
 
-		public UserController(UserManager<User> usersManager, RoleManager<IdentityRole> rolesManager)
+		public UserController(UserManager<User> usersManager, RoleManager<IdentityRole> rolesManager, IMapper mapper)
 		{
 			this.usersManager = usersManager;
 			this.rolesManager = rolesManager;
+			_mapper = mapper;
 		}
 
 		public IActionResult Index()
 		{
 			var users = usersManager.Users.ToList();
-			return View(users.Select(user => user.ToUserViewModel()).ToList());
+			return View(_mapper.Map<List<UserViewModel>>(users));
 		}
 
 		public IActionResult Add()
@@ -63,7 +66,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 			var existingUser = usersManager.FindByEmailAsync(email).Result;
 			if (existingUser == null)
 				return NotFound();
-			return View(existingUser.ToUserViewModel());
+			return View(_mapper.Map<UserViewModel>(existingUser));
 		}
 
 		public IActionResult ChangePassword(string email)
@@ -90,7 +93,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 		public IActionResult Edit(string email)
 		{
 			var userAccount = usersManager.FindByEmailAsync(email).Result;
-			return View(userAccount.ToUserViewModel());
+			return View(_mapper.Map<UserViewModel>(userAccount));
 		}
 
 		[HttpPost]

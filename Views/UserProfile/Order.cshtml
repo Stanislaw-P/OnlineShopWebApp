@@ -16,7 +16,7 @@
 							<th>№</th>
 							<th>Сумма</th>
 							<th>Статус</th>
-							<th>Пользователь (логин)</th>
+							<th>ФИО получателя</th>
 							<th>Дата</th>
 							<th>Время</th>
 							<th></th>
@@ -30,8 +30,8 @@
 								<td>@order.Cost</td>
 								<td>@EnumHelper.GetDisplayName(order.CurrentStatus)</td>
 								<td>@order.User.Name</td>
-								<td>@order.Time.ToShortDateString()</td>
-								<td>@order.Time.ToShortTimeString()</td>
+								<td>@order.CreateTime.ToShortDateString()</td>
+								<td>@order.CreateTime.ToShortTimeString()</td>
 								<td><a asp-area="" asp-controller="UserProfile" asp-action="OrderDetails" asp-route-orderId="@order.Id">Подробнее</a></td>
 							</tr>
 						}
