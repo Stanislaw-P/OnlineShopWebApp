@@ -46,9 +46,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 				ModelState.AddModelError("", "Пользователь с такой почтой уже сущестует!");
 			if (ModelState.IsValid)
 			{
-				var newUser = new User { UserName = register.Name, Email = register.Email, PasswordHash = register.Password, PhoneNumber = register.Phone };
+				var newUser = new User { UserName = register.Name, UserSurname = register.Surname, Email = register.Email, PasswordHash = register.Password, PhoneNumber = register.Phone };
 				var result = usersManager.CreateAsync(newUser, register.Password).Result;
-				if(result.Succeeded)
+				if (result.Succeeded)
 					return RedirectToAction(nameof(Index));
 				else
 				{
@@ -61,56 +61,77 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 			return View(register);
 		}
 
-		public IActionResult Details(string email)
+		public IActionResult Details(Guid id)
 		{
-			var existingUser = usersManager.FindByEmailAsync(email).Result;
+			var existingUser = usersManager.FindByIdAsync(id.ToString()).Result;
 			if (existingUser == null)
 				return NotFound();
 			return View(_mapper.Map<UserViewModel>(existingUser));
 		}
 
-		public IActionResult ChangePassword(string email)
+		public IActionResult ChangePassword(Guid id)
 		{
-			NewUserPassword newUserPassword = new NewUserPassword() { Email = email };
+			NewUserPassword newUserPassword = new NewUserPassword() { Id = id };
 			return View(newUserPassword);
 		}
 
 		[HttpPost]
 		public IActionResult ChangePassword(NewUserPassword newUserPassword)
 		{
-			if (newUserPassword.Email == newUserPassword.Password)
+			var existingUser = usersManager.FindByIdAsync(newUserPassword.Id.ToString()).Result;
+			if (existingUser?.Email == newUserPassword.Password)
 				ModelState.AddModelError("", "Почта (логин) и пароль не должны совпадать!");
 			if (!ModelState.IsValid)
 				return View(newUserPassword);
 
-			var user = usersManager.FindByEmailAsync(newUserPassword.Email).Result;
-			var userHashPassword = usersManager.PasswordHasher.HashPassword(user, newUserPassword.Password);
-			user.PasswordHash = userHashPassword;
-			usersManager.UpdateAsync(user).Wait();
-			return RedirectToAction(nameof(Index));
+			var userHashPassword = usersManager.PasswordHasher.HashPassword(existingUser, newUserPassword.Password);
+			existingUser.PasswordHash = userHashPassword;
+			var result = usersManager.UpdateAsync(existingUser).Result;
+
+			if(result.Succeeded)
+				return RedirectToAction(nameof(Index));
+
+			foreach (var error in result.Errors)
+			{
+				ModelState.AddModelError("", error.Description);
+			}
+			return View(newUserPassword);
 		}
 
-		public IActionResult Edit(string email)
+		public IActionResult Edit(Guid id)
 		{
-			var userAccount = usersManager.FindByEmailAsync(email).Result;
-			return View(_mapper.Map<UserViewModel>(userAccount));
+			var userAccount = usersManager.FindByIdAsync(id.ToString()).Result;
+			return View(_mapper.Map<EditUserViewModel>(userAccount));
 		}
 
 		[HttpPost]
-		public IActionResult Edit(UserViewModel editUser)
+		public IActionResult Edit(EditUserViewModel editUser)
 		{
-			var existingUser = usersManager.FindByEmailAsync(editUser.Email).Result;
-			if (existingUser != null && existingUser.Email != editUser.Email)
-				ModelState.AddModelError("", "Пользователь с такой почтой уже сущестует!");
+			var existingUser = usersManager.FindByIdAsync(editUser.Id.ToString()).Result;
 			if (!ModelState.IsValid)
 				return View(editUser);
-			usersManager.UpdateAsync(existingUser).Wait();
-			return RedirectToAction(nameof(Index));
+			if (existingUser == null)
+				return NotFound();
+
+			// Не очень как-то обновлять в методе
+			existingUser.UserName = editUser.UserName;
+			existingUser.UserSurname = editUser.UserSurname;
+			existingUser.PhoneNumber = editUser.PhoneNumber;
+
+			var result = usersManager.UpdateAsync(existingUser).Result;
+			if (result.Succeeded)
+				return RedirectToAction(nameof(Index));
+
+			foreach (var error in result.Errors)
+			{
+				ModelState.AddModelError("", error.Description);
+			}
+			return View(editUser);
 		}
 
-		public IActionResult EditRights(string email)
+		public IActionResult EditRights(Guid id)
 		{
-			var user = usersManager.FindByEmailAsync(email).Result;
+			var user = usersManager.FindByIdAsync(id.ToString()).Result;
 			var userRoles = usersManager.GetRolesAsync(user).Result;
 			var roles = rolesManager.Roles.ToList();
 
@@ -125,25 +146,27 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult EditRights(string email, Dictionary<string, bool> userRolesViewModel)
+		public IActionResult EditRights(Guid id, Dictionary<string, bool> userRolesViewModel)
 		{
-			// TODO:	
 			var selectedRoles = userRolesViewModel.Select(x => x.Key);
-			var user = usersManager.FindByEmailAsync(email).Result;
+			var user = usersManager.FindByIdAsync(id.ToString()).Result;
 			var userRoles = usersManager.GetRolesAsync(user).Result;
 			// Удаляем все роли и пользователя
 			usersManager.RemoveFromRolesAsync(user, userRoles).Wait();
 			// Добавляем выбранные роли
 			usersManager.AddToRolesAsync(user, selectedRoles).Wait();
 
-			return Redirect($"/Admin/User/Details?email={email}"); // Ужасный костыль!
+			return RedirectToAction(nameof(Details), new { Id = id });
+			//return Redirect($"/Admin/User/Details?id={id}"); // Ужасный костыль!
 		}
 
-		public IActionResult Remove(string email)
+		public IActionResult Remove(Guid id)
 		{
-			var userForRemove = usersManager.FindByEmailAsync(email).Result;
-			usersManager.DeleteAsync(userForRemove).Wait();
-			return RedirectToAction(nameof(Index));
+			var userForRemove = usersManager.FindByIdAsync(id.ToString()).Result;
+			var result = usersManager.DeleteAsync(userForRemove).Result;
+			if(result.Succeeded)
+				return RedirectToAction(nameof(Index));
+			return BadRequest(result.Errors.Select(error => error.Description));
 		}
 	}
 }

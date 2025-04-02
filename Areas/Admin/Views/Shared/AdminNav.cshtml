@@ -8,15 +8,30 @@
 </div>
 
 
-<script>
-	// Скрипт не работает!
-	const listItems = document.querySelectorAll('.list-group-item');
-	listItems.forEach(item => {
-		item.addEventListener('click', function () {
-			listItems.forEach(link => {
-				link.classList.remove('active', 'list-group-item-danger');
-			});
-			item.classList.add('active', 'list-group-item-danger');
-		});
-	});
-</script>
+@section Scripts {
+	<script>
+        //Not WORK!!!
+                   document.addEventListener('DOMContentLoaded', function() {
+          const links = document.querySelectorAll('.list-group-item'); // Предполагаем, что ваши ссылки имеют класс "list-group-item"
+
+          links.forEach(link => {
+            link.addEventListener('click', function(event) {
+              // Предотвращаем стандартное поведение ссылки (переход по адресу)
+              event.preventDefault();
+
+              // Удаляем класс и атрибут у всех ссылок
+              links.forEach(otherLink => {
+                otherLink.classList.remove('list-group-item-danger');
+                otherLink.removeAttribute('aria-current');
+              });
+
+              // Добавляем класс и атрибут к выбранной ссылке
+              this.classList.add('list-group-item-danger');
+              this.setAttribute('aria-current', 'true');
+            });
+          });
+        });
+
+
+	</script>
+}

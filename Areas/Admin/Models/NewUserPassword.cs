@@ -4,7 +4,7 @@ namespace OnlineShopWebApp.Areas.Admin.Models
 {
 	public class NewUserPassword
 	{
-        public string Email { get; set; }
+		public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Обязательное поле!")]
 		[StringLength(100, MinimumLength = 6, ErrorMessage = "Пароль должен содержать минимум 6 символов!")]

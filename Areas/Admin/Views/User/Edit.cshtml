@@ -1,4 +1,4 @@
-﻿@model UserViewModel
+﻿@model EditUserViewModel
 
 <div class="row">
 	<div class="col-3">
@@ -8,21 +8,28 @@
 		<h3>Реактирование пользователя</h3>
 		<form method="post">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<input type="hidden" asp-for="Id" />
 			<div class="mb-3 col-md-9">
-				<label asp-for="Name">Имя:</label>
-				<input asp-for="Name" type="text" class="form-control" value="@Model.Name" />
-				<span asp-validation-for="Name" class="text-danger"></span>
+				<label asp-for="UserName">Имя:</label>
+				<input asp-for="UserName" type="text" class="form-control" value="@Model.UserName" />
+				<span asp-validation-for="UserName" class="text-danger"></span>
 			</div>
+
 			<div class="mb-3 col-md-9">
-				<label asp-for="Phone">Телефон:</label>
-				<input asp-for="Phone" type="text" class="form-control" value="@Model.Phone" />
-				<span asp-validation-for="Phone" class="text-danger"></span>
+				<label asp-for="UserSurname">Фамилия:</label>
+				<input asp-for="UserSurname" type="text" class="form-control" value="@Model.UserSurname" />
+				<span asp-validation-for="UserSurname" class="text-danger"></span>
 			</div>
-			<input type="hidden" asp-for="Email" />
+
+			<div class="mb-3 col-md-9">
+				<label asp-for="PhoneNumber">Телефон:</label>
+				<input asp-for="PhoneNumber" type="text" class="form-control" value="@Model.PhoneNumber" />
+				<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+			</div>
 			<div class="bm-2">
 				<button type="submit" class="btn btn-success" asp-area="Admin" asp-controller="User" asp-action="Edit">Принять изменения</button>
 			</div>
-			<a asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-email="@Model.Email" class="text-secondary">Отмениить изменения</a>
+			<a asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-id="@Model.Id" class="text-secondary">Отмениить изменения</a>
 		</form>
 	</div>
 </div>

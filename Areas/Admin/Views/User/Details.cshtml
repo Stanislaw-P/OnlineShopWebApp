@@ -10,7 +10,15 @@
 				<tr>
 					<td class="text-secondary">Имя:</td>
 					<td>@Model.Name</td>
-				</tr>			
+				</tr>
+				<tr>
+					<td class="text-secondary">Фамилия:</td>
+					<td>@Model.Surname</td>
+				</tr>
+				<tr>
+					<td class="text-secondary">Почта:</td>
+					<td>@Model.Email</td>
+				</tr>
 				<tr>
 					<td class="text-secondary">Телефон:</td>
 					<td>@Model.Phone</td>
@@ -19,10 +27,10 @@
 			<div class="mb-2">
 				<button type="submit" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-outline-primary dropdown-toggle">Действия</button>
 				<ul class="dropdown-menu">
-					<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="ChangePassword" asp-route-email="@Model.Email">Смена пароля</a></li>
-					<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Edit" asp-route-email="@Model.Email">Редактирование данных</a></li>
-					<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="EditRights" asp-route-email="@Model.Email">Права доступа</a></li>
-					<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Remove" asp-route-email="@Model.Email">Удаление пользователя</a></li>
+					<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="ChangePassword" asp-route-id="@Model.Id">Смена пароля</a></li>
+					<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Edit" asp-route-id="@Model.Id">Редактирование данных</a></li>
+					<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="EditRights" asp-route-id="@Model.Id">Права доступа</a></li>
+					<li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Remove" asp-route-id="@Model.Id">Удаление пользователя</a></li>
 				</ul>
 			</div>
 			<a asp-area="Admin" asp-controller="User" asp-action="Index" class="text-secondary">Назад</a>
