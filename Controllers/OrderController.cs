@@ -37,9 +37,12 @@ namespace OnlineShopWebApp.Controllers
 				return View("Index", userViewModel);
 
 			var currentUser = userManager.GetUserAsync(HttpContext.User).Result;
+			if (currentUser == null)
+				return Unauthorized();
+
 			Guid idCurrentUser = Guid.Parse(currentUser.Id);
 
-			Cart existingCartDb = cartsRepository.TryGetByUserId(Constants.UserId); // TODO: тут нужно поменять на текущего пользователя
+			Cart existingCartDb = cartsRepository.TryGetByUserId(currentUser.Id);
 			Order order = new Order
 			{
 				// Тут наверно не хватает других свойств. Не знаю под чем я этот бред писал...
@@ -49,7 +52,7 @@ namespace OnlineShopWebApp.Controllers
 
 			ordersRepository.Add(order);
 
-			cartsRepository.ClearCartByUserId(Constants.UserId);
+			cartsRepository.ClearCartByUserId(currentUser.Id);
 			return View();
 		}
 	}

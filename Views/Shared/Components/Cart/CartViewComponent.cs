@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Db;
 using OnlineShop.Db.Models;
@@ -10,17 +11,20 @@ namespace OnlineShopWebApp.Views.Shared.ViewComponents.CartViewComponents
 	public class CartViewComponent : ViewComponent
 	{
 		readonly ICartsRepository cartsRepository;
+		readonly UserManager<User> _userManager;
 		readonly IMapper _mapper;
 
-		public CartViewComponent(ICartsRepository cartsRepository, IMapper mapper)
+		public CartViewComponent(ICartsRepository cartsRepository, IMapper mapper, UserManager<User> userManager)
 		{
 			this.cartsRepository = cartsRepository;
 			_mapper = mapper;
+			_userManager = userManager;
 		}
 
 		public IViewComponentResult Invoke()
 		{
-			Cart cart = cartsRepository.TryGetByUserId(Constants.UserId);
+			var currentUserId = _userManager.GetUserId(HttpContext.User);
+			Cart cart = cartsRepository.TryGetByUserId(currentUserId);
 
 			CartViewModel cartViewComponent = _mapper.Map<CartViewModel>(cart);
 
