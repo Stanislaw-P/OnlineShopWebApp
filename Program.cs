@@ -51,6 +51,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 builder.Host.UseSerilog((context, configuration) => configuration
 .ReadFrom.Configuration(context.Configuration)
 .Enrich.WithProperty("ApplicationName", "Online Shop"));
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));

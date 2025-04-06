@@ -49,7 +49,10 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 				var newUser = new User { UserName = register.Name, UserSurname = register.Surname, Email = register.Email, PasswordHash = register.Password, PhoneNumber = register.Phone };
 				var result = usersManager.CreateAsync(newUser, register.Password).Result;
 				if (result.Succeeded)
+				{
+					tryAssignUserRole(newUser);
 					return RedirectToAction(nameof(Index));
+				}
 				else
 				{
 					foreach (var error in result.Errors)
@@ -167,6 +170,18 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 			if(result.Succeeded)
 				return RedirectToAction(nameof(Index));
 			return BadRequest(result.Errors.Select(error => error.Description));
+		}
+
+		private void tryAssignUserRole(User user)
+		{
+			try
+			{
+				usersManager.AddToRoleAsync(user, Constants.UserRoleName).Wait();
+			}
+			catch
+			{
+				// TODO: Тут должно быть логирование исключения
+			}
 		}
 	}
 }
