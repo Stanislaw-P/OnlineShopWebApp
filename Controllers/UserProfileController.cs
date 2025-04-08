@@ -57,6 +57,7 @@ namespace OnlineShopWebApp.Controllers
 
 		public IActionResult Edit()
 		{
+			// TODO: Подобное вытягивание аватарок оч не нравится, двойное обращение к БД!
 			var currentUserId = usersManager.GetUserId(User);
 			var currentUser = usersManager.Users
 				.Include(us => us.Avatar)
