@@ -67,7 +67,7 @@ namespace OnlineShopWebApp.Controllers
 
 			var existingUser = usersManager.FindByIdAsync(editUserProfile.Id).Result;
 			existingUser.UserName = editUserProfile.UserName;
-			//existingUser.UserSurname = editUserProfile.UserSurname;
+			existingUser.UserSurname = editUserProfile.UserSurname;
 			existingUser.PhoneNumber = editUserProfile.PhoneNumber;
 			existingUser.Avatar = new AvatarImage { UserId = editUserProfile.Id, URL = editUserProfile.AvatarImgPath };
 

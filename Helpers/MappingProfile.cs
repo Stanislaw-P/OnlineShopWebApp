@@ -42,7 +42,7 @@ namespace OnlineShopWebApp.Helpers
 
 			CreateMap<User, UserViewModel>()
 				.ForMember(src => src.Name, opt => opt.MapFrom(dest => dest.UserName))
-				//.ForMember(src => src.Surname, opt => opt.MapFrom(dest => dest.UserSurname))
+				.ForMember(src => src.Surname, opt => opt.MapFrom(dest => dest.UserSurname))
 				.ForMember(src => src.Phone, opt => opt.MapFrom(dest => dest.PhoneNumber))
 				.ReverseMap();
 
