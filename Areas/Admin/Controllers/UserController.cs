@@ -46,7 +46,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 				ModelState.AddModelError("", "Пользователь с такой почтой уже сущестует!");
 			if (ModelState.IsValid)
 			{
-				var newUser = new User { UserName = register.Name, UserSurname = register.Surname, Email = register.Email, PasswordHash = register.Password, PhoneNumber = register.Phone };
+				var newUser = new User { UserName = register.Name,/* UserSurname = register.Surname,*/ Email = register.Email, PasswordHash = register.Password, PhoneNumber = register.Phone };
 				var result = usersManager.CreateAsync(newUser, register.Password).Result;
 				if (result.Succeeded)
 				{
@@ -118,7 +118,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 
 			// Не очень как-то обновлять в методе
 			existingUser.UserName = editUser.UserName;
-			existingUser.UserSurname = editUser.UserSurname;
+			//existingUser.UserSurname = editUser.UserSurname;
 			existingUser.PhoneNumber = editUser.PhoneNumber;
 
 			var result = usersManager.UpdateAsync(existingUser).Result;

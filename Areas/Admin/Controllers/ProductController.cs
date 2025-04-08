@@ -42,7 +42,6 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 		{
 			var productDb = productsRepository.TryGetById(productId);
 			return View(_mapper.Map<EditProductViewModel>(productDb));
-			//return View(productDb.ToEditProductViewModel());
 		}
 
 		[HttpPost]

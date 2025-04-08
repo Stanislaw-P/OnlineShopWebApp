@@ -59,7 +59,7 @@ namespace OnlineShopWebApp.Controllers
 				ModelState.AddModelError("", "Пользователь с такой почтой уже сущестует!");
 			if (ModelState.IsValid)
 			{
-				User user = new User { Email = register.Email, UserName = register.Name, UserSurname = register.Surname, PhoneNumber = register.Phone };
+				User user = new User { Email = register.Email, UserName = register.Name, /*UserSurname = register.Surname,*/ PhoneNumber = register.Phone };
 				// Добавляем пользователя
 				var result = _usersManager.CreateAsync(user, register.Password).Result;
 				if (result.Succeeded)

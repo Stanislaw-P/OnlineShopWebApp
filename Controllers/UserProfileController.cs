@@ -12,11 +12,15 @@ namespace OnlineShopWebApp.Controllers
 		readonly UserManager<User> usersManager;
 		readonly IOrdersRepository ordersRepository;
 		readonly IMapper _mapper;
-		public UserProfileController(UserManager<User> usersManager, IOrdersRepository ordersRepository, IMapper mapper)
+		readonly IWebHostEnvironment webAppEnvironment;
+		readonly ImagesProvider _imagesProvider;
+		public UserProfileController(UserManager<User> usersManager, IOrdersRepository ordersRepository, IMapper mapper, IWebHostEnvironment webAppEnvironment)
 		{
 			this.usersManager = usersManager;
 			this.ordersRepository = ordersRepository;
 			_mapper = mapper;
+			this.webAppEnvironment = webAppEnvironment;
+			_imagesProvider = new ImagesProvider(this.webAppEnvironment);
 		}
 
 		public IActionResult Index()
@@ -44,6 +48,37 @@ namespace OnlineShopWebApp.Controllers
 			if (existingOrder == null)
 				return NotFound();
 			return View(_mapper.Map<OrderViewModel>(existingOrder));
+		}
+
+		public IActionResult Edit()
+		{
+			var currentUser = usersManager.GetUserAsync(User).Result;
+			return View(_mapper.Map<EditUserProfileViewModel>(currentUser));
+		}
+
+		[HttpPost]
+		public IActionResult Edit(EditUserProfileViewModel editUserProfile)
+		{
+			if (!ModelState.IsValid)
+				return View(editUserProfile);
+
+			var addedAvatarPath = _imagesProvider.SafeFile(editUserProfile.UploadedFile, ImageFolders.Profiles);
+			editUserProfile.AvatarImgPath = addedAvatarPath;
+
+			var existingUser = usersManager.FindByIdAsync(editUserProfile.Id).Result;
+			existingUser.UserName = editUserProfile.UserName;
+			//existingUser.UserSurname = editUserProfile.UserSurname;
+			existingUser.PhoneNumber = editUserProfile.PhoneNumber;
+			existingUser.Avatar = new AvatarImage { UserId = editUserProfile.Id, URL = editUserProfile.AvatarImgPath };
+
+			var result = usersManager.UpdateAsync(existingUser).Result;
+			if (result.Succeeded)
+				return RedirectToAction(nameof(Index));
+			foreach (var error in result.Errors)
+			{
+				ModelState.AddModelError("", error.Description);
+			}
+			return View(editUserProfile);
 		}
 	}
 }

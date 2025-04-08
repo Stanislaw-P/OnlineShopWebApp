@@ -1,0 +1,51 @@
+﻿@model EditUserProfileViewModel
+
+<div class="row">
+	<div class="col-3">
+		@await Html.PartialAsync("UserProfileNav")
+	</div>
+	<div class="col-9">
+		<div class="card">
+			<h3 class="text-center">Редактор профиля</h3>
+			<form method="post" enctype="multipart/form-data" class="card-body d-flex flex-column">
+				<h5>Id пользователя: @Model.Id</h5>
+				<div asp-validation-summary="All" class="text-danger"></div>
+
+				<div class="mb-3 w-50">
+					<label asp-for="UserName">Имя:</label>
+					<input type="text" asp-for="UserName" class="form-control" />
+					<span asp-validation-for="UserName"></span>
+				</div>
+
+				<div class="mb-3 w-50">
+					<img src="@Model.AvatarImgPath" height="150" alt="Аватар пользователя" />
+				</div>
+
+				<div class="mb-3 w-50">
+					<label asp-for="UploadedFile">Загрузить аватар:</label>
+					<input type="file" asp-for="UploadedFile" class="form-control" accept="image/*" />
+					<span asp-validation-for="UploadedFile"></span>
+				</div>
+
+				<div class="mb-3 w-50">
+					<label asp-for="UserSurname">Фамилия:</label>
+					<input type="text" asp-for="UserSurname" class="form-control" />
+					<span asp-validation-for="UserSurname"></span>
+				</div>
+
+				<div class="mb-3 w-50">
+					<label asp-for="PhoneNumber">Телефон:</label>
+					<input type="text" asp-for="PhoneNumber" class="form-control" placeholder="+7"/>
+					<span asp-validation-for="PhoneNumber"></span>
+				</div>
+
+				<input type="hidden" asp-for="Id" value="@Model.Id" />
+
+				<div class="d-flex flex-column justify-content-center align-items-center">
+					<button type="submit" class="w-50" asp-area="" asp-controller="UserProfile" asp-action="Edit">Принять изменения</button>
+					<a asp-area="" asp-controller="UserProfile" asp-action="Index" class="text-secondary">Отменить изменения</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
