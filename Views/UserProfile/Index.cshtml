@@ -9,7 +9,10 @@
 			<div class="card-title">
 				<h3>Профиль пользователя</h3>
 			</div>
-			<div class="card-body">
+			<div class="card-body mb-3">
+				<div class="w-25">
+					<img src="@Model.AvatarURL" class="mw-100" />
+				</div>
 				<p><span class="text-secondary">Имя: </span>@Model.Name</p>
 				<p><span class="text-secondary">Фамилия: </span>@Model.Surname</p>
 				<p><span class="text-secondary">Почта: </span>@Model.Email</p>

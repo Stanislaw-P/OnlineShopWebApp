@@ -160,7 +160,6 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 			usersManager.AddToRolesAsync(user, selectedRoles).Wait();
 
 			return RedirectToAction(nameof(Details), new { Id = id });
-			//return Redirect($"/Admin/User/Details?id={id}"); // Ужасный костыль!
 		}
 
 		public IActionResult Remove(Guid id)

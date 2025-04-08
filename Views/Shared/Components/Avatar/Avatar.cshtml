@@ -1,0 +1,10 @@
+﻿@model AvatarImage
+
+@if (Model == null)
+{
+	@User.Identity.Name
+}
+else
+{
+	<img src="@Model.URL" width="35"/>
+}

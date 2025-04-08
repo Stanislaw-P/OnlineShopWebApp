@@ -44,12 +44,14 @@ namespace OnlineShopWebApp.Helpers
 				.ForMember(src => src.Name, opt => opt.MapFrom(dest => dest.UserName))
 				.ForMember(src => src.Surname, opt => opt.MapFrom(dest => dest.UserSurname))
 				.ForMember(src => src.Phone, opt => opt.MapFrom(dest => dest.PhoneNumber))
+				.ForMember(src => src.AvatarURL, opt => opt.MapFrom(dest => dest.Avatar.URL))
 				.ReverseMap();
 
 			CreateMap<EditUserViewModel, User>().ReverseMap();
 			CreateMap<EditUserProfileViewModel, User>()
-				.ForMember(u => u.Avatar, opt => opt.MapFrom(usEdit => new AvatarImage { URL = usEdit.AvatarImgPath }))
-				.ReverseMap();
+				.ForMember(u => u.Avatar, opt => opt.MapFrom(usEdit => new AvatarImage { URL = usEdit.AvatarImgPath }));
+			CreateMap<User, EditUserProfileViewModel>()
+				.ForMember(dest => dest.AvatarImgPath, opt => opt.MapFrom(src => src.Avatar.URL));
 		}
 	}
 }

@@ -22,7 +22,7 @@
 						{
 						<li class="nav-item dropdown">
 							<a href="#" class="dropdown-toggle text-dark nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-								@User.Identity.Name
+								@await Component.InvokeAsync("Avatar")
 							</a>
 							<ul class="dropdown-menu">
 								<li><a class="dropdown-item" asp-area="" asp-controller="UserProfile" asp-action="Index">Профиль</a></li>

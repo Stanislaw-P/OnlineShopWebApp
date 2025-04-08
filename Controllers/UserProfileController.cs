@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OnlineShop.Db.Models;
 using OnlineShopWebApp.Helpers;
 using OnlineShopWebApp.Models;
@@ -25,7 +26,11 @@ namespace OnlineShopWebApp.Controllers
 
 		public IActionResult Index()
 		{
-			var currentUser = usersManager.GetUserAsync(HttpContext.User).Result;
+			var currentUserId = usersManager.GetUserId(User);
+			var currentUser = usersManager.Users
+				.Include(us => us.Avatar)
+				.FirstOrDefaultAsync(us => us.Id == currentUserId)
+				.Result;
 			return View(_mapper.Map<UserViewModel>(currentUser));
 		}
 
@@ -52,7 +57,11 @@ namespace OnlineShopWebApp.Controllers
 
 		public IActionResult Edit()
 		{
-			var currentUser = usersManager.GetUserAsync(User).Result;
+			var currentUserId = usersManager.GetUserId(User);
+			var currentUser = usersManager.Users
+				.Include(us => us.Avatar)
+				.FirstOrDefaultAsync(us => us.Id == currentUserId)
+				.Result;
 			return View(_mapper.Map<EditUserProfileViewModel>(currentUser));
 		}
 
