@@ -32,7 +32,9 @@ namespace OnlineShopWebApp.Helpers
 			})).ReverseMap();
 
 			CreateMap<EditProductViewModel, Product>()
-				.ForMember(p => p.Images, opt => opt.MapFrom(p => p.ImagesPaths.Select(path => new Image { URL = path }))).ReverseMap();
+				.ForMember(p => p.Images, opt => opt.MapFrom(p => p.ImagesPaths.Select(path => new Image { URL = path })));
+			CreateMap<Product, EditProductViewModel>()
+				.ForMember(dest => dest.ImagesPaths, opt => opt.MapFrom(src => src.Images.Select(img => img.URL)));
 
 			CreateMap<UserDeliveryInfoViewModel, UserDeliveryInfo>()
 				.ForMember(u => u.UserAccountId, opt => opt.MapFrom((src, dest, destMember, context) =>
