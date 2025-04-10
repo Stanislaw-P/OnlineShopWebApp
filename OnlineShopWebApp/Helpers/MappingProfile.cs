@@ -52,6 +52,10 @@ namespace OnlineShopWebApp.Helpers
 				.ForMember(u => u.Avatar, opt => opt.MapFrom(usEdit => new AvatarImage { URL = usEdit.AvatarImgPath }));
 			CreateMap<User, EditUserProfileViewModel>()
 				.ForMember(dest => dest.AvatarImgPath, opt => opt.MapFrom(src => src.Avatar.URL));
+
+			CreateMap<User, AvatarImageViewModel>()
+				.ForMember(dest => dest.URL, opt => opt.MapFrom(src => src.Avatar.URL))
+				.ReverseMap();
 		}
 	}
 }

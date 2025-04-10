@@ -1,8 +1,8 @@
-﻿@model AvatarImage
+﻿@model AvatarImageViewModel
 
-@if (Model == null)
+@if (Model.URL == null)
 {
-	@User.Identity.Name
+	@Model.UserName
 }
 else
 {

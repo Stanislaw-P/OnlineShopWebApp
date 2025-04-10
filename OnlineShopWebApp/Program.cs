@@ -56,6 +56,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
+// ПОдключаем кещирование
+builder.Services.AddMemoryCache();
+builder.Services.AddHostedService<ProductCache>();
 
 var app = builder.Build();
 
@@ -67,7 +70,15 @@ if (!app.Environment.IsDevelopment())
 	app.UseHsts();
 }
 
-app.UseStaticFiles();
+
+// Подключение кеширования статических данных
+app.UseStaticFiles(new StaticFileOptions
+{
+	OnPrepareResponse = ctx =>
+	{
+		ctx.Context.Response.Headers.Append("Cache-Control", "public, max-age=600");
+	}
+});
 
 app.UseRouting();
 
