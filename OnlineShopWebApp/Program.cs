@@ -17,9 +17,13 @@ builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(c
 // добавляем контекст IndentityContext в качестве сервиса в приложение
 builder.Services.AddDbContext<IdentityContext>(options => options.UseSqlServer(connection));
 // указываем тип пользователя и роли
-builder.Services.AddIdentity<User, IdentityRole>()
-				// устанавливаем тип хранилища - наш контекст
-				.AddEntityFrameworkStores<IdentityContext>();
+builder.Services.AddIdentity<User, IdentityRole>(options =>
+{
+	options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
+})
+	.AddEntityFrameworkStores<IdentityContext>()// устанавливаем тип хранилища - наш контекст
+	.AddDefaultTokenProviders(); // Это важно для подтверждения почты
+
 
 // настройка cookie
 builder.Services.ConfigureApplicationCookie(options =>
@@ -56,9 +60,14 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-// ПОдключаем кещирование
+// Подключаем кещирование
 builder.Services.AddMemoryCache();
 builder.Services.AddHostedService<ProductCache>();
+
+// Получаем секцию конфигурации smtp, и регестрируем сервис
+builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Smtp"));
+builder.Services.AddScoped<EmailService>();
+
 
 var app = builder.Build();
 

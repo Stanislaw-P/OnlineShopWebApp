@@ -9,12 +9,10 @@ namespace OnlineShopWebApp.Controllers
 {
     public class HomeController : Controller
     {
-        readonly IProductsRepository productsRepository;
         readonly IMapper mapper;
         readonly IMemoryCache cache;
-		public HomeController(IProductsRepository productsRepository, IMapper mapper, IMemoryCache cache)
+		public HomeController(IMapper mapper, IMemoryCache cache)
 		{
-			this.productsRepository = productsRepository;
 			this.mapper = mapper;
 			this.cache = cache;
 		}
