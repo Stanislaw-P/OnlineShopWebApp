@@ -5,10 +5,10 @@ namespace OnlineShop.Db
 {
 	public interface ICartsRepository
 	{
-		Cart TryGetByUserId(string userId);
-		void Add(Product product, string UserId);
-		void DecreaseAmount(Product product, string userId);
-        void IcreaseAmount(Product product, string userId);
-        void ClearCartByUserId(string userId);
+		Task<Cart?> TryGetByUserIdAsync(string userId);
+		Task AddAsync(Product product, string UserId);
+		Task DecreaseAmountAsync(Product product, string userId);
+        Task IcreaseAmounAsync(Product product, string userId);
+        Task ClearCartByUserIdAsync(string userId);
 	}
 }

@@ -27,14 +27,14 @@ namespace OnlineShopWebApp.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Login(Login login)
+		public async Task<IActionResult> LoginAsync(Login login)
 		{
 			if (ModelState.IsValid)
 			{
-				var user = _usersManager.FindByEmailAsync(login.Email).Result;
+				var user = await _usersManager.FindByEmailAsync(login.Email);
 				if (user != null)
 				{
-					var result = _signInManager.PasswordSignInAsync(user, login.Password, login.RememberMe, false).Result;
+					var result = await _signInManager.PasswordSignInAsync(user, login.Password, login.RememberMe, false);
 					if (result.Succeeded)
 						return Redirect(login.ReturnUrl ?? "/Home");
 					else
@@ -54,26 +54,26 @@ namespace OnlineShopWebApp.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Register(Register register)
+		public async Task<IActionResult> RegisterAsync(Register register)
 		{
 			if (register.Email == register.Password)
 				ModelState.AddModelError("", "Почта и пароль не должны совпадать!");
-			if (_usersManager.FindByEmailAsync(register.Email).Result != null)
+			if (await _usersManager.FindByEmailAsync(register.Email) != null)
 				ModelState.AddModelError("", "Пользователь с такой почтой уже сущестует!");
 			if (ModelState.IsValid)
 			{
 				User user = new User { Email = register.Email, UserName = register.Name, UserSurname = register.Surname, PhoneNumber = register.Phone };
 				// Добавляем пользователя
-				var result = _usersManager.CreateAsync(user, register.Password).Result;
+				var result = await _usersManager.CreateAsync(user, register.Password);
 				if (result.Succeeded)
 				{
 					// Установка куки
-					_signInManager.SignInAsync(user, false);
+					await _signInManager.SignInAsync(user, false);
 
-					tryAssignUserRole(user);
+					await tryAssignUserRoleAsync(user);
 
 					// Генерация токена для пользователя
-					var code = _usersManager.GenerateEmailConfirmationTokenAsync(user).Result;
+					var code = await _usersManager.GenerateEmailConfirmationTokenAsync(user);
 					var callbackUrl = Url.Action(
 						"ConfirmEmail",
 						"Account",
@@ -99,11 +99,11 @@ namespace OnlineShopWebApp.Controllers
 			return View(register);
 		}
 
-		private void tryAssignUserRole(User user)
+		private async Task tryAssignUserRoleAsync(User user)
 		{
 			try
 			{
-				_usersManager.AddToRoleAsync(user, Constants.UserRoleName).Wait();
+				await _usersManager.AddToRoleAsync(user, Constants.UserRoleName);
 			}
 			catch
 			{

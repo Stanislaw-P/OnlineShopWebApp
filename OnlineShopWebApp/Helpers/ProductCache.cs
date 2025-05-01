@@ -24,7 +24,7 @@ namespace OnlineShopWebApp.Helpers
 			while (!stoppingToken.IsCancellationRequested)
 			{
 				// Кешируем продукты
-				CachingAllProducts();
+				await CachingAllProductsAsync();
 
 				// Создается задержка на 1 минуту, чтоб каждую мин объекты обновлялись.
 				// Старые объекты заменяются на том же ключе
@@ -32,12 +32,12 @@ namespace OnlineShopWebApp.Helpers
 			}
 		}
 
-		void CachingAllProducts()
+		async Task CachingAllProductsAsync()
 		{
 			using (var scope = serviceProvider.CreateScope())
 			{
 				var databaseContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-				var products = databaseContext.Products.Include(p => p.Images).ToList();
+				var products = await databaseContext.Products.Include(p => p.Images).ToListAsync();
 
 				// Кеширование всех продуктов
 				if (products != null)

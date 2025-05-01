@@ -21,13 +21,13 @@ namespace OnlineShopWebApp.Views.Shared.Components.Avatar
 			_mapper = mapper;
 		}
 
-		public IViewComponentResult Invoke()
+		public async Task<IViewComponentResult> InvokeAsync()
 		{
 			var currentUserId = _userManager.GetUserId(HttpContext.User);
-			var currentUser = _userManager.Users
+			var currentUser = await _userManager.Users
 				.Include(us => us.Avatar)
-				.FirstOrDefaultAsync(us => us.Id == currentUserId)
-				.Result;
+				.FirstOrDefaultAsync(us => us.Id == currentUserId);
+
 			if (currentUser != null)
 			{
 				AvatarImageViewModel avatarImage = null;

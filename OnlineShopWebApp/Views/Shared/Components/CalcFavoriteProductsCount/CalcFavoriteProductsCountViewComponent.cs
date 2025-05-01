@@ -16,10 +16,11 @@ namespace OnlineShopWebApp.Views.Shared.Components.FavoriteCount
 			_userManager = userManager;
 		}
 
-		public IViewComponentResult Invoke()
+		public async Task<IViewComponentResult> InvokeAsync()
 		{
 			var currentUserId = _userManager.GetUserId(HttpContext.User);
-			var productsCount = favoriteRepository.GetAll(currentUserId).Count;
+			var products = await favoriteRepository.GetAllAsync(currentUserId);
+			int productsCount = products.Count;
 			return View("FavoriteProductsCountView", productsCount);
 		}
 	}

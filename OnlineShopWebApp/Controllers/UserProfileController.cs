@@ -38,7 +38,7 @@ namespace OnlineShopWebApp.Controllers
 		{
 			var currentUser = usersManager.GetUserAsync(HttpContext.User).Result;
 			var currentUserId = Guid.Parse(currentUser.Id);
-			var ordersCurrentUser = ordersRepository.TryGetUserOrders(currentUserId);
+			var ordersCurrentUser = ordersRepository.TryGetUserOrdersAsync(currentUserId);
 
 			if (ordersCurrentUser == null)
 				return NotFound();
@@ -49,7 +49,7 @@ namespace OnlineShopWebApp.Controllers
 
 		public IActionResult OrderDetails(Guid orderId)
 		{
-			var existingOrder = ordersRepository.TryGetById(orderId);
+			var existingOrder = ordersRepository.TryGetByIdAsync(orderId);
 			if (existingOrder == null)
 				return NotFound();
 			return View(_mapper.Map<OrderViewModel>(existingOrder));

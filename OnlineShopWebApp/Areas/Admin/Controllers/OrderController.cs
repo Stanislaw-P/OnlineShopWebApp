@@ -22,26 +22,27 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 			_mapper = mapper;
 		}
 
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
-			var orders = ordersRepository.GetAll();
+			var orders = await ordersRepository.GetAllAsync();
 			return View(_mapper.Map<List<OrderViewModel>>(orders));
-			//return View(orders.Select(order => order.ToOrderViewModel()).ToList());
 		}
 
-		public IActionResult Details(Guid orderId)
+		public async Task<IActionResult> DetailsAsync(Guid orderId)
 		{
-			Order? existingOrder = ordersRepository.TryGetById(orderId);
-			OrderViewModel orderViewModel = _mapper.Map<OrderViewModel>(existingOrder);
-			if (orderViewModel == null)
+			Order? existingOrder = await ordersRepository.TryGetByIdAsync(orderId);
+			if (existingOrder == null)
 				return NotFound();
-			ViewBag.OrderNumber = ordersRepository.GetAll().IndexOf(existingOrder) + 1;
+			OrderViewModel orderViewModel = _mapper.Map<OrderViewModel>(existingOrder);
+			
+			var orders = await ordersRepository.GetAllAsync();
+			ViewBag.OrderNumber = orders.IndexOf(existingOrder) + 1;
 			return View(orderViewModel);
 		}
 
-		public IActionResult UpdateOrderStatus(Guid orderId, OrderStatusViewModel newStatus)
+		public async Task<IActionResult> UpdateOrderStatusAsync(Guid orderId, OrderStatusViewModel newStatus)
 		{
-			ordersRepository.UpdateStatus(orderId, (OrderStatus)(int)newStatus);
+			await ordersRepository.UpdateStatusAsync(orderId, (OrderStatus)(int)newStatus);
 			return RedirectToAction(nameof(Index));
 		}
 	}

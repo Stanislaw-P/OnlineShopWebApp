@@ -24,53 +24,64 @@ namespace OnlineShopWebApp.Controllers
 			_userManager = userManager;
 		}
 
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
         {
             var currentUserId = _userManager.GetUserId(User);
             if (currentUserId == null)
                 return Unauthorized();
 
-            Cart cartDb = cartsRepository.TryGetByUserId(currentUserId);
+            Cart? cartDb = await cartsRepository.TryGetByUserIdAsync(currentUserId);
             CartViewModel cartViewModel = _mapper.Map<CartViewModel>(cartDb);
             return View(cartViewModel);
         }
         
-        public IActionResult Add(Guid productId)
+        public async Task<IActionResult> AddAsync(Guid productId)
         {
-            var product = productsRepository.TryGetById(productId);
+            var product = await productsRepository.TryGetByIdAsync(productId);
             var currentUserId = _userManager.GetUserId(User);
 
-			cartsRepository.Add(product, currentUserId);
+            if (product == null)
+                return NotFound();
+            if (currentUserId == null)
+                return Unauthorized();
+
+			await cartsRepository.AddAsync(product, currentUserId);
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult IncreaseAmount(Guid productId)
+        public async Task<IActionResult> IncreaseAmountAsync(Guid productId)
         {
-            var product = productsRepository.TryGetById(productId);
+            var product = await productsRepository.TryGetByIdAsync(productId);
 			var currentUserId = _userManager.GetUserId(User);
 			if (currentUserId == null)
 				return Unauthorized();
-			cartsRepository.IcreaseAmount(product, currentUserId);
+            if (product == null)
+                return NotFound();
+			await cartsRepository.IcreaseAmounAsync(product, currentUserId);
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult DecreaseAmount(Guid productId)
+        public async Task<IActionResult> DecreaseAmountAsync(Guid productId)
         {
-            var product = productsRepository.TryGetById(productId);
+            var product = await productsRepository.TryGetByIdAsync(productId);
 			var currentUserId = _userManager.GetUserId(User);
+
 			if (currentUserId == null)
 				return Unauthorized();
-			cartsRepository.DecreaseAmount(product, currentUserId);
+            if (product == null)
+                return NotFound();
+
+			await cartsRepository.DecreaseAmountAsync(product, currentUserId);
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Clear()
+        public async Task<IActionResult> ClearAsync()
         {
 			var currentUserId = _userManager.GetUserId(User);
 			if (currentUserId == null)
 				return Unauthorized();
 
-			cartsRepository.ClearCartByUserId(currentUserId);
+			await cartsRepository.ClearCartByUserIdAsync(currentUserId);
             return RedirectToAction(nameof(Index));
 		}
 	}

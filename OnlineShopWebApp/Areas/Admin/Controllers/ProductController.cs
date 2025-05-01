@@ -28,19 +28,19 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 
 		public IActionResult Index()
 		{
-			var productsDb = productsRepository.GetAll();
+			var productsDb = productsRepository.GetAllAsync();
 			return View(_mapper.Map<List<ProductViewModel>>(productsDb));
 		}
 
 		public IActionResult Remove(Guid productId)
 		{
-			productsRepository.RemoveById(productId);
+			productsRepository.RemoveByIdAsync(productId);
 			return RedirectToAction(nameof(Index));
 		}
 
 		public IActionResult Update(Guid productId)
 		{
-			var productDb = productsRepository.TryGetById(productId);
+			var productDb = productsRepository.TryGetByIdAsync(productId);
 			return View(_mapper.Map<EditProductViewModel>(productDb));
 		}
 
@@ -50,14 +50,14 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 			if (!ModelState.IsValid)
 				return View(editProduct);
 
-			if (productsRepository.TryGetById(editProduct.Id) == null)
+			if (productsRepository.TryGetByIdAsync(editProduct.Id) == null)
 				return NotFound();
 
 			var addedimagePaths = _imagesProvider.SafeFiles(editProduct.UploadedFiles, ImageFolders.Products);
 			editProduct.ImagesPaths = addedimagePaths;
 
 			var productDb = _mapper.Map<Product>(editProduct);
-			productsRepository.Update(productDb);
+			productsRepository.UpdateAsync(productDb);
 			return RedirectToAction(nameof(Index));
 		}
 
@@ -77,7 +77,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 			{
 				opts.Items["ImagesPaths"] = imagesPaths;
 			});
-			productsRepository.Add(productDb);
+			productsRepository.AddAsync(productDb);
 			return RedirectToAction(nameof(Index));
 		}
 	}

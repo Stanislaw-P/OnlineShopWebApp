@@ -14,44 +14,42 @@ namespace OnlineShop.Db
 			this.databaseContext = databaseContext;
 		}
 
-		public void Add(Product product, string userId)
+		public async Task Addsync(Product product, string userId)
 		{
-			var existingFavoriteProduct = databaseContext.FavoriteProducts.FirstOrDefault(favPr => favPr.Product.Id == product.Id && favPr.UserId == userId);
+			var existingFavoriteProduct = await databaseContext.FavoriteProducts
+				.FirstOrDefaultAsync(favPr => favPr.Product.Id == product.Id && favPr.UserId == userId);
 			if (existingFavoriteProduct == null)
 			{
-				databaseContext.FavoriteProducts.Add(new FavoriteProduct { Product = product, UserId = userId });
-				databaseContext.SaveChanges();
+				await databaseContext.FavoriteProducts.AddAsync(new FavoriteProduct { Product = product, UserId = userId });
+				await databaseContext.SaveChangesAsync();
 			}
 		}
 
-		public void Remove(Product product, string userId)
+		public async Task RemoveAsync(Product product, string userId)
 		{
-			var existingFavoriteProduct = databaseContext.FavoriteProducts.FirstOrDefault(favPr => favPr.Product.Id == product.Id && favPr.UserId == userId);
+			var existingFavoriteProduct = await databaseContext.FavoriteProducts
+				.FirstOrDefaultAsync(favPr => favPr.Product.Id == product.Id && favPr.UserId == userId);
 			if (existingFavoriteProduct != null)
 			{
 				databaseContext.FavoriteProducts.Remove(existingFavoriteProduct);
-				databaseContext.SaveChanges();
+				await databaseContext.SaveChangesAsync();
 			}
 		}
 
-		public void ClearById(string userId)
+		public async Task ClearByIdAsync(string userId)
 		{
 			var userFavoriteProducts = databaseContext.FavoriteProducts.Where(favPr => favPr.UserId == userId);
 			databaseContext.FavoriteProducts.RemoveRange(userFavoriteProducts);
-			databaseContext.SaveChanges();
+			await databaseContext.SaveChangesAsync();
 		}
 
-		public List<Product> GetAll(string userId)
+		public async Task<List<Product>> GetAllAsync(string userId)
 		{
-			return databaseContext.FavoriteProducts.Where(favPr => favPr.UserId == userId)
+			return await databaseContext.FavoriteProducts
+				.Where(favPr => favPr.UserId == userId)
 				.Include(favPr => favPr.Product)
 				.Select(favPr => favPr.Product)
-				.ToList();
+				.ToListAsync();
 		}
-
-		//public FavoriteProduct? TryGetByUserId(string userId)
-		//{
-		//	return databaseContext.FavoriteProducts.Include(x => x.Product).FirstOrDefault(x => x.UserId == userId);
-		//}
 	}
 }

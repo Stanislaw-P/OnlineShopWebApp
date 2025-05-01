@@ -13,41 +13,47 @@ namespace OnlineShopWebApp
 			this.databaseContext = databaseContext;
 		}
 
-		public void Add(Order order)
+		public async Task AddAsync(Order order)
 		{
-			databaseContext.Orders.Add(order);
-			databaseContext.SaveChanges();
+			await databaseContext.Orders.AddAsync(order);
+			await databaseContext.SaveChangesAsync();
 		}
 
-		public List<Order> GetAll()
+		public async Task<List<Order>> GetAllAsync()
 		{
-			return databaseContext.Orders.Include(x => x.User)
+			return await databaseContext.Orders
+				.Include(x => x.User)
 				.Include(x => x.Items)
 				.ThenInclude(x => x.Product)
-				.ToList();
+				.ToListAsync();
 		}
 
-		public Order? TryGetById(Guid id)
+		public async Task<Order?> TryGetByIdAsync(Guid id)
 		{
-			return databaseContext.Orders.Include(x => x.User).Include(x => x.Items).ThenInclude(x => x.Product).FirstOrDefault(order => order.Id == id);
+			return await databaseContext.Orders
+				.Include(x => x.User)
+				.Include(x => x.Items)
+				.ThenInclude(x => x.Product)
+				.FirstOrDefaultAsync(order => order.Id == id);
 		}
 
-		public List<Order>? TryGetUserOrders(Guid userAccountId)
+		public async Task<List<Order>?> TryGetUserOrdersAsync(Guid userAccountId)
 		{
-			return databaseContext.Orders.Include(x => x.User)
+			return await databaseContext.Orders
+				.Include(x => x.User)
 				.Include(x => x.Items)
 				.ThenInclude(x => x.Product)
 				.Where(order => order.User.UserAccountId == userAccountId)
-				.ToList();
+				.ToListAsync();
 		}
 
-		public void UpdateStatus(Guid orderId, OrderStatus newStatus)
+		public async Task UpdateStatusAsync(Guid orderId, OrderStatus newStatus)
 		{
-			var order = TryGetById(orderId);
+			var order = await TryGetByIdAsync(orderId);
 			if (order != null)
 			{
 				order.CurrentStatus = newStatus;
-				databaseContext.SaveChanges();
+				await databaseContext.SaveChangesAsync();
 			}
 		}
 	}

@@ -10,7 +10,7 @@ using OnlineShopWebApp.Models;
 namespace OnlineShopWebApp.Controllers
 {
 	[Authorize]
-    public class FavoriteController : Controller
+	public class FavoriteController : Controller
 	{
 		readonly IFavoriteRepository favoritesRepository;
 		readonly IProductsRepository productsRepository;
@@ -25,32 +25,38 @@ namespace OnlineShopWebApp.Controllers
 			_userManager = userManager;
 		}
 
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
 			var currentUserId = _userManager.GetUserId(User);
 			if (currentUserId == null)
 				return Unauthorized();
-			var products = favoritesRepository.GetAll(currentUserId);
+			var products = await favoritesRepository.GetAllAsync(currentUserId);
 			return View(_mapper.Map<List<ProductViewModel>>(products));
 		}
 
-		public IActionResult Add(Guid productId)
+		public async Task<IActionResult> AddAsync(Guid productId)
 		{
-			var product = productsRepository.TryGetById(productId);
+			var product = await productsRepository.TryGetByIdAsync(productId);
 			var currentUserId = _userManager.GetUserId(User);
+
 			if (currentUserId == null)
 				return Unauthorized();
-			favoritesRepository.Add(product, currentUserId);
+			if (product == null)
+				return NotFound();
+
+			await favoritesRepository.Addsync(product, currentUserId);
 			return RedirectToAction(nameof(Index), "Home");
 		}
 
-		public IActionResult RemoveProduct(Guid productId)
+		public async Task<IActionResult> RemoveProductAsync(Guid productId)
 		{
-			var product = productsRepository.TryGetById(productId);
+			var product = await productsRepository.TryGetByIdAsync(productId);
 			var currentUserId = _userManager.GetUserId(User);
 			if (currentUserId == null)
 				return Unauthorized();
-			favoritesRepository.Remove(product, currentUserId);
+			if (product == null)
+				return NotFound();
+			await favoritesRepository.RemoveAsync(product, currentUserId);
 			return RedirectToAction(nameof(Index));
 		}
 	}

@@ -21,10 +21,11 @@ namespace OnlineShopWebApp.Views.Shared.ViewComponents.CartViewComponents
 			_userManager = userManager;
 		}
 
-		public IViewComponentResult Invoke()
+		public async Task<IViewComponentResult> InvokeAsync()
 		{
 			var currentUserId = _userManager.GetUserId(HttpContext.User);
-			Cart cart = cartsRepository.TryGetByUserId(currentUserId);
+
+			Cart? cart = await cartsRepository.TryGetByUserIdAsync(currentUserId);
 
 			CartViewModel cartViewComponent = _mapper.Map<CartViewModel>(cart);
 

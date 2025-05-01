@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using Onlineshop.Db.Models;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Db
 {
@@ -13,23 +14,23 @@ namespace OnlineShop.Db
 			this.databaseContext = databaseContext;
 		}
 
-		public List<Product> GetAll()
+		public async Task<List<Product>> GetAllAsync()
 		{
-			return databaseContext.Products.Include(p => p.Images).ToList();
+			return await databaseContext.Products.Include(p => p.Images).ToListAsync();
 		}
 
-		public Product? TryGetById(Guid id)
+		public async Task<Product?> TryGetByIdAsync(Guid id)
 		{
-			return databaseContext.Products
+			return await databaseContext.Products
 				.Include(x => x.Images)
-				.FirstOrDefault(product => product.Id == id);
+				.FirstOrDefaultAsync(product => product.Id == id);
 		}
 
-		public void Update(Product editProduct)
+		public async Task UpdateAsync(Product editProduct)
 		{
-			Product? existingProduct = databaseContext.Products
+			Product? existingProduct = await databaseContext.Products
 				.Include(x => x.Images)
-				.FirstOrDefault(product => product.Id == editProduct.Id);
+				.FirstOrDefaultAsync(product => product.Id == editProduct.Id);
 
 			if (existingProduct == null)
 				return;
@@ -41,25 +42,25 @@ namespace OnlineShop.Db
 			foreach (var image in editProduct.Images)
 			{
 				image.ProductId = editProduct.Id;
-				databaseContext.Images.Add(image);
+				await databaseContext.Images.AddAsync(image);
 			}
 
-			databaseContext.SaveChanges();
+			await databaseContext.SaveChangesAsync();
 		}
 
-		public void Add(Product product)
+		public async Task AddAsync(Product product)
 		{
-			databaseContext.Products.Add(product);
-			databaseContext.SaveChanges();
+			await databaseContext.Products.AddAsync(product);
+			await databaseContext.SaveChangesAsync();
 		}
 
-		public void RemoveById(Guid id)
+		public async Task RemoveByIdAsync(Guid id)
 		{
-			var productForRemove = databaseContext.Products.FirstOrDefault(product => product.Id == id);
+			var productForRemove = await databaseContext.Products.FirstOrDefaultAsync(product => product.Id == id);
 			if (productForRemove == null)
 				return;
 			databaseContext.Products.Remove(productForRemove);
-			databaseContext.SaveChanges();
+			await databaseContext.SaveChangesAsync();
 		}
 	}
 }

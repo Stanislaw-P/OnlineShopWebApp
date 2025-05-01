@@ -31,18 +31,18 @@ namespace OnlineShopWebApp.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Buy(UserDeliveryInfoViewModel userViewModel)
+		public async Task<IActionResult> BuyAsync(UserDeliveryInfoViewModel userViewModel)
 		{
 			if (!ModelState.IsValid)
 				return View("Index", userViewModel);
 
-			var currentUser = userManager.GetUserAsync(HttpContext.User).Result;
+			var currentUser = await userManager.GetUserAsync(HttpContext.User);
 			if (currentUser == null)
 				return Unauthorized();
 
 			Guid idCurrentUser = Guid.Parse(currentUser.Id);
 
-			Cart existingCartDb = cartsRepository.TryGetByUserId(currentUser.Id);
+			Cart? existingCartDb = await cartsRepository.TryGetByUserIdAsync(currentUser.Id);
 			Order order = new Order
 			{
 				// Тут наверно не хватает других свойств. Не знаю под чем я этот бред писал...
@@ -50,9 +50,9 @@ namespace OnlineShopWebApp.Controllers
 				Items = existingCartDb.Items,
 			};
 
-			ordersRepository.Add(order);
+			ordersRepository.AddAsync(order);
 
-			cartsRepository.ClearCartByUserId(currentUser.Id);
+			await cartsRepository.ClearCartByUserIdAsync(currentUser.Id);
 			return View();
 		}
 	}

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using OnlineShop.Db;
 using OnlineShop.Db.Models;
@@ -26,9 +27,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 			_mapper = mapper;
 		}
 
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
-			var users = usersManager.Users.ToList();
+			var users = await usersManager.Users.ToListAsync();
 			return View(_mapper.Map<List<UserViewModel>>(users));
 		}
 
@@ -38,19 +39,19 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Add(Register register)
+		public async Task<IActionResult> AddAsync(Register register)
 		{
 			if (register.Email == register.Password)
 				ModelState.AddModelError("", "Почта и пароль не должны совпадать!");
-			if (usersManager.FindByEmailAsync(register.Email).Result != null)
+			if (await usersManager.FindByEmailAsync(register.Email) != null)
 				ModelState.AddModelError("", "Пользователь с такой почтой уже сущестует!");
 			if (ModelState.IsValid)
 			{
 				var newUser = new User { UserName = register.Name, UserSurname = register.Surname, Email = register.Email, PasswordHash = register.Password, PhoneNumber = register.Phone };
-				var result = usersManager.CreateAsync(newUser, register.Password).Result;
+				var result = await usersManager.CreateAsync(newUser, register.Password);
 				if (result.Succeeded)
 				{
-					tryAssignUserRole(newUser);
+					tryAssignUserRoleAsync(newUser);
 					return RedirectToAction(nameof(Index));
 				}
 				else
@@ -64,9 +65,9 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 			return View(register);
 		}
 
-		public IActionResult Details(Guid id)
+		public async Task<IActionResult> DetailsAsync(Guid id)
 		{
-			var existingUser = usersManager.FindByIdAsync(id.ToString()).Result;
+			var existingUser = await usersManager.FindByIdAsync(id.ToString());
 			if (existingUser == null)
 				return NotFound();
 			return View(_mapper.Map<UserViewModel>(existingUser));
@@ -79,19 +80,20 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult ChangePassword(NewUserPassword newUserPassword)
+		public async Task<IActionResult> ChangePasswordAsync(NewUserPassword newUserPassword)
 		{
-			var existingUser = usersManager.FindByIdAsync(newUserPassword.Id.ToString()).Result;
+			var existingUser = await usersManager.FindByIdAsync(newUserPassword.Id.ToString());
 			if (existingUser?.Email == newUserPassword.Password)
 				ModelState.AddModelError("", "Почта (логин) и пароль не должны совпадать!");
+
 			if (!ModelState.IsValid)
 				return View(newUserPassword);
 
 			var userHashPassword = usersManager.PasswordHasher.HashPassword(existingUser, newUserPassword.Password);
 			existingUser.PasswordHash = userHashPassword;
-			var result = usersManager.UpdateAsync(existingUser).Result;
+			var result = await usersManager.UpdateAsync(existingUser);
 
-			if(result.Succeeded)
+			if (result.Succeeded)
 				return RedirectToAction(nameof(Index));
 
 			foreach (var error in result.Errors)
@@ -101,16 +103,16 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 			return View(newUserPassword);
 		}
 
-		public IActionResult Edit(Guid id)
+		public async Task<IActionResult> EditAsync(Guid id)
 		{
-			var userAccount = usersManager.FindByIdAsync(id.ToString()).Result;
+			var userAccount = await usersManager.FindByIdAsync(id.ToString());
 			return View(_mapper.Map<EditUserViewModel>(userAccount));
 		}
 
 		[HttpPost]
-		public IActionResult Edit(EditUserViewModel editUser)
+		public async Task<IActionResult> EditAsync(EditUserViewModel editUser)
 		{
-			var existingUser = usersManager.FindByIdAsync(editUser.Id.ToString()).Result;
+			var existingUser = await usersManager.FindByIdAsync(editUser.Id.ToString());
 			if (!ModelState.IsValid)
 				return View(editUser);
 			if (existingUser == null)
@@ -121,7 +123,7 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 			existingUser.UserSurname = editUser.UserSurname;
 			existingUser.PhoneNumber = editUser.PhoneNumber;
 
-			var result = usersManager.UpdateAsync(existingUser).Result;
+			var result = await usersManager.UpdateAsync(existingUser);
 			if (result.Succeeded)
 				return RedirectToAction(nameof(Index));
 
@@ -132,11 +134,11 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 			return View(editUser);
 		}
 
-		public IActionResult EditRights(Guid id)
+		public async Task<IActionResult> EditRightsAsync(Guid id)
 		{
-			var user = usersManager.FindByIdAsync(id.ToString()).Result;
-			var userRoles = usersManager.GetRolesAsync(user).Result;
-			var roles = rolesManager.Roles.ToList();
+			var user = await usersManager.FindByIdAsync(id.ToString());
+			var userRoles = await usersManager.GetRolesAsync(user);
+			var roles = await rolesManager.Roles.ToListAsync();
 
 			EditRightsViewModel editRightsViewModel = new EditRightsViewModel
 			{
@@ -149,33 +151,39 @@ namespace OnlineShopWebApp.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult EditRights(Guid id, Dictionary<string, bool> userRolesViewModel)
+		public async Task<IActionResult> EditRightAsync(Guid id, Dictionary<string, bool> userRolesViewModel)
 		{
 			var selectedRoles = userRolesViewModel.Select(x => x.Key);
-			var user = usersManager.FindByIdAsync(id.ToString()).Result;
-			var userRoles = usersManager.GetRolesAsync(user).Result;
-			// Удаляем все роли и пользователя
-			usersManager.RemoveFromRolesAsync(user, userRoles).Wait();
-			// Добавляем выбранные роли
-			usersManager.AddToRolesAsync(user, selectedRoles).Wait();
+			var user = await usersManager.FindByIdAsync(id.ToString());
+			if (user == null)
+				return NotFound($"Пользователя с id:{id} не существует");
+			var userRoles = await usersManager.GetRolesAsync(user);
 
-			return RedirectToAction(nameof(Details), new { Id = id });
+			// Удаляем все роли и пользователя
+			await usersManager.RemoveFromRolesAsync(user, userRoles);
+			// Добавляем выбранные роли
+			await usersManager.AddToRolesAsync(user, selectedRoles);
+
+			return RedirectToAction(nameof(DetailsAsync), new { Id = id });
 		}
 
-		public IActionResult Remove(Guid id)
+		public async Task<IActionResult> RemoveAsync(Guid id)
 		{
-			var userForRemove = usersManager.FindByIdAsync(id.ToString()).Result;
-			var result = usersManager.DeleteAsync(userForRemove).Result;
-			if(result.Succeeded)
+			var userForRemove = await usersManager.FindByIdAsync(id.ToString());
+			if (userForRemove == null)
+				return NotFound($"Пользователя с id:{id} не существует");
+
+			var result = await usersManager.DeleteAsync(userForRemove);
+			if (result.Succeeded)
 				return RedirectToAction(nameof(Index));
 			return BadRequest(result.Errors.Select(error => error.Description));
 		}
 
-		private void tryAssignUserRole(User user)
+		private async Task tryAssignUserRoleAsync(User user)
 		{
 			try
 			{
-				usersManager.AddToRoleAsync(user, Constants.UserRoleName).Wait();
+				await usersManager.AddToRoleAsync(user, Constants.UserRoleName);
 			}
 			catch
 			{
