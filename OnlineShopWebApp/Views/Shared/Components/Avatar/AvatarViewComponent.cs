@@ -37,9 +37,9 @@ namespace OnlineShopWebApp.Views.Shared.Components.Avatar
 					avatarImage = _mapper.Map<AvatarImageViewModel>(currentUser);
 					if (avatarImage != null)
 					{
-						// Добавляем в кеш на 30 мин
+						// Добавляем в кеш на 15 мин
 						cache.Set(currentUserId, avatarImage,
-							new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(30)));
+							new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(15)));
 					}
 				}
 				return View("Avatar", avatarImage);

@@ -12,7 +12,10 @@ namespace Onlineshop.Db.Models
         public List<CartItem> CartItems { get; set; }
 		public List<Image> Images { get; set; }
 
-		public Product()
+        [Timestamp]
+        public byte[] ConcurrenceToken { get; set; }
+
+        public Product()
         {
             CartItems = new List<CartItem>();
         }

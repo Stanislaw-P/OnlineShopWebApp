@@ -10,15 +10,18 @@
 			<h3 class="text-center">Изменение продукта</h3>
 			<form method="post" enctype="multipart/form-data" class="card-body d-flex flex-column">
 				<h4>Id продукта: @Model.Id</h4>
-				<div asp-validation-summary="All" class="text-danger"></div>
-				<div class="mb-3 w-50">
+				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+				<input type="hidden" asp-for="Id" value="@Model.Id" />
+				<input type="hidden" asp-for="ConcurrenceToken" />
+				<div class="mb-3 w-50">z
 					<label asp-for="Name">Название:</label>
 					<input type="text" asp-for="Name" class="form-control" />
-					<span asp-validation-for="Name"></span>
+					<span asp-validation-for="Name" class="text-danger"></span>
 				</div>
 
 				<div class="mb-3 w-50">
-					<input type="hidden" asp-for="ImagesPaths" value="@Model.ImagesPaths" />
+					<input type="hidden" asp-for="ImagesPaths"/>
 					<label>Изображения:</label>
 					@foreach (var imamePath in Model.ImagesPaths)
 					{
@@ -31,22 +34,21 @@
 				<div class="mb-3 w-50">
 					<label asp-for="UploadedFiles">Загрузить новые изображения:</label>
 					<input type="file" asp-for="UploadedFiles" class="form-control" accept="image/*" multiple />
-					<span asp-validation-for="UploadedFiles"></span>
+					<span asp-validation-for="UploadedFiles" class="text-danger"></span>
 				</div>
 
 				<div class="mb-3 w-50">
 					<label asp-for="Description">Описание:</label>
 					<input type="text" asp-for="Description" class="form-control" />
-					<span asp-validation-for="Description"></span>
+					<span asp-validation-for="Description" class="text-danger"></span>
 				</div>
 
 				<div class="mb-3 w-50">
 					<label asp-for="Cost">Цена:</label>
 					<input type="number" asp-for="Cost" class="form-control" />
-					<span asp-validation-for="Cost"></span>
+					<span asp-validation-for="Cost" class="text-danger"></span>
 				</div>
 
-				<input type="hidden" asp-for="Id" value="@Model.Id" />
 				<div class="d-flex flex-column justify-content-center align-items-center">
 					<button type="submit" class="w-50" asp-area="Admin" asp-controller="Product" asp-action="Update">Принять изменения</button>
 					<a asp-area="Admin" asp-controller="Product" asp-action="Index" class="text-secondary">Отменить изменения</a>

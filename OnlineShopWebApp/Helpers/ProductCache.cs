@@ -26,9 +26,9 @@ namespace OnlineShopWebApp.Helpers
 				// Кешируем продукты
 				await CachingAllProductsAsync();
 
-				// Создается задержка на 1 минуту, чтоб каждую мин объекты обновлялись.
+				// Создается задержка на 30 сек, чтоб каждую мин объекты обновлялись.
 				// Старые объекты заменяются на том же ключе
-				await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken);
+				await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken);
 			}
 		}
 

@@ -10,18 +10,18 @@ namespace OnlineShopWebApp.Helpers
 			this.appEnvironment = appEnvironment;
 		}
 
-		public List<string> SafeFiles(IFormFile[] files, ImageFolders folder)
+		public async Task<List<string>> SafeFilesAsync(IFormFile[] files, ImageFolders folder)
 		{
 			var imagePaths = new List<string>();
 			foreach (var file in files)
 			{
-				var imagePath = SafeFile(file, folder);
+				var imagePath = await SafeFileAsync(file, folder);
 				imagePaths.Add(imagePath);
 			}
 			return imagePaths;
 		}
 
-		public string? SafeFile(IFormFile file, ImageFolders folder)
+		public async Task<string?> SafeFileAsync(IFormFile file, ImageFolders folder)
 		{
 			if (file != null)
 			{
@@ -33,7 +33,7 @@ namespace OnlineShopWebApp.Helpers
 				string path = Path.Combine(folderPath, fileName);
 				using (var fileStream = new FileStream(path, FileMode.Create))
 				{
-					file.CopyTo(fileStream);
+					await file.CopyToAsync(fileStream);
 				}
 				return "/images/" + folder + "/" + fileName;
 			}
